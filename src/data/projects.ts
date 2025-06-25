@@ -24,7 +24,7 @@ export const projects: ProjectItem[] = [
   {
     title: "IPCM",
     description: "IPCM (InterPlanetary CID Mapping) is a blockchain approach to solving the problem of dynamic IPFS data. Instead of using a slower solution like IPNS to point to new content, IPCM is a smart contract that is used as the source of truth for a piece of dynamic content. It features a simple state that can only be updated by the owner of the contract but read by anyone, as well as a public version history through Solidity events.",
-    image: "https://dweb.mypinata.cloud/ipfs/bafkreigsap637s5qtmp2cqomi3tkjlz62pet35x3cfbjqzh7mmbioiooei",
+    image: "https://files.stevedylan.dev/bafkreigsap637s5qtmp2cqomi3tkjlz62pet35x3cfbjqzh7mmbioiooei.jpg",
     link: "https://ipcm.dev",
     tags: ["blockchain", "ipfs", "developer tools"]
   },
@@ -65,7 +65,7 @@ export const projects: ProjectItem[] = [
     description:
       "A CLI written in Go that can help migrate existing local or remote git repos to Radicle.xyz",
     image:
-      "https://dweb.mypinata.cloud/ipfs/QmUFwBiweWHtGBxftQ7xNpiS5xSBHJyZJgsHXXGRy2qyLH?img-format=webp",
+      "https://files.stevedylan.dev/QmUFwBiweWHtGBxftQ7xNpiS5xSBHJyZJgsHXXGRy2qyLH.webp",
     link: "https://github.com/stevedylandev/radicalize",
     tags: ["developer tools", "radicle", "git"],
   },
@@ -82,7 +82,7 @@ export const projects: ProjectItem[] = [
     description:
       "The original Pinata SDK was written for Node.js years ago, and as the developer ecosystem evolved a more flexible SDK was necessary. This project was a full typescript rewrite from scratch that includes a whole new developer experience that intuitive, with far more methods and capabilities than before.",
     image:
-      "https://docs.mypinata.cloud/ipfs/bafkreidv5iptnieh6eijei7enqc4mdhxpte3ries23heqf7s2hu3gdu6ru",
+      "https://files.stevedylan.dev/bafkreidv5iptnieh6eijei7enqc4mdhxpte3ries23heqf7s2hu3gdu6ru.jpg",
     link: "https://docs.pinata.cloud/pinata",
     tags: ["developer tools", "ipfs"],
   },
@@ -99,7 +99,7 @@ export const projects: ProjectItem[] = [
     description:
       "The fastest way to send a cast on Farcaster. A Raycast extension that allows you to sign into your Farcaster account and send casts with optional images via IPFS. ",
     image:
-      "https://dweb.mypinata.cloud/ipfs/QmSsY6QnhdwbWunrgzTDkpvRd7oWx5nUp8v7UiMeGRFeZ1",
+      "https://files.stevedylan.dev/QmSsY6QnhdwbWunrgzTDkpvRd7oWx5nUp8v7UiMeGRFeZ1.png",
     link: "https://www.raycast.com/stevedylandev/raycaster",
     tags: ["raycast", "developer tools", "productivity"],
   },
@@ -125,7 +125,7 @@ export const projects: ProjectItem[] = [
     description:
       "A Go rewrite of the Node.js CLI for Pinata, allows fast and extensive uploads to Pinata. Also includes helpful features for listing files and other API functionalities. ",
     image:
-      "https://dweb.mypinata.cloud/ipfs/QmNcdx9t48z7RQUXUZZHmuc4zBfyBxKLjDfEgmfhiop7j7?img-format=webp",
+      "https://files.stevedylan.dev/QmNcdx9t48z7RQUXUZZHmuc4zBfyBxKLjDfEgmfhiop7j7.webp",
     link: "https://github.com/PinataCloud/ipfs-cli",
     tags: ["developer tools", "ipfs"],
   },
