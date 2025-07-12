@@ -1,0 +1,60 @@
+---
+title: "Learning Rust With AI"
+publishDate: "11 Jul 2025"
+description: "A glimpse into a better way of learning to code, where you put the LLM in the backseat while you drive"
+tags: ["ai", "developer tools", "rust"]
+ogImage: "https://files.stevedylan.dev/ai-mentor.png"
+---
+
+![cover](https://files.stevedylan.dev/ai-mentor.png)
+
+I think most developers out there would agree that we're in a bit of an AI hype bubble, yet one piece of AI tech that has recently hit the market which developers can't stop talking about might be different. Of course I'm talking about "agents" like Claude Code or my personal favorite [Opencode](https://opencode.ai). With a few prompts you can have an AI create a plan to implement a feature or fix a bug, and it will just do it. They generally have deep system integration with your terminal and LSPs to have a great understanding of how to build something. However in my opinion these tools, like any other AI tool, are a double edged sword.
+
+## Using AI to Learn
+
+The truth is if you don't know what's going on in the code, you're going to have a hard time when the AI fails or falls into a bad context loop. Due to this limitation, your AI tools will only take you as far as your programming knowledge. While some CEOs and VCs would argue that programmers aren't needed anymore, I would counter that it's more important than ever to learn how to code and program. Agents are going to be 10x more effective in the hands of someone who knows how a language works, how to break down and solve big problems, and just knows fundamental programming principles.
+
+What if you're not one of those people yet? I personally found myself in this position where I wanted to learn Rust more, but I knew that if I leaned on AI too much I wouldn't actually learn anything. It's far too tempting to let the agent write everything for you and not know exactly what's happening. On the flip side, AI can still serve as a mentor, but with some caveats. In my expedition to learn Rust I decided that outside of reading the Rust book, I would build a CLI with an AI mentor. The key here is that I would be writing all the code, as well as asking questions along the way when something didn't make sense. The end result was a great experience, and I wanted to share a few tips in case you want to take this route yourself!
+
+### Use `agents.md`
+
+This might be `claude.md` or something else depending on your CLI, but it's essentially a markdown file with specific instructions for your AI agent. In the case of learning a new language I make it crystal clear of my objectives, and that the agent should never write any code for me. Here's the `agents.md` file from my CLI project.
+
+```markdown
+# Learning Approach
+
+I want to use AI as a learning tool only. Please follow these guidelines:
+
+1. **DO NOT write code for me** - I want to write all the code myself
+2. **DO provide explanations** - Help me understand Rust concepts and patterns
+3. **DO suggest approaches** - Give me high-level guidance on how to implement features
+4. **DO review my code** - Provide feedback on code I've written
+5. **DO answer questions** - Explain concepts when I ask about them
+6. **DO provide examples** - When relevant, show small examples to illustrate concepts
+
+The goal is for me to learn Rust by doing the implementation work myself, with AI serving as a guide and mentor rather than doing the work for me.
+```
+
+If you happen to use something like Opencode you can use the `/init` command to create one of these!
+
+### Write Every Line
+
+As you might have guessed by now, the key thing I wanted to achieve was writing every line of code. I knew from past experience that even if I didn't fully understand what I was writing, the action of writing it made me slow down and think of each piece of the code. I could guess or ask questions about what it did. By repeating patterns over and over again I started to feel those patterns imprint my memory. It's like riding a bike: you just gotta pedal. At least for me, this became quite therapeutic! Like writing a letter or contemplating in a journal, slowly writing each line of code helps your brain process and think through what flows.
+
+### Keep Short Sessions
+
+One of the big problems with AI tools these days is context limits. If your coding session starts to get too long, your AI is going to try to comprehend everything that is happening. Eventually it starts to lose track of what's happening and where it is, and that's when the hallucinating happens. Best thing you can do is break each task into a short session and start a new one when there's a new goal or task. Where you draw that line is honestly a skill you have to grow as a programmer, so it's good practice in cases like this.
+
+### Understand Basic Tooling
+
+One of the best things you can do for yourself is learning some basic tooling like LSP and how to debug. LSP or Language Server Protocol is how you get those helpful hints when coding that say you're doing something wrong. I had multiple instances while learning Rust through building this CLI where the AI was stuck and couldn't get me out of a bug, but thankfully I knew how to read the LSP, the error checking through cargo, and I could fix the issue myself. Don't be afraid to check the docs and the LSP, because sometimes that will be faster than attempting to do it a fifth time through AI!
+
+## The End Product
+
+When all was said and done, I accomplished my goal of building a fun little CLI called [walletfetch](https://github.com/stevedylandev/walletfetch) that works like Neofetch but for EVM based wallets!
+
+![walletfetch](https://files.stevedylan.dev/walletfetch.png)
+
+Taking the time to learn this way was super helpful, and I will definitely be doing it more often. It's certainly not perfect, and it's no replacement for core materials like the Rust book, but in my opinion it's a great way to build projects and learn something new. If you're an aspiring developer, I cannot stress this enough: be competent. Always be curious, ask questions, figure out "why," and look to solve problems you really care about. I saw a post on X recently that went something like "quitting software development now due to AI tools is like quitting woodworking because the table saw was invented." It's a tool like anything else, but you've got to know your fundamentals, and you've got to know what to build. Be a woodworker.
+
+> It's more fun to be competent
