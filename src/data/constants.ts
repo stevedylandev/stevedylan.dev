@@ -40,4 +40,5 @@ export const SOCIAL_LINKS = {
 	coffee: "https://buymeacoffee.com/stevedylandev",
 	orbiter: "https://orbiter.host",
 	ethereum: "https://app.ens.domains/stevedylandev.eth",
+	email: "mailto:steve@terminal.ceo",
 };
