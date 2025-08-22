@@ -5,64 +5,79 @@ import aboutImg from "../assets/pfp.png";
 import DecryptingHeader from "@/components/DecryptingHeader";
 
 const meta = {
-	title: "About",
-	description: "More about Steve Simkins",
+  title: "About",
+  description: "More about Steve Simkins",
 };
 ---
 
 <PageLayout meta={meta}>
-	<div class="space-y-6">
-		<DecryptingHeader text="About" className="title" />
-		<p>
-			Hey there! My name is Steve and I’m a DX engineer, creator, and tinkerer. I’m currently
-			working at
-			<a
-				class="style-link inline-block"
-				target="_blank"
-				rel="noopener noreferrer"
-				aria-label="openzeppelin"
-				href="https://openzeppelin.com"
-			>
-				OpenZeppelin</a
-			>
-			as a DevRel, where I work on anything from writing documentation, building developer tools, to writing blog posts, and filming videos. I'm also working on <a
-				class="style-link inline-block"
-				target="_blank"
-				rel="noopener noreferrer"
-				aria-label="Orbiter"
-				href="https://orbiter.host">Orbiter</a
-			>, a new approach and open approach to app hosting. Along side Orbiter I'm also building a new stack called <a
-			class="style-link inline-block"
-					target="_blank"
-					rel="noopener noreferrer"
-					aria-label="bhvr"
-					href="https://bhvr.dev">bhvr</a> (Bun Hono Vite React) which is designed to be portable and deployable anywhere to avoid walled garden providers.
-		</p>
-		<p>My greatest desire is to help build technologies that empower people who would otherwise be powerless, whether it's financial systems, information privacy, or democratizing software.</p>
-		<div class="flex justify-center">
-			<Image src={aboutImg} alt="Steve pfp" loading="eager" class="animate-fade-in" />
-		</div>
-		<p>Here's some more info about me:</p>
-		<ul class="list-inside list-disc">
-			<li>Currently in Chattanooga TN</li>
-			<li>
-				Pastimes include enjoying coffee shops, spending time with my wife and two sons, and
-				tinkering with mechanical keyboards
-			</li>
-			<li>
-				Taught myself web development which has led to a love and appreciation for developer tools
-			</li>
-			<li>I have a killer waffle recipe handed down through my family</li>
-		</ul>
-		<p>
-			Feel free to
-			<button
-				class="style-link inline-block"
-				onclick="window.location.href='mailto:steve@terminal.ceo'"
-				aria-label="github repository"
-			>
-				reach out
-			</button>!
-		</p>
-	</div>
+  <div class="space-y-6">
+    <DecryptingHeader text="About" className="title" />
+    <p>
+      Hey there! My name is Steve and I’m a DX engineer, creator, and tinkerer.
+      I’m currently working at
+      <a
+        class="style-link inline-block"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="openzeppelin"
+        href="https://openzeppelin.com"
+      >
+        OpenZeppelin</a
+      >
+      as a DevRel, where I work on anything from writing documentation, building
+      developer tools, to writing blog posts, and filming videos. I'm also working
+      on <a
+        class="style-link inline-block"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Orbiter"
+        href="https://orbiter.host">Orbiter</a
+      >, a new approach and open approach to app hosting. Along side Orbiter I'm
+      also building a new stack called <a
+        class="style-link inline-block"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="bhvr"
+        href="https://bhvr.dev">bhvr</a
+      > (Bun Hono Vite React) which is designed to be portable and deployable anywhere
+      to avoid walled garden providers.
+    </p>
+    <p>
+      My greatest desire is to help build technologies that empower people who
+      would otherwise be powerless, whether it's financial systems, information
+      privacy, or democratizing software.
+    </p>
+    <div class="flex justify-center">
+      <Image
+        src={aboutImg}
+        alt="Steve pfp"
+        loading="eager"
+        class="animate-fade-in"
+      />
+    </div>
+    <p>Here's some more info about me:</p>
+    <ul class="list-inside list-disc">
+      <li>Currently in Chattanooga TN</li>
+      <li>
+        Pastimes include enjoying coffee shops, spending time with my wife and
+        two sons, and tinkering with mechanical keyboards
+      </li>
+      <li>
+        Taught myself web development which has led to a love and appreciation
+        for developer tools
+      </li>
+      <li>I have a killer waffle recipe handed down through my family</li>
+    </ul>
+    <p>
+      Feel free to
+      <button
+        class="style-link inline-block"
+        onclick="window.location.href='mailto:contact@stevedylan.dev'"
+        aria-label="github repository"
+      >
+        reach out
+      </button>!
+    </p>
+  </div>
 </PageLayout>
