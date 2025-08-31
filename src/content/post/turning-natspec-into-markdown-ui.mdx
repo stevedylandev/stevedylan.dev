@@ -1,0 +1,204 @@
+---
+title: "Turning Solidity NatSpec into Interactive Markdown UI"
+publishDate: "31 Aug 2025"
+description: "An exploration on how NatSpec could be used to not only maintain context but provide user interfaces"
+tags: ["programming", "solidity", "smart contracts"]
+ogImage: "https://files.stevedylan.dev/natspec-contract.png"
+---
+
+![cover](https://files.stevedylan.dev/natspec-contract.png)
+
+One of the most common problems encountered when building decentralized applications is the disconnect between the smart contract and the client. A normal flow might look something like this:
+
+```
+solidity -> byte code & abi -> EVM <- byte code <- abi <- client
+```
+
+Thanks to the ABI (Application Binary Interface) that is generated at compile time we have instructions we can use in clients to interact with smart contracts. It's been an essential piece for years as we've built apps that interact with smart contracts. More recently at OpenZeppelin we released an open source tool called the [Contracts UI Builder](https://builder.openzeppelin.com) which makes it even easier to build UI forms for contracts. Despite how useful ABI has been, it does miss one important piece: context. An ABI field might look something like this:
+
+```json
+{
+  "type": "function",
+  "name": "setNumber",
+  "inputs": [
+    {
+      "name": "newNumber",
+      "type": "uint256",
+      "internalType": "uint256"
+    }
+  ],
+  "outputs": [],
+  "stateMutability": "nonpayable"
+}
+```
+
+All we know about this function is it probably sets a new number, but why? What is the number for? We might be able to answer these questions by looking at the source code of the contract itself, but there are many cases where we have no idea what a paramter is used for. This is something that [Seb brought up](https://farcaster.xyz/seb/0xf5694e6e) on Farcaster this weekend, stating "There should be some sort of universal markup language for every smart contract (that isn't an ABI) that allows anyone to easily interact onchain." 
+
+This got me wondering if the NatSpec could be used to help solve this problem. If you're not familiar with it, the [NatSpec](https://docs.soliditylang.org/en/latest/natspec-format.html) works a lot like JSDoc where the developer can leave comments in a particular format that can be used by the compiler to create documentation or even SDKs and CLIs. It's been in Solidity for years and has actually been used by OpenZeppelin's documentation to generate API references. While most of the tags handle things like parameters or returns, the `@notice` tag can be used as a general description and be filled with whatever we want to write, so why not markdown? It doesn't stop there though. What if we could build entire UIs out of the NatSpec? Thanks to a new library / proposed standard called Markdown UI I was able to build a [MVP](https://natspec-ui.orbiter.website) of this idea, and in this post I'll show you how it works!
+
+The first thing you need to do is write up the markdown as NatSpec in the smart contract.
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+/// @title Counter
+/// @notice A simple counter contract that allows incrementing and setting a number
+/// @dev This contract maintains a single uint256 state variable that can be modified
+contract Counter {
+    /// @notice The current counter value
+    /// @dev Public state variable automatically generates a getter function
+    uint256 public number;
+
+    /// @notice Sets the counter to a specific value
+    /// @dev Updates the number state variable to the provided value
+    /// @param newNumber The new value to set the counter to \n
+    /// \n 
+    /// ```markdown-ui-widget \n
+    /// { "type": "form", "id": "setNumber", "submitLabel": "Set Number", "fields": [{ "type": "text-input", "id": "newValue", "label": "New Counter Value", "placeholder": "Enter number", "default": "42" }] } \n
+    /// ``` \n
+    function setNumber(uint256 newNumber) public {
+        number = newNumber;
+    }
+
+    /// @notice Increments the counter by 1
+    /// @dev Increases the number state variable by 1 using the increment operator \n
+    /// \n
+    /// ```markdown-ui-widget \n
+    /// { "type": "form", "id": "increment", "submitLabel": "Increment", "fields": [] } \n
+    /// ```\n
+    function increment() public {
+        number++;
+    }
+}
+```
+
+You might have noticed our one small twist: the Markdown UI component. 
+
+```markdown
+
+``markdown-ui-widget
+{ "type": "form", "id": "increment", "submitLabel": "Increment", "fields": [] }
+``
+
+```
+
+This is what we can use in our front end to build interactive components along side the markdown describing how it works! When we compile this contract it's going to include a json file with out generated `userdoc` and `devdoc`. In order to make it easier to share these files along with the ABI, we can verify the contract with [Sourcify](https://sourcify.dev/) which will store our contract metadata for anyone to fetch via an API. That API response looks something like this when we use the query `?fields=devdoc`:
+
+```json
+{
+  "devdoc": {
+    "kind": "dev",
+    "title": "Counter",
+    "details": "This contract maintains a single uint256 state variable that can be modified",
+    "methods": {
+      "increment()": {
+        "details": "Increases the number state variable by 1 using the increment operator \\n \\n ```markdown-ui-widget \\n { \"type\": \"form\", \"id\": \"increment\", \"submitLabel\": \"Increment\", \"fields\": [] } \\n ```\\n"
+      },
+      "setNumber(uint256)": {
+        "params": {
+          "newNumber": "The new value to set the counter to \\n \\n  ```markdown-ui-widget \\n { \"type\": \"form\", \"id\": \"setNumber\", \"submitLabel\": \"Set Number\", \"fields\": [{ \"type\": \"text-input\", \"id\": \"newValue\", \"label\": \"New Counter Value\", \"placeholder\": \"Enter number\", \"default\": \"42\" }] } \\n ``` \\n"
+        },
+        "details": "Updates the number state variable to the provided value"
+      }
+    },
+    "version": 1,
+    "stateVariables": {
+      "number": {
+        "details": "Public state variable automatically generates a getter function"
+      }
+    }
+  },
+  "matchId": "8931344",
+  "creationMatch": "exact_match",
+  "runtimeMatch": "exact_match",
+  "verifiedAt": "2025-08-31T16:03:47Z",
+  "match": "exact_match",
+  "chainId": "11155111",
+  "address": "0xEeF9B4a84C3327860CD14E1E066D7D6762b9bC3F"
+}
+```
+
+As you can see we're able to get all of the markdown we put in earlier. Now all we have to do is create a frontend client that can render it all!
+
+```typescript
+import { useState, useEffect } from "react";
+import { MarkdownUI } from '@markdown-ui/react';
+import { Marked } from 'marked';
+import { markedUiExtension } from '@markdown-ui/marked-ext';
+import '@markdown-ui/react/widgets.css';
+import { parseContractToMarkdown, type ContractResponse } from './utils/contractParser';
+
+const marked = new Marked().use(markedUiExtension);
+
+const CONTRACT_ADDRESS = "0xEeF9B4a84C3327860CD14E1E066D7D6762b9bC3F";
+const CHAIN_ID = "11155111"; // Sepolia
+
+function App() {
+  const [contractHtml, setContractHtml] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchContractData = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(
+          `https://sourcify.dev/server/v2/contract/${CHAIN_ID}/${CONTRACT_ADDRESS}?fields=devdoc`
+        );
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data: ContractResponse = await response.json();
+        
+        const markdownContent = parseContractToMarkdown(data);
+        
+        console.log(markdownContent);
+        const html = await marked.parse(markdownContent || '# No markdown widgets found');
+        setContractHtml(html);
+      } catch (err) {
+        console.error('Error fetching contract data:', err);
+        setError(err instanceof Error ? err.message : 'Unknown error');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContractData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="max-w-xl mx-auto flex flex-col gap-6 items-center justify-center min-h-screen">
+        <p>Loading contract data...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-xl mx-auto flex flex-col gap-6 items-center justify-center min-h-screen">
+        <p className="text-red-500">Error: {error}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-xl mx-auto flex flex-col gap-6 items-center justify-center min-h-screen">
+      <MarkdownUI html={contractHtml} />
+    </div>
+  );
+}
+
+export default App;
+```
+
+As a result we get a nice page that not only has markdown formatting but interactive UI components that are built in thanks to Markdown UI. 
+
+![natspec demo](https://files.stevedylan.dev/natspec-markdown-ui-2.png)
+
+I took a little extra time to add in Wagmi to the app which resulted in a fully interactive contract, which you can check out [here](https://natspec-ui.orbiter.website). In a sense we achievied the goal of a unified standard markup that can make user interactions with contracts easier. Of course we have to keep in mind the limitations here, primarily being it would require developers to make sure they include all of this markup in their contract and the Markdown UI standard isn't even out of a beta stage, and for that reason I would highly recommend a professional solution like the Contracts UI Builder. Nevertheless it's fun to see how extensible and open Markdown and Solidity have come in the past few years. Each day we're getting closer to an internet that is not only safe, but user friendly as well.
+
+As always the code for this small project is open source and can be found [here](https://github.com/stevedylandev/natspec-markdown-ui)!
