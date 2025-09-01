@@ -23,7 +23,7 @@ In Neovim, everything is stripped down to the core editor. By default, there are
 
 VSCode is the exact opposite. There's loads of extra stuff all around the editor that's pure distraction. I mean, be real, who is using the minimap thing? What about that extra bar on the right with a bunch of icons that you'll never use? It's so aggressive that I wanted to get out as soon as I opened it. However, there are solutions to this! You can simply go to the View menu, then Appearance, and from there toggle all those nasty bits off. Now you can get VSCode looking more like this:
 
-![gooey](https://res.cloudinary.com/df9dofjus/image/upload/v1688690521/Screenshot-Code-07-06-2023-20-19_2x_gz0arj.png)
+![gooey](/blog-images/cloudinary/v1688690521/Screenshot-Code-07-06-2023-20-19_2x_gz0arj.png)
 
 ## Keybindings
 
@@ -43,7 +43,7 @@ If you visit the [VSCodeVim](https://code.visualstudio.com/docs/editor/vim) docs
 
 Here's the sauce: discovering VSCode's API. Something I had never done before is going to the built-in keybindings menu for VSCode and looking at what was in there. There's so much there and it's a bit overwhelming, but once you figure out how to find the command you're looking for, it makes just about anything possible. For my pane switching keymap, I wanted to find which command was changing the focus. I searched "focus left" in the VSCode keybindings and sure enough, there it was: `workbench.action.focusLeftGroup`.
 
-![Keybindings](https://res.cloudinary.com/df9dofjus/image/upload/v1688690521/Screenshot-Code-07-06-2023-20-25_2x_kl790i.png)
+![Keybindings](/blog-images/cloudinary/v1688690521/Screenshot-Code-07-06-2023-20-25_2x_kl790i.png)
 
 Now back in our VSCodeVim config, we can add that method to the binding like so.
 
@@ -61,7 +61,7 @@ Now back in our VSCodeVim config, we can add that method to the binding like so.
 
 It works like a charm. If you're doing this yourself, something I found useful is right-clicking on the command in the VSCode keybindings menu to see the method. Another example where this came in handy was using the "Find Files" command. By default, it's `Cmd + P` on Mac, but I was used to something like `<leader> + F`. When I searched "Open File..." in the keybindings, it didn't show the method like the others did. However, after right-clicking, you can click "Copy Command ID" to grab it.
 
-![command id](https://res.cloudinary.com/df9dofjus/image/upload/v1688690521/Screenshot-Code-07-06-2023-20-53_zxnjxo.gif)
+![command id](/blog-images/cloudinary/v1688690521/Screenshot-Code-07-06-2023-20-53_zxnjxo.gif)
 
 Configuring VSCode is not the most pleasant experience, but on the plus side you can save your config file and move it wherever you want, and you don’t have to mess with configuring as many plugins with Neovim. I’m still on the fence as to whether I’ll keep trying to use VSCode or go back to Neovim, but hopefully these tips help anyone out there trying to make it work for their own personal reasons.
 

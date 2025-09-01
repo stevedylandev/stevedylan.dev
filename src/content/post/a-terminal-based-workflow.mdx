@@ -5,15 +5,7 @@ description: "A deeper look at why a integrated terminal workflow is more than j
 tags: ["programming", "vim", "neovim", "terminal"]
 ---
 
-import { Image } from "astro:assets";
-
-<Image
-	src="https://files.stevedylan.dev/Qma8MhvupyHTDmBGiH3yz37acPdqu966YF7rrSk9QDXx6B.png"
-	alt="header image"
-	height={600}
-	width={800}
-	aspectRatio={3 / 2}
-/>
+![header image](/blog-images/files-stevedylan-dev/Qma8MhvupyHTDmBGiH3yz37acPdqu966YF7rrSk9QDXx6B.png)
 
 In a [previous blog post](https://stevedylan.dev/posts/why-i-learned-vim) I talked about why I learned Vim, and how it boosted my speed and productivity. In some ways it’s true, but I don’t think I had a grasp on the whole picture. After I watched [this video](https://youtu.be/5wy2iLU5fs0?si=uZ2e6_EUFkrk4Vrp) I realized it wasn’t necessarily just Vim/Neovim, but my terminal based workflow that was at play. I recently gave [Zed](https://zed.dev) another try as it has some attractive features, including [a whole page in their docs dedicated to Vim.](https://zed.dev/docs/vim) It is minimal with Vim keybindings enabled, as well as pretty speedy since its GPU enable and built on Rust. Nevertheless I still felt clumsy, and I realized why: the terminal. With my current terminal workflow I’m able to easily switch between different projects without having multiple code editor windows opened, and I have better access to CLI tools that compliment my developer workflow. I just can’t replicate that outside of the terminal right now.
 
@@ -26,34 +18,34 @@ I will clarify that by no means do I suggest that a terminal based workflow guar
 At the core of my workflow is [Tmux.](https://github.com/tmux/tmux) This tool allows you to create multiple terminal sessions, windows, and panes in just one terminal emulator window. Instead of having a terminal open for every project I might be in, I can just have one. A Tmux session will look like any other terminal window, the difference is the ability to disconnect and then re-attach to that same session. So I can be working on something, leave it, then come right back to it.
 
 <video
-	autoPlay
-	muted
-	loop
-	playsinline
-	className="aspect-video w-full"
-	src="https://files.stevedylan.dev/Qmeb4797YyF2FhwTdoPuuQi4LXgdXaGoGcTRqU85JAEv9M.mp4"
+  autoPlay
+  muted
+  loop
+  playsinline
+  className="aspect-video w-full"
+  src="/blog-images/files-stevedylan-dev/Qmeb4797YyF2FhwTdoPuuQi4LXgdXaGoGcTRqU85JAEv9M.mp4"
 ></video>
 
 Additionally I can create multiple panes and windows inside a session. I generally create a session per project, and each session might have two windows (e.g. one for a client side repo, the other for a server side repo). This both helps keep projects unified yet organized.
 
 <video
-	autoPlay
-	muted
-	loop
-	playsinline
-	className="aspect-video w-full"
-	src="https://files.stevedylan.dev/QmWHHCV9YVecdDVcbKXLdfcudW5XBiTt4EfLagP9cowJjC.mp4"
+  autoPlay
+  muted
+  loop
+  playsinline
+  className="aspect-video w-full"
+  src="/blog-images/files-stevedylan-dev/QmWHHCV9YVecdDVcbKXLdfcudW5XBiTt4EfLagP9cowJjC.mp4"
 ></video>
 
 Where it gets really good is having a solid session manager, and that’s where [Josh Medeski’s Sesh](https://github.com/joshmedeski/sesh) comes into play. With this I can easily change between different sessions, and thus easily switch between different projects. This has become essential to my workflow as I often might be working on 2-3 different projects at a time, all with multiple windows and panes each. Each one can be unique to what I’m working on as well.
 
 <video
-	autoPlay
-	muted
-	loop
-	playsinline
-	className="aspect-video w-full"
-	src="https://files.stevedylan.dev/Qmd3SNkNTms4JQCtv4wmFUKS679A2zsrG7e58szLWS3pmM.mp4"
+  autoPlay
+  muted
+  loop
+  playsinline
+  className="aspect-video w-full"
+  src="/blog-images/files-stevedylan-dev/Qmd3SNkNTms4JQCtv4wmFUKS679A2zsrG7e58szLWS3pmM.mp4"
 ></video>
 
 ## Neovim Plugins
@@ -63,34 +55,34 @@ After Tmux, of course the next import piece of my workflow is Neovim. Configurin
 The first is [Telescope](https://github.com/nvim-telescope/telescope.nvim), which is a no brainer for most people already using Neovim. It allows me to quickly jump to different files, search a string through my entire project, or sort through diagnostic issues. It’s incredibly powerful and extensible, and I would highly recommend getting familiar with all its abilities.
 
 <video
-	autoPlay
-	muted
-	loop
-	playsinline
-	className="aspect-video w-full"
-	src="https://files.stevedylan.dev/QmTRit4eCktJ87NjxdErZ3csXimNq43G8SueQP77mvtvkE.mp4"
+  autoPlay
+  muted
+  loop
+  playsinline
+  className="aspect-video w-full"
+  src="/blog-images/files-stevedylan-dev/QmTRit4eCktJ87NjxdErZ3csXimNq43G8SueQP77mvtvkE.mp4"
 ></video>
 
 Another one I use fairly often is [Neo-tree](https://github.com/nvim-neo-tree/neo-tree.nvim). I know some people are anti-file-tree but I personally really enjoy it. It is setup to appear in the middle of my screen, and I use it to help navigate where a file might be, edit a file name, add new files, etc. Since the majority of my work is in JavaScript / Next.js, it’s helpful to distinguish which `page.tsx` or `route.ts` file I’m currently working on.
 
 <video
-	autoPlay
-	muted
-	loop
-	playsinline
-	className="aspect-video w-full"
-	src="https://files.stevedylan.dev/QmVSc4amHjygkTcd4Rrx62DaYWMXSYpJD8fBhSinGyChyp.mp4"
+  autoPlay
+  muted
+  loop
+  playsinline
+  className="aspect-video w-full"
+  src="/blog-images/files-stevedylan-dev/QmVSc4amHjygkTcd4Rrx62DaYWMXSYpJD8fBhSinGyChyp.mp4"
 ></video>
 
 Having an LSP (Language Server Protocol) and completions setup is also essential for a good workflow in Neovim. This is what provides hints, completions, diagnostics, or even docs for the language you’re working in. Cannot state how helpful these are when working in a typed language like Typescript or Go. I would also say it’s beneficial to learn how to set it up manually, and [Typecraft's video](https://youtu.be/S-xzYgTLVJE?si=xG7c-Yx0fkxRHwx0) does a great job showing how it’s done.
 
 <video
-	autoPlay
-	muted
-	loop
-	playsinline
-	className="aspect-video w-full"
-	src="https://files.stevedylan.dev/QmdQSzMuPiDEcFhWLMLsabLLsHD4qG74Qh1WtvQ8SnSa1B.mp4"
+  autoPlay
+  muted
+  loop
+  playsinline
+  className="aspect-video w-full"
+  src="/blog-images/files-stevedylan-dev/QmdQSzMuPiDEcFhWLMLsabLLsHD4qG74Qh1WtvQ8SnSa1B.mp4"
 ></video>
 
 These two are on the smaller side but are still really great to use. The first is [Tmux Navigator.](https://github.com/christoomey/vim-tmux-navigator) This allows you to navigate between an open Neovim pane and a Tmux pane without using a Tmux prefix. For example, instead of navigating with `Ctrl + b - l` I can just use `Ctrl - l`. It’s the same mapping for switching between Neovim panes and Tmux panes, which is a huge quality of life improvement. The other small mention is [blame.nvim.](https://github.com/FabijanZulj/blame.nvim) With this tool I can hit `Space-b` to see line by line who changed what when. This is great when working with other people on a project and you’re trying to find out what changed when. There’s also the LazyGit plugin for Neovim, but it deserves its own section.
@@ -100,12 +92,12 @@ These two are on the smaller side but are still really great to use. The first i
 For the longest time I just used git in the command line for handling any of my git needs, but a lot of that changed when I started working on more team oriented projects. Handling git conflicts was a nightmare, as well as going through git history to see what changed at each commit. LazyGit changed all of that. This tool really simplifies things like cherry picking commits, handling conflicts, and viewing rich history. There’s so much it can do that I haven’t even touched the surface on, and I would recommend [this video](https://youtu.be/CPLdltN7wgE?si=7XqMjlwpi5tmWFpA) by its creator to see what’s possible (if you’re like me you’ll also learn more about git itself from it).
 
 <video
-	autoPlay
-	muted
-	loop
-	playsinline
-	className="aspect-video w-full"
-	src="https://files.stevedylan.dev/QmZou8CVipfiFxYkYYm3H6BAzKk1ks6mkosTULxk7GgFUb.mp4"
+  autoPlay
+  muted
+  loop
+  playsinline
+  className="aspect-video w-full"
+  src="/blog-images/files-stevedylan-dev/QmZou8CVipfiFxYkYYm3H6BAzKk1ks6mkosTULxk7GgFUb.mp4"
 ></video>
 
 ## Bringing it All Together
@@ -113,34 +105,34 @@ For the longest time I just used git in the command line for handling any of my 
 Let’s do a run through of what starting and managing a project might look for me with this workflow. First `t` to start my Tmux session manager, then navigate to my dev folder. There I’ll run a command like `npx create-next-app@latest`. Once the repo is created I’ll `cd` into it and run `nvim` which will greet me with a telescope window of all the files that I can fuzzy find through. Then I might open a split pane to the right with Tmux so I can have a terminal to run commands like `npm run dev`.
 
 <video
-	autoPlay
-	muted
-	loop
-	playsinline
-	className="aspect-video w-full"
-	src="https://files.stevedylan.dev/QmUW8QWY1ug3uHzLWtc6F9pFHAurgbjG3qmnc9o6whZDoZ.mp4"
+  autoPlay
+  muted
+  loop
+  playsinline
+  className="aspect-video w-full"
+  src="/blog-images/files-stevedylan-dev/QmUW8QWY1ug3uHzLWtc6F9pFHAurgbjG3qmnc9o6whZDoZ.mp4"
 ></video>
 
 If the project has multiple repos like a server/client combo or I’m referencing another repo, I’ll create a new window with the same pane setup. As I work and make changes, I’ll open LazyGit in one of my Tmux panes and run `ctrl-b + z` to make it full screen. From there I’ll add my commits and push them up, or make a branch that I can merge main into if I’m already working on a shared project.
 
 <video
-	autoPlay
-	muted
-	loop
-	playsinline
-	className="aspect-video w-full"
-	src="https://files.stevedylan.dev/QmdrPRHBkMNCvcbCEaQp9PeUKQsuCHKHgEecBMG6tRnLyB.mp4"
+  autoPlay
+  muted
+  loop
+  playsinline
+  className="aspect-video w-full"
+  src="/blog-images/files-stevedylan-dev/QmdrPRHBkMNCvcbCEaQp9PeUKQsuCHKHgEecBMG6tRnLyB.mp4"
 ></video>
 
 Back in my main Next.js window I might open another split pane below the right one so while the dev server is running I can make test API calls from the terminal with httpie, maybe pipe the results into jq then into a file.
 
 <video
-	autoPlay
-	muted
-	loop
-	playsinline
-	className="aspect-video w-full"
-	src="https://files.stevedylan.dev/Qmc1Lfd6KmrWSU1kTtrnT59nyPx1QpTvhEzPY9taagWCuv.mp4"
+  autoPlay
+  muted
+  loop
+  playsinline
+  className="aspect-video w-full"
+  src="/blog-images/files-stevedylan-dev/Qmc1Lfd6KmrWSU1kTtrnT59nyPx1QpTvhEzPY9taagWCuv.mp4"
 ></video>
 
 This is the flexibility of a terminal based workflow that is hard to replicate on something like VSCode or Zed. It’s not even an editor issue in my opinion: it’s a development environment issue. Do code editors like VSCode take out out of that environment? Sorta, not totally, but it’s definitely not the same.

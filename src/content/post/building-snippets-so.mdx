@@ -5,15 +5,7 @@ description: "Insights into why snippets.so was built and the tech stack behind 
 tags: ["programming", "next", "ipfs", "product"]
 ---
 
-import { Image } from "astro:assets";
-
-<Image
-	src="https://www.snippets.so/og.png"
-	alt="snippets-logo"
-	width={1920}
-	height={1080}
-	aspectRatio={16 / 9}
-/>
+![image](/blog-images/placeholder.png)>
 
 "I don't know why this isn't working" is a question I get often, and I usually respond with "could you share your code with me?" Next thing you know I get a cell phone image of someone's fingerprint covered laptop screen with a blur of code on it. I wish this wasn't the first time, and I certainly hope it's the last, but to be honest there was a problem.
 
@@ -110,13 +102,7 @@ export function CodeForm({ readOnly, content }: any) {
 
 While this library does have several themes to choose from I decided to stick with a light theme (blasphemy I know haha). A simple GitHub light theme with reduced opacity actually does a decent job. Definitely looked into trying to customize it a bit more but the way it handles syntax highlighting isn't as good as something like shiki. This might be something I look into down the road.
 
-<Image
-	src="https://res.cloudinary.com/df9dofjus/image/upload/v1722565204/Screenshot-Arc-08-01-2024-22-17_2x_ad4w7s.png"
-	alt="code editor"
-	width={1920}
-	height={1080}
-	aspectRatio={16 / 9}
-/>
+![image](/blog-images/placeholder.png)>
 
 When it comes to actually uploading the content after the user has put their code in I used the built in API routes in Next.js, simply passing in the `content` of the file, `name` if one given, and `lang` for the language used from the dropdown menu. As mentioned earlier I'm using Pinata/IPFS for uploading the content and there is a convenient API route for JSON objects, so its a simple plug and post operation.
 
@@ -271,7 +257,7 @@ With our `cid`, `name`, `content`, and `lang` we can rebuild what the editor saw
 
 Along with viewing the content we can also enable some fun stuff like copying it to clipboard, downloading it as a file, or sharing the snippet with a link!
 
-![gif of share page](https://res.cloudinary.com/df9dofjus/image/upload/v1722565319/Screenshot-Arc-08-01-2024-22-24_muxrrg.gif)
+![gif of share page](/blog-images/cloudinary/v1722565319/Screenshot-Arc-08-01-2024-22-24_muxrrg.gif)
 
 ## API + CLI
 
@@ -280,7 +266,7 @@ Since there isn't really any authentication in this app and anyone can upload sn
 Request:
 
 ```bash
-curl --location 'https://www.snippets.so/api/upload' \
+curl --location '/blog-images/other/api/upload' \
           --header 'Content-Type: application/json' \
           --data '{
             "content": "console.log(\"hello world!\")",

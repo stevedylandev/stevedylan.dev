@@ -3,7 +3,7 @@ title: "How to Encrypt and Decrypt Files on IPFS Using Lit Protocol"
 publishDate: "04 Nov 2023"
 description: "Experience the power of decentralized storage, encryption, and token gating with this tutorial"
 tags: ["ipfs", "lit-protocol", "encryption", "token-gating"]
-ogImage: "https://assets-global.website-files.com/629e4fe96456f8219203e7f1/6545bfa112815d6340466066_20231103_How%20to%20Encrypt%20and%20Decrypt%20Files%20on%20IPFS%20Using%20Lit%20Protocol%20and%20Pinata.jpeg"
+ogImage: "/blog-images/other/6545bfa112815d6340466066_20231103_How-to-Encrypt-and-Decrypt-Files-on-IPFS-Using-Lit-Protocol-and-Pinata.jpeg"
 ---
 
 The most popular method used for sharing files off-chain in Web3 is IPFS, and there are some [good reasons for that](https://www.pinata.cloud/blog/why-ipfs-is-the-storage-solution-for-web3-developers). However it does not come without its own share of problems, and one of those is the ability to share private files. IPFS is a public network so anyone with a CID can access and download that content, and this hinders projects that may want to token gate content or create subscriptions to content. With that said, encryption has proven to be one solution to this problem. Remarkably, the solution of [asymmetric encryption](https://www.okta.com/identity-101/asymmetric-encryption) is used in blockchain all the time and can be reused for the purpose of token gating. [Lit Protocol](https://litprotocol.com/) is a decentralized middleware client that enables access controls to help extend asymmetric encryption to token gating based on crypto ownership, such as owning an NFT, ERC-20 token balance, or simply designating a recipient address. In this post, we’ll show you how you can combine the best of both worlds and create an app that will encrypt content, upload it to IPFS, and then given an encrypted CID, decrypt it.
@@ -83,22 +83,22 @@ The great thing about this template is that it's already got uploads to IPFS wit
 
 ```jsx
 const uploadFile = async (fileToUpload) => {
-	try {
-		setUploading(true);
-		const formData = new FormData();
-		formData.append("file", fileToUpload, fileToUpload.name);
-		const res = await fetch("/api/files", {
-			method: "POST",
-			body: formData,
-		});
-		const ipfsHash = await res.text();
-		setCid(ipfsHash);
-		setUploading(false);
-	} catch (e) {
-		console.log(e);
-		setUploading(false);
-		alert("Trouble uploading file");
-	}
+  try {
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", fileToUpload, fileToUpload.name);
+    const res = await fetch("/api/files", {
+      method: "POST",
+      body: formData,
+    });
+    const ipfsHash = await res.text();
+    setCid(ipfsHash);
+    setUploading(false);
+  } catch (e) {
+    console.log(e);
+    setUploading(false);
+    alert("Trouble uploading file");
+  }
 };
 ```
 
@@ -204,62 +204,62 @@ All together we should have an upload function that looks like this:
 
 ```jsx
 const uploadFile = async (fileToUpload) => {
-	try {
-		setUploading(true);
-		// Create our litNodeClient
-		const litNodeClient = new LitJsSdk.LitNodeClient({
-			litNetwork: "cayenne",
-		});
-		// Then get the authSig
-		await litNodeClient.connect();
-		const authSig = await LitJsSdk.checkAndSignAuthMessage({
-			chain: "ethereum",
-		});
-		// Define our access controls, this is set to be anyone
-		const accs = [
-			{
-				contractAddress: "",
-				standardContractType: "",
-				chain: "ethereum",
-				method: "eth_getBalance",
-				parameters: [":userAddress", "latest"],
-				returnValueTest: {
-					comparator: ">=",
-					value: "0",
-				},
-			},
-		];
-		// Then we use our access controls and authSig to encrypt the file and zip it up with the metadata
-		const encryptedZip = await LitJsSdk.encryptFileAndZipWithMetadata({
-			accessControlConditions: accs,
-			authSig,
-			chain: "ethereum",
-			file: fileToUpload,
-			litNodeClient: litNodeClient,
-			readme: "Use IPFS CID of this file to decrypt it",
-		});
+  try {
+    setUploading(true);
+    // Create our litNodeClient
+    const litNodeClient = new LitJsSdk.LitNodeClient({
+      litNetwork: "cayenne",
+    });
+    // Then get the authSig
+    await litNodeClient.connect();
+    const authSig = await LitJsSdk.checkAndSignAuthMessage({
+      chain: "ethereum",
+    });
+    // Define our access controls, this is set to be anyone
+    const accs = [
+      {
+        contractAddress: "",
+        standardContractType: "",
+        chain: "ethereum",
+        method: "eth_getBalance",
+        parameters: [":userAddress", "latest"],
+        returnValueTest: {
+          comparator: ">=",
+          value: "0",
+        },
+      },
+    ];
+    // Then we use our access controls and authSig to encrypt the file and zip it up with the metadata
+    const encryptedZip = await LitJsSdk.encryptFileAndZipWithMetadata({
+      accessControlConditions: accs,
+      authSig,
+      chain: "ethereum",
+      file: fileToUpload,
+      litNodeClient: litNodeClient,
+      readme: "Use IPFS CID of this file to decrypt it",
+    });
 
-		// Then we turn it into a file that will be accepted by the Pinata API
-		const encryptedBlob = new Blob([encryptedZip], { type: "text/plain" });
-		const encryptedFile = new File([encryptedBlob], fileToUpload.name);
+    // Then we turn it into a file that will be accepted by the Pinata API
+    const encryptedBlob = new Blob([encryptedZip], { type: "text/plain" });
+    const encryptedFile = new File([encryptedBlob], fileToUpload.name);
 
-		// Finally we upload the file by passing it to our /api/files endpoint
-		// Keep in mind this works for smaller files and you may need to do a presigned JWT and upload from the client if you're dealing with larger files
-		// Read more about that here: https://www.pinata.cloud/blog/how-to-upload-to-ipfs-from-the-frontend-with-signed-jwts
-		const formData = new FormData();
-		formData.append("file", encryptedFile, encryptedFile.name);
-		const res = await fetch("/api/files", {
-			method: "POST",
-			body: formData,
-		});
-		const ipfsHash = await res.text();
-		setCid(ipfsHash);
-		setUploading(false);
-	} catch (e) {
-		console.log(e);
-		setUploading(false);
-		alert("Trouble uploading file");
-	}
+    // Finally we upload the file by passing it to our /api/files endpoint
+    // Keep in mind this works for smaller files and you may need to do a presigned JWT and upload from the client if you're dealing with larger files
+    // Read more about that here: https://www.pinata.cloud/blog/how-to-upload-to-ipfs-from-the-frontend-with-signed-jwts
+    const formData = new FormData();
+    formData.append("file", encryptedFile, encryptedFile.name);
+    const res = await fetch("/api/files", {
+      method: "POST",
+      body: formData,
+    });
+    const ipfsHash = await res.text();
+    setCid(ipfsHash);
+    setUploading(false);
+  } catch (e) {
+    console.log(e);
+    setUploading(false);
+    alert("Trouble uploading file");
+  }
 };
 ```
 
@@ -394,17 +394,17 @@ This little template is really designed just to get you started and help you und
 
 ```jsx
 const accessControlConditions = [
-	{
-		contractAddress: "0xA80617371A5f511Bf4c1dDf822E6040acaa63e71",
-		standardContractType: "ERC721",
-		chain,
-		method: "balanceOf",
-		parameters: [":userAddress"],
-		returnValueTest: {
-			comparator: ">",
-			value: "0",
-		},
-	},
+  {
+    contractAddress: "0xA80617371A5f511Bf4c1dDf822E6040acaa63e71",
+    standardContractType: "ERC721",
+    chain,
+    method: "balanceOf",
+    parameters: [":userAddress"],
+    returnValueTest: {
+      comparator: ">",
+      value: "0",
+    },
+  },
 ];
 ```
 
@@ -412,17 +412,17 @@ Or you could do DAO membership (MolochDAOv2.1, also supports DAOHaus)\***\*[](ht
 
 ```jsx
 const accessControlConditions = [
-	{
-		contractAddress: "0x50D8EB685a9F262B13F28958aBc9670F06F819d9",
-		standardContractType: "MolochDAOv2.1",
-		chain,
-		method: "members",
-		parameters: [":userAddress"],
-		returnValueTest: {
-			comparator: "=",
-			value: "true",
-		},
-	},
+  {
+    contractAddress: "0x50D8EB685a9F262B13F28958aBc9670F06F819d9",
+    standardContractType: "MolochDAOv2.1",
+    chain,
+    method: "members",
+    parameters: [":userAddress"],
+    returnValueTest: {
+      comparator: "=",
+      value: "true",
+    },
+  },
 ];
 ```
 
@@ -430,17 +430,17 @@ You can even do a simple check if the recipient is a particular wallet address.
 
 ```jsx
 const accessControlConditions = [
-	{
-		contractAddress: "",
-		standardContractType: "",
-		chain,
-		method: "",
-		parameters: [":userAddress"],
-		returnValueTest: {
-			comparator: "=",
-			value: "0x50e2dac5e78B5905CB09495547452cEE64426db2",
-		},
-	},
+  {
+    contractAddress: "",
+    standardContractType: "",
+    chain,
+    method: "",
+    parameters: [":userAddress"],
+    returnValueTest: {
+      comparator: "=",
+      value: "0x50e2dac5e78B5905CB09495547452cEE64426db2",
+    },
+  },
 ];
 ```
 

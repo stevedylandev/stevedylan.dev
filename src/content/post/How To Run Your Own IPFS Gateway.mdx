@@ -1,14 +1,12 @@
 ---
 title: "How to Run Your Own Public IPFS Gateway"
-publishDate: "10 Oct 2023"
+publishDate: "2023-10-10T00:00:00.000Z"
 description: "Learn how to run a public IPFS gateway with a custom domain using Digital Ocean"
 tags: ["IPFS", "Gateway", "Dedicated Gateway", "Hosting", "Digital Ocean"]
-ogImage: "https://assets-global.website-files.com/629e4fe96456f8219203e7f1/6525558858895876456798a8_20231010_How%20To%20Run%20Your%20Own%20IPFS%20Gateway.jpeg"
+ogImage: "/blog-images/other/6525558858895876456798a8_20231010_How-To-Run-Your-Own-IPFS-Gateway.jpeg"
 ---
 
-import { Image } from "astro:assets";
-
-IPFS has proven to be the decentralized storage protocol of choice by many blockchain developers, and one of the crucial tools used to access content on IPFS are [Gateways](https://www.pinata.cloud/blog/what-is-an-ipfs-gateway). IPFS Gateways are like bridges between the IPFS protocol and the HTTP protocol that we use everyday to browse websites. There are lots of different options to choose from when it comes to IPFS Gateways, and in this post we’ll show you how to host and build your own!
+IPFS has proven to be the decentralized storage protocol of choice by many blockchain developers, and one of the crucial tools used to access content on IPFS are [Gateways](https://www.pinata.cloud/blog/what-is-an-ipfs-gateway). IPFS Gateways are like bridges between the IPFS protocol and the HTTP protocol that we use everyday to browse websites. There are lots of different options to choose from when it comes to IPFS Gateways, and in this post we'll show you how to host and build your own!
 
 <aside>
 ⚠️ Warning! This guide will show you how to make a public IPFS Gateway that can access any CID on IPFS, which means it has the potential to be abused. Please be cautious and look into ways you can secure your gateway.
@@ -27,22 +25,22 @@ It will prompt you to put in a passphrase to access the key so choose something 
 
 Since we’ll be using DigitalOcean you can head over there to create an account and buy a Droplet. You definitely don’t need anything crazy, I just got the following:
 
-<Image
-	src="https://res.cloudinary.com/df9dofjus/image/upload/v1701308413/digital-ocean-1_d3skf1.png"
-	alt="digital ocean droplet creation"
-	width={1920}
-	height={1080}
-	aspectRatio={2 / 1}
+<img
+  src="/blog-images/placeholder.png"
+  alt="digital ocean droplet creation"
+  width={1920}
+  height={1080}
+  aspectRatio={2 / 1}
 />
 
 For the authorization select SSH Keys, then copy and paste the contents of `~/.ssh/rsa.pub` and paste it in as a new key.
 
-<Image
-	src="https://res.cloudinary.com/df9dofjus/image/upload/v1701308420/digital-ocean-2_xhdpos.png"
-	alt="digital ocean ssh key creation"
-	width={1920}
-	height={1080}
-	aspectRatio={3 / 1}
+<img
+  src="/blog-images/placeholder.png"
+  alt="digital ocean ssh key creation"
+  width={1920}
+  height={1080}
+  aspectRatio={3 / 1}
 />
 
 After the droplet has been created, you will actually want to turn it off, go to the Network settings, and enable IPV6. Once enabled turn it back on and try to SSH into it with the following command with the IPV4 address of the server:
