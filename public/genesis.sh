@@ -14,25 +14,20 @@ https://github.com/stevedylandev/genesis
 
 "
 
-# Install Foundry
 echo "❯ Do you want to install Foundry? (Y/n)"
-read -n 1 install_foundry
-echo
+read install_foundry
 
 if [[ $install_foundry =~ ^[Nn]$ ]]; then
     echo "Skipping Foundry installation..."
 else
-    # Install foundryup
     printf "Installing Foundry..."
     curl -fsS https://foundry.paradigm.xyz | bash > /dev/null 2>&1
 
-    # Install foundry
     foundryup > /dev/null 2>&1
 
     printf "\r✔️ Foundry installed    \n"
 fi
 
-# Install Helios
 echo "❯ Do you want to install Helios? (Y/n)"
 read -n 1 install_helios
 echo
@@ -40,7 +35,6 @@ echo
 if [[ $install_helios =~ ^[Nn]$ ]]; then
     echo "Skipping Helios installation..."
 else
-    # Install heliosup
     printf "Installing Helios..."
     curl -fsS https://raw.githubusercontent.com/a16z/helios/master/heliosup/install | bash > /dev/null 2>&1
 
@@ -50,7 +44,6 @@ else
     printf "\r✔️ Helios installed    \n"
 fi
 
-# Install Hardhat
 echo "❯ Do you want to install Hardhat? (Y/n)"
 read -n 1 install_hardhat
 echo
@@ -72,7 +65,6 @@ else
     printf "\r✔️ HardHat installed    \n"
 fi
 
-# Install Solc
 echo "❯ Do you want to install Solc? (Y/n)"
 read -n 1 install_solc
 echo
@@ -91,7 +83,6 @@ else
 fi
 
 
-# Ask user if they want to create a wallet
 echo "❯ Do you want to create a new wallet? (Y/n)"
 read -n 1 create_wallet
 echo
