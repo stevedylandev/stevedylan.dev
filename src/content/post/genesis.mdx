@@ -1,0 +1,89 @@
+---
+title: "Genesis"
+publishDate: "31 Aug 2025"
+description: "Imagining an all-in-one tool to start developing on Ethereum"
+tags: ["programming", "ethereum", "blockchain"]
+ogImage: "/blog-images/files-stevedylan-dev/natspec-contract.png"
+---
+
+Many of us remember our first steps into Ethereum as we wrote some Solidity, compiled it, and deployed it to a long forgotten testnet. It's an exhilerating feeling, something we can't quite shake. Time goes on, you build some more, and soon you start to experience some of the pain points many devs experience daily when using Ethereum. This ranges from conflicting libraries, debugging web wallet interactions, scaffolding projects, interacting and testing contracts, the list goes on. After a few years you get comfortable with the bugs and mess, perhaps **too comfortable**. We become blinded to how new developers might experience Ethereum for the first time, as they have to navigate multiple different tools, old tutorials referencing frameworks that no longer exist, and beyond. Developers need a foundation, and in this post we will explore a possible solution: Genesis.
+
+## Genesis
+
+In short, Genesis would be an all-in-one CLI tool for building on Ethereum. While this concept is nothing new, it's surprisingly lacking in the Ethereum ecosystem. Alternative L1 blockchains usually have something like this where it can manage all aspects of the developer workflow for that given chain; Stellar is a great example of this. Even while the chain is new, the CLI is impressive and gives developers everything they need to go from zero to deployed dApp. They have the advantage of using techniques and fundementals created by diverse tools in the EVM ecosystem. The key is a central binary that helps aggregate different aspects of the developer workflow, so a new dev (or even an expereinced one) doesn't need to reach for five different tools to accomplish one task. It helps improve the flow of tutorials and provides a high bar of standards set for EVM development.
+
+How far this goes is pretty flexible; even if Genesis was just a startup script that installs some of the fundemental tools developers need it would be a step in the right direction. If it makes sense there could be multiple layers of interfacing and abstraction on top of those tools. Because of this Genesis would likely be written in Typescript, Go, or Rust depending on the tooling interface that would take place. While Rust is one of the more intimidating languages to choose from, it is ideal for CLIs and system programs. Many of the new and best tools are being written in Rust as well, so depending on the interfacing needs it might make more sense to take that path. With that said there will still probably be parts of the tool written in Typescript as there are necessary web UIs that will just be simpler to work with in those environments.
+
+Genesis would have the goal of being anytihng from a simple getting start to an all-in-one tool for developing on Ethereum, and it could include the following features.
+
+### Wallet Keystore + Web UI
+
+```bash
+genesis wallet new
+```
+
+One of the most fundamental things a developer needs is an Externally Owned Account, and generally accessed through a "wallet." The wallet ecosystem is quite vast for EVM chains these days, but I would argue there are few focused on developers or even support testnet networks. There is also the subject of security, as many developers have to copy and paste their private keys in `.env` files or inside a web wallet. Genesis would take the approach of using the Foundry approach of using keystores, where the private key is an encrypted local text file that can only be accessed with a passphrase. Further, it would be extended to a web UI wallet that simply accesses the private key with said passphrase on a case by case basis. Since Genesis would also handle project scaffolding, we could encourage better key management in Solidity projects too.
+
+```bash
+echo "PRIVATE_KEY=$(genesis wallet private-key --account testnet)" > .env
+source .env
+```
+
+### Project Scaffolding
+
+```bash
+genesis contracts new
+```
+
+Genesis would come with scaffolding options from Foundry, Hardhat and Scaffold Eth. The power would be the integrations from other parts of the Genesis toolkit, such as settings for the local testnet node, wallet keystore + web UI, and more.
+
+### Solidity Compiler, Scanner, and LSP
+
+```bash
+genesis compile
+```
+
+Many of the foundational tools for building on Solditity would be bundled into Genesis, such as a compiler, security scanners / fuzzers, and LSP integrations. These are all crucial pieces to a good developer experience and can often help save smart contracts from vulnernabilities or prevent malicious code editior extensions.
+
+### Default RPCs
+
+If possible, Genesis would default to a local lite client such as Helios to use as an RPC. There could be others set as backups, but ideally we can set developers up with some of the more secure and private connections and set a standard for other tools in the ecosystem.
+
+### Faucet
+
+```bash
+genesis fund --account test-wallet
+```
+
+This one might be harder to attain, but it would be nice to have an easy way to get testnet eth to a developer's wallet. Many of the options out there require a mainnet balance or some other kind of hoop that can limit privacy. One option might be a POW faucet similar to [this one](https://sepolia-faucet.pk910.de), and while it's not ideal, I think it's better than the other existing options. There are many alt L1's that have easy to access faucets, and while Ethereum faces many more challanges comparatively, we should strive for a better DX.
+
+### Integrated Local Node
+
+```bash
+genesis node --local
+```
+
+The `node` command would spin up a local network like Anvil or Hardhat Network, but further down the road as execution clients improve it would be great to add testnet or mainnet options. The local node is still a crucial piece of building on Ethereum.
+
+### Contract Deployment and Interaction
+
+```bash
+genesis deploy Counter.sol --network testnet --account test-wallet
+
+genesis write 0x8C9EC9c13812C7F9F26AB934d4bF36206240dDA8 "increment()" --account test-wallet
+```
+
+Tools like Foundry make contract deployments and interactions pretty decent, however there is still some room for UX improvements. For example we could pull the ABI for a given contract and provide autocompletions for the shell, making it much easier to interact and test funcitons. Turning it into a TUI and providing an experience like Etherscan would also be great to see. Currently there's a lot you have to type out in the terminal to interact with a contract, and some people may not want to write a full Solidity script just to try something.
+
+## Development Plan
+
+We've discussed _a lot_ of features, and it's hard to imagine where we would even start. Yet like any project, the key is to start small and simple. Genesis would begin and start as a tool installer; a simple CLI that helps developers acquire the fundemental tools they need to start building. Perhaps a next step would be initial setups, like prompting to create a keystore wallet, showing how to acces it, how to start a new project, etc. From there we could start looking into what it might look like to expand. There would need to be some decisions around whether it makes sense to wrap other tools or write our own native packages, and it would be a case by case basis. For example, writing a simple dev focused web wallet that links to keystores might make more sense than writing light abstraction over foundry tools. Those decisions would be crucial as it both dictacts the developer experience of Ethereum and has the potential to drown out other tools and providers (which we obvious don't want to do).
+
+Depending how Genesis starts out and evolves, funding and support can start small. A simple install script is something that could be done very quickly and probably handled by a single person. Building the wallet would take longer and likely more people and talent. As we slowly add these features and make decisions of how far to go we can look into how many people we might need, what approach we take for funding such as grants, and how much we have budgeted for such a tool.
+
+A key factor in making those financial decions would be the success metrics in its early development. Measuring the succes would rely on a few key factors including:
+- Installs from package managers or install scripts
+- GitHub metrics (stars, issues, PRs, etc. All accessible from tools like [OSS Insight](https://ossinsight.io))
+- Community feedback
+- Live sessions with new users (college hackathons and blockchain clubs are great for this)
+Based on those metrics the team behind Genesis could make better decisions on how valuable certain pieces of the stack are compared to others.
