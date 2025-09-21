@@ -24,6 +24,31 @@ export const projects: ProjectItem[] = [
 		tags: ["developer tools", "web frameworks"],
 	},
 	{
+		title: "norns",
+		description:
+			"Over the years I've noticed how so many decentralized applications on EVM chains have slowly built up heavy dependency trees. With some of the supplychain hacks occurring on NPM, I decided it would be a good idea to build atomic web components that achieve all the basic functionality needed to build dApps. The result was norns, which is a library + CLI for simple EVM UI components. Much like shadcn/ui you can import the raw code to your framework or vanilla HTML file and they won't ever break since they have zero dependencies or base framework; just JavaScript.",
+		image: "https://norns.so/og.png",
+		link: "https://norns.so",
+		tags: ["blockchain", "developer tools", "web frameworks"],
+	},
+	{
+		title: "Darkmatter",
+		description:
+			"I got tired of seeing so many developer use terminal emulators that required a login or had paywalls, so I put together a quickstart terminal build using Ghostty. The result is a great DX with all the tools you need, and setting you up to customize it yourself. It also brought about a new theme under the same name, which has been ported to Neovim and Zed if you're interested.",
+		image: "https://files.stevedylan.dev/darkmatter-nvim.png",
+		link: "https://github.com/stevedylandev/darkmatter",
+		tags: ["developer tools", "neovim", "terminal"],
+	},
+	{
+		title: "Atlas",
+		description:
+			"A simple yet powerful CLI for ENS queries and utilities. Can resolve different types of records for names or addresses, as well as provide a printed profile, hashes, or ENS contract deployments",
+		image:
+			"https://raw.githubusercontent.com/stevedylandev/atlas/main/cover.png",
+		link: "https://github.com/stevedylandev/atlas",
+		tags: ["developer tools", "ens", "blockchain"],
+	},
+	{
 		title: "IPCM",
 		description:
 			"IPCM (InterPlanetary CID Mapping) is a blockchain approach to solving the problem of dynamic IPFS data. Instead of using a slower solution like IPNS to point to new content, IPCM is a smart contract that is used as the source of truth for a piece of dynamic content. It features a simple state that can only be updated by the owner of the contract but read by anyone, as well as a public version history through Solidity events.",
