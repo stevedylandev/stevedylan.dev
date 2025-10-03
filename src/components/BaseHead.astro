@@ -14,22 +14,6 @@ const socialImageURL = new URL(
 	ogImage ? ogImage : "/social-card.png",
 	Astro.url,
 ).href;
-const fcImage = new URL(ogImage ? ogImage : "/image.png", Astro.url).href;
-
-const fcData = JSON.stringify({
-	version: "next",
-	imageUrl: fcImage,
-	button: {
-		title: "Read Blog",
-		action: {
-			type: "launch_frame",
-			name: "Read Blog",
-			url: canonicalURL,
-			splashImageUrl: "https://stevedylan.dev/splash.png",
-			splashBackgroundColor: "#000000",
-		},
-	},
-});
 ---
 
 <meta charset="utf-8" />

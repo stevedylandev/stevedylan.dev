@@ -56,7 +56,7 @@ const { images } = Astro.props;
 		top: 0;
 		left: 0;
 		width: 100vw;
-		height: 100vh;
+		height: 100dvh;
 		background-color: rgba(0, 0, 0, 0);
 		display: flex;
 		align-items: center;
@@ -84,16 +84,30 @@ const { images } = Astro.props;
 	.collage-overlay.active img {
 		transform: scale(1);
 	}
+
+	@media (max-width: 768px) {
+		.collage-item {
+			cursor: default;
+		}
+
+		.collage-item:hover {
+			transform: none;
+		}
+	}
 </style>
 
 <script>
 	document.addEventListener('DOMContentLoaded', () => {
+		const isMobile = () => window.innerWidth <= 768;
+
 		const collageItems = document.querySelectorAll('.collage-item');
 		const overlay = document.getElementById('collage-overlay');
 		const expandedImage = document.getElementById('expanded-image') as HTMLImageElement;
 
 		collageItems.forEach((item) => {
 			item.addEventListener('click', () => {
+				if (isMobile()) return;
+
 				const img = item.querySelector('img') as HTMLImageElement;
 				if (img && overlay && expandedImage) {
 					expandedImage.src = img.src;
