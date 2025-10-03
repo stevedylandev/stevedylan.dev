@@ -41,4 +41,5 @@ export const SOCIAL_LINKS = {
 	orbiter: "https://orbiter.host",
 	ethereum: "https://app.ens.domains/stevedylandev.eth",
 	email: "mailto:contact@stevedylan.dev",
+	rss: "https://stevedylan.dev/rss.xml",
 };
