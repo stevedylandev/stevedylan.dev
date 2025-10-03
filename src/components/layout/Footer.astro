@@ -34,15 +34,3 @@ const year = new Date().getFullYear();
 
 	</nav>
 </footer>
-
-<script type="module">
-    import { sdk } from 'https://esm.sh/@farcaster/frame-sdk';
-    window.onload = async () => {
-      try {
-        await sdk.actions.ready();
-        await sdk.actions.addFrame();
-      } catch (error) {
-        console.error(error);
-      }
-    };
-</script>
