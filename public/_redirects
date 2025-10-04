@@ -1,6 +1,6 @@
 /invalid /404
 /pinata https://pinata.cloud
-/feed /feed/
-/rss /rss/
+/feed /rss.xml
+/rss /rss.xml
 
 404 /404
