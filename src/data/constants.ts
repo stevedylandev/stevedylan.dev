@@ -21,7 +21,7 @@ export const MENU_LINKS = [
 	},
 	{
 		title: "Photos",
-		path: "https://photos.stevedylan.dev",
+		path: "https://steve.photo",
 	},
 ];
 
@@ -34,7 +34,7 @@ export const SOCIAL_LINKS = {
 	farcaster: "https://farcaster.xyz/stevedylandev.eth",
 	medium: "https://medium.com/@stevedylandev",
 	linkedin: "https://www.linkedin.com/in/steve-simkins/",
-	photos: "https://photos.stevedylan.dev",
+	photos: "https://steve.photo",
 	threads: "https://threads.net/stevedylandev",
 	website: "/",
 	coffee: "https://buymeacoffee.com/stevedylandev",
