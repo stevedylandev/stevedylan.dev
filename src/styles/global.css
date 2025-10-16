@@ -16,7 +16,7 @@
 @layer base {
 	:root {
 		color-scheme: light;
-		--theme-bg: #000000;
+		--theme-bg: #121113;
 		--theme-link: #ffffff;
 		--theme-text: #ffffff;
 		--theme-accent: #ffffff;
@@ -27,7 +27,7 @@
 
 	:root.dark {
 		color-scheme: dark;
-		--theme-bg: #000000;
+		--theme-bg: #121113;
 		--theme-link: #ffffff;
 		--theme-text: #ffffff;
 		--theme-accent: #ffffff;
@@ -37,11 +37,11 @@
 	}
 
 	html {
-		@apply h-full scroll-smooth border-t-2 border-textColor bg-black;
+		@apply h-full scroll-smooth border-t-2 border-textColor bg-[#121113];
 	}
 
 	html body {
-		@apply mx-auto flex h-full max-w-3xl flex-col bg-black px-8 pt-16 font-sans text-sm font-normal text-textColor antialiased;
+		@apply mx-auto flex h-full max-w-3xl flex-col bg-[#121113] px-8 pt-16 font-sans text-sm font-normal text-textColor antialiased;
 	}
 }
 @tailwind components;
