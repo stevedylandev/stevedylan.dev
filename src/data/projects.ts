@@ -7,22 +7,20 @@ export type ProjectItem = {
 };
 
 export const projects: ProjectItem[] = [
-	{
-		title: "Orbiter",
-		description:
-			"In a world full of complicated CI/CD pipelines there's a desire for a simpler solution for hosting static websites. Orbiter is a service that does just that, letting people upload and create a static site in 30 seconds. It's currently being built by Steve along side Justin Hunter and feautes an open platform approach using IPFS and blockchain.",
-		image: "https://orbiter.host/og.png",
-		link: "https://orbiter.host",
-		tags: ["ipfs", "blockchain", "developer tools"],
-	},
-	{
-		title: "bhvr",
-		description:
-			"I stopped using Next.js and Vercel a while ago due to the amount of vendor lock-in the stack introduced. As an alternative I started using a combination of a Vite + React frontend with a Hono backend. I was setting up separate repos so many times I decided to turn it into a monorepo using Bun. bhvr is a simple barebones template that helps people setup their own project with the same stack, featuring a shared package folder for types that can be used in both server and client. More importantly, each piece can easily be pulled out from one hosting provider and used in another, making it portable and independent.",
-		image: "https://bhvr.dev/og.png",
-		link: "https://bhvr.dev",
-		tags: ["developer tools", "web frameworks"],
-	},
+  {
+    title: "BlogFeeds.net",
+    description: "I've personally found the potential of using blogs, rss, and feeds as a replacment for social media. This website is a simple static site that promotes the idea and includes an FreshRSS API proxy to feature people who have the same philosophy and include a feeds page on their blog.",
+    image: "https://blogfeeds.net/og.png",
+    link: "https://blogfeeds.net",
+    tags: ["social networking", "blogging"]
+  },
+  {
+    title: "Sipp",
+    description: "A minimal code sharing app that runs purely on Bun with native html css js and sqlite. It's designed to be self hosted by developers so they have a space under their own domain where they can have snippets created and shared under their control, with the ability to customize the experience thanks to the simplicity of the structure.",
+    image: "https://sipp.so/assets/og.png",
+    link: "https://sipp.so",
+    tags: ["developer tools", "productivity"]
+  },
 	{
 		title: "norns",
 		description:
@@ -31,6 +29,22 @@ export const projects: ProjectItem[] = [
 		link: "https://norns.so",
 		tags: ["blockchain", "developer tools", "web frameworks"],
 	},
+  {
+    title: "Orbiter",
+    description:
+    "In a world full of complicated CI/CD pipelines there's a desire for a simpler solution for hosting static websites. Orbiter is a service that does just that, letting people upload and create a static site in 30 seconds. It's currently being built by Steve along side Justin Hunter and feautes an open platform approach using IPFS and blockchain.",
+    image: "https://orbiter.host/og.png",
+    link: "https://orbiter.host",
+    tags: ["ipfs", "blockchain", "developer tools"],
+  },
+  {
+    title: "bhvr",
+    description:
+    "I stopped using Next.js and Vercel a while ago due to the amount of vendor lock-in the stack introduced. As an alternative I started using a combination of a Vite + React frontend with a Hono backend. I was setting up separate repos so many times I decided to turn it into a monorepo using Bun. bhvr is a simple barebones template that helps people setup their own project with the same stack, featuring a shared package folder for types that can be used in both server and client. More importantly, each piece can easily be pulled out from one hosting provider and used in another, making it portable and independent.",
+    image: "https://bhvr.dev/og.png",
+    link: "https://bhvr.dev",
+    tags: ["developer tools", "web frameworks"],
+  },
 	{
 		title: "Darkmatter",
 		description:

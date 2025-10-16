@@ -42,4 +42,5 @@ export const SOCIAL_LINKS = {
 	ethereum: "https://app.ens.domains/stevedylandev.eth",
 	email: "mailto:contact@stevedylan.dev",
 	rss: "https://stevedylan.dev/rss.xml",
+  pgp: "https://stevedylan.dev/public_key.asc"
 };
