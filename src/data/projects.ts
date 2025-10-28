@@ -7,20 +7,22 @@ export type ProjectItem = {
 };
 
 export const projects: ProjectItem[] = [
-  {
-    title: "BlogFeeds.net",
-    description: "I've personally found the potential of using blogs, rss, and feeds as a replacment for social media. This website is a simple static site that promotes the idea and includes an FreshRSS API proxy to feature people who have the same philosophy and include a feeds page on their blog.",
-    image: "https://blogfeeds.net/og.png",
-    link: "https://blogfeeds.net",
-    tags: ["social networking", "blogging"]
-  },
-  {
-    title: "Sipp",
-    description: "A minimal code sharing app that runs purely on Bun with native html css js and sqlite. It's designed to be self hosted by developers so they have a space under their own domain where they can have snippets created and shared under their control, with the ability to customize the experience thanks to the simplicity of the structure.",
-    image: "https://sipp.so/assets/og.png",
-    link: "https://sipp.so",
-    tags: ["developer tools", "productivity"]
-  },
+	{
+		title: "BlogFeeds.net",
+		description:
+			"I've personally found the potential of using blogs, rss, and feeds as a replacment for social media. This website is a simple static site that promotes the idea and includes an FreshRSS API proxy to feature people who have the same philosophy and include a feeds page on their blog.",
+		image: "https://blogfeeds.net/og.png",
+		link: "https://blogfeeds.net",
+		tags: ["social networking", "blogging"],
+	},
+	{
+		title: "Sipp",
+		description:
+			"A minimal code sharing app that runs purely on Bun with native html css js and sqlite. It's designed to be self hosted by developers so they have a space under their own domain where they can have snippets created and shared under their control, with the ability to customize the experience thanks to the simplicity of the structure.",
+		image: "https://sipp.so/assets/og.png",
+		link: "https://sipp.so",
+		tags: ["developer tools", "productivity"],
+	},
 	{
 		title: "norns",
 		description:
@@ -29,22 +31,22 @@ export const projects: ProjectItem[] = [
 		link: "https://norns.so",
 		tags: ["blockchain", "developer tools", "web frameworks"],
 	},
-  {
-    title: "Orbiter",
-    description:
-    "In a world full of complicated CI/CD pipelines there's a desire for a simpler solution for hosting static websites. Orbiter is a service that does just that, letting people upload and create a static site in 30 seconds. It's currently being built by Steve along side Justin Hunter and feautes an open platform approach using IPFS and blockchain.",
-    image: "https://orbiter.host/og.png",
-    link: "https://orbiter.host",
-    tags: ["ipfs", "blockchain", "developer tools"],
-  },
-  {
-    title: "bhvr",
-    description:
-    "I stopped using Next.js and Vercel a while ago due to the amount of vendor lock-in the stack introduced. As an alternative I started using a combination of a Vite + React frontend with a Hono backend. I was setting up separate repos so many times I decided to turn it into a monorepo using Bun. bhvr is a simple barebones template that helps people setup their own project with the same stack, featuring a shared package folder for types that can be used in both server and client. More importantly, each piece can easily be pulled out from one hosting provider and used in another, making it portable and independent.",
-    image: "https://bhvr.dev/og.png",
-    link: "https://bhvr.dev",
-    tags: ["developer tools", "web frameworks"],
-  },
+	{
+		title: "Orbiter",
+		description:
+			"In a world full of complicated CI/CD pipelines there's a desire for a simpler solution for hosting static websites. Orbiter is a service that does just that, letting people upload and create a static site in 30 seconds. It's currently being built by Steve along side Justin Hunter and feautes an open platform approach using IPFS and blockchain.",
+		image: "https://orbiter.host/og.png",
+		link: "https://orbiter.host",
+		tags: ["ipfs", "blockchain", "developer tools"],
+	},
+	{
+		title: "bhvr",
+		description:
+			"I stopped using Next.js and Vercel a while ago due to the amount of vendor lock-in the stack introduced. As an alternative I started using a combination of a Vite + React frontend with a Hono backend. I was setting up separate repos so many times I decided to turn it into a monorepo using Bun. bhvr is a simple barebones template that helps people setup their own project with the same stack, featuring a shared package folder for types that can be used in both server and client. More importantly, each piece can easily be pulled out from one hosting provider and used in another, making it portable and independent.",
+		image: "https://bhvr.dev/og.png",
+		link: "https://bhvr.dev",
+		tags: ["developer tools", "web frameworks"],
+	},
 	{
 		title: "Darkmatter",
 		description:
@@ -76,7 +78,7 @@ export const projects: ProjectItem[] = [
 		description:
 			"A Farcaster Mini App that merges the GitHub event feed into the Farcaster social graph. Warpcast created an API that exposed the GitHub verifications made by all users and I thought it would be fun to see a feed GitHub events for all the people I follow that have the verification. Only problem was the number was in the 40K+ range which was too many to filter through. To solve this I built a fairly complex backend that indexes for each user that wants to see their feed and stores the users who have the verifications as well as their events. This was a great exercise in optimizing data pipelines and uses a mix of Cloudflare workers, KVs, D1 database, and queues.",
 		image: "https://gitcast.dev/og.png",
-		link: "https://gitcast.dev",
+		link: "https://github.com/stevedylandev/gitcast-server",
 		tags: ["farcaster", "social"],
 	},
 	{
@@ -92,8 +94,9 @@ export const projects: ProjectItem[] = [
 		title: "Cast Keys",
 		description:
 			"A tool and example for Farcaster developers that need to create signers for their account. Signers are ED25519 keypair that are signed by the primary wallet of a user, and they operate like API keys that can be revoked down the road. They are crucial to the Farcaster ecosystem as they allow users to 'sign-in' to other Farcaster apps and interact with the protocol. This small web app makes it easy to generate a signer for your account, but the code is also FOSS as an educational tool for new Farcaster devs.",
-		image: "https://castkeys.xyz/og.png",
-		link: "https://castkeys.xyz",
+		image:
+			"https://raw.githubusercontent.com/stevedylandev/cast-keys/refs/heads/main/public/og.png",
+		link: "https://github.com/stevedylandev/cast-keys",
 		tags: ["farcaster", "developer tools"],
 	},
 	{
@@ -101,7 +104,7 @@ export const projects: ProjectItem[] = [
 		description:
 			"A small server written in Go that you can run on your Raspberry Pi to display vitals in real time. For my particular Pi it displays IPFS repo stats and system stats, with more updates on the way",
 		image: "https://stevedylan.dev/pi.png",
-		link: "https://pi.stevedylan.dev",
+		link: "https://github.com/stevedylandev/pi-widget",
 		tags: ["hardware", "ipfs", "raspberry pi"],
 	},
 	{
@@ -117,8 +120,9 @@ export const projects: ProjectItem[] = [
 		title: "Snippets",
 		description:
 			"I was tired of poor code sharing experiences like Pastebin that were littered with ads, and I really loved the experience of Ray.so for images. This led to the creation of Snippets.so, an open sourced and extensible code sharing solution that’s minimal and clean.",
-		image: "https://www.snippets.so/og.png",
-		link: "https://snippets.so",
+		image:
+			"https://raw.githubusercontent.com/stevedylandev/snippets/refs/heads/main/public/og.png",
+		link: "https://github.com/stevedylandev/snippets",
 		tags: ["developer tools", "ipfs", "productivity"],
 	},
 	{
@@ -131,14 +135,6 @@ export const projects: ProjectItem[] = [
 		tags: ["developer tools", "ipfs"],
 	},
 	{
-		title: "SIGNETS",
-		description:
-			"In a world where it becomes harder to distinguish between AI and human generated content, authenticity will become paramount. This app is an experiment in that direction. It allows users to upload and sign content using cryptographic keys already present in crypto wallets. With Privy as the auth layer, anyone can make an account, upload and sign content, then share it with another party. The recipient can use the public address of the sender to verify that the content is actually made by them.",
-		image: "https://www.signets.cloud/og.png",
-		link: "https://signets.cloud",
-		tags: ["cryptography", "ipfs"],
-	},
-	{
 		title: "Raycaster Extension",
 		description:
 			"The fastest way to send a cast on Farcaster. A Raycast extension that allows you to sign into your Farcaster account and send casts with optional images via IPFS. ",
@@ -146,14 +142,6 @@ export const projects: ProjectItem[] = [
 			"https://files.stevedylan.dev/QmSsY6QnhdwbWunrgzTDkpvRd7oWx5nUp8v7UiMeGRFeZ1.png",
 		link: "https://www.raycast.com/stevedylandev/raycaster",
 		tags: ["raycast", "developer tools", "productivity"],
-	},
-	{
-		title: "Photocaster",
-		description:
-			"IPFS can unlock content for decentralized social media, and Photocaster was built to demonstrate just that. Using the Farcaster protocol the app allows users to scroll through a feed of just images from select photo centered channels, sign in with their account, and upload photos via IPFS. What makes it special is the photo’s full resolution is on IPFS, but a resized copy is put on the Farcaster network. This keeps apps light, but allows anyone on Photocaster to see the full resolution image.",
-		image: "https://www.photocaster.xyz/og.png",
-		link: "https://github.com/PinataCloud/PhotoCaster",
-		tags: ["farcaster", "ipfs"],
 	},
 	{
 		title: "Cosmic Cowboys",
