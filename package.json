@@ -7,8 +7,12 @@
 		"start": "astro dev",
 		"sync": "astro sync",
 		"build": "astro build",
+		"build:ens": "SITE_URL=https://stevedylandev.eth.limo astro build",
 		"preview": "astro preview",
-		"format": "biome format --write src package.json"
+		"format": "biome format --write src package.json",
+		"deploy:orbiter": "orbiter deploy",
+		"deploy:ens": "bun run build:ens && omnipin deploy --ens stevedylandev.eth",
+		"deploy": "bun run deploy:orbiter && bun run deploy:ens"
 	},
 	"devDependencies": {
 		"@astrojs/mdx": "^3.1.6",

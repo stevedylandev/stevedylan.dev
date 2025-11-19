@@ -33,7 +33,7 @@ export async function GET() {
 	return rss({
 		title: siteMeta.title,
 		description: siteMeta.description,
-		site: "https://stevedylan.dev",
+		site: process.env.SITE_URL || "https://stevedylan.dev",
 		items: items,
 	});
 }
