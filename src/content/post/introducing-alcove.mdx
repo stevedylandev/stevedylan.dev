@@ -1,0 +1,98 @@
+---
+title: "Alcove: An RSS Reader for the Open Web"
+publishDate: "23 Nov 2025"
+description: "Pushing forward the consumption of content without the invasion of privacy"
+tags: ["rss", "programming", "privacy"]
+ogImage: "/blog-images/other/alcove.jpg"
+---
+
+![cover](https://files.stevedylan.dev/alcove.jpg)
+
+Most of us take RSS for granted. It's old, outdated, and perhaps "useless" to many. I would assume a large number of Gen Z doesn't even know what it is. Despite what you may think of RSS, it represents a crucial belief in the internet: openness. With an RSS reader you can subscribe to feeds from multiple sources, whether its a blog, a YouTube channel, or even a social feed, all without being present on those platforms. "Being present" is a key set of words: most of today's platforms drive for your presence, attention, and time. The most time you spend on their platform the better, so they decide what is in your feed in order to keep you dialed in. RSS breaks us free from this need. 
+
+Outside of breaking free of platforms, RSS also provides a way out of censorship and boasts freedom of speech. If someone is writing a blog, then someone else can read it and subscribe to it, with few external forces preventing it. It's not a perfect system, as the publication side can face domain takedowns or even hosting. On the consumption side there is also the risk of what you read being used against you. This problem was [originally raised](https://inessential.com/2025/10/04/why-netnewswire-is-not-web-app.html) by the creator of NetNewsWire, an RSS reader for the Apple ecosystem. It's one of the main reasons NetNewsWire won't be a web app: 
+
+> Could I encrypt the subscription lists on the server? Yes, but the server would have to be able to decrypt it, or else the app couldn’t possibly work. Which means I could decrypt the lists and turn them over.
+
+This is a classic case of "won't be evil" vs "can't be evil." With a setup where the subscription lists are encrypted server side then it's a promise that the owner won't do the wrong thing, even though there may not be that choice if the law demands it. The better route is a tech stack that enables privacy and makes it impossible to hand over any kind of data. 
+
+I'm pleased to say that this tech stack does exist, and it was used to build [Alcove](https://alcove.tools): an RSS reader for an open web. 
+
+## How Does it Work?
+
+Alcove is primarily powered by a single yet powerful library: [Evolu](https://evolu.dev). With this library developers can build apps that run local fist using SQLite instances that are encrypted client side and then synced through relay servers. Anytime the app is opened a new identity keypair is generated to start encrypting data. These keypairs can be used to backup and restore instances on other devices, so I can easily start adding feeds on my computer and then access them on my phone later, all end-to-end encrypted. Evolu has done the hard work of solving CRDT issues that may arise as well as [complex solutions](https://www.evolu.dev/blog/scaling-local-first-software#evolu-protocol) for scaling large applications. Huge shoutout to the team building it as Alcove would not exist without it! 
+
+Relays are the server side of the stack that stores and syncs encrypted data from the clients. Even if I wanted to know what was in those databases, I can't. Evolu makes running relays incredibly simple too, so much so that I have two running for Alcove to help keep redundancy. In theory anyone could run an instance and support the network if the app subscribes to it, which is incredibly powerful.
+
+Outside of Evolu, Alcove is built on a pretty standard Vite + React app with shadcn/ui components, using a theme I came up with a while ago that was recently added to [tweakcn](https://tweakcn.com/editor/theme?theme=darkmatter) (thanks Sahaj!). 
+
+Alcove is also MIT open sourced
+- [GitHub](https://github.com/stevedylandev/alcove)
+- Mirror: `git clone https://git.stevedylan.dev/alcove.git`
+
+## Getting Started
+
+Using Alcove is overall pretty simple. Visit [alcove.tools](https://alcove.tools) and start by a feed you want to subscribe to, or import an OPML file. Once you do Alcove will start fetching the data and populating the local database.
+
+<video
+  autoPlay
+  muted
+  loop
+  playsinline
+  className="aspect-video w-full"
+  src="https://files.stevedylan.dev/add-feed.mp4"
+></video>
+
+Once you have feeds you can start reading them and marking them as read, unread, or categorize them for better organization. 
+
+<video
+  autoPlay
+  muted
+  loop
+  playsinline
+  className="aspect-video w-full"
+  src="https://files.stevedylan.dev/organize-feeds.mp4"
+></video>
+
+Something important to keep in mind is that all of this is happening locally; if you cleared your browser cache all of it would go away. That's why is critical to backup your account early on. Just click on the settings in the bottom left and then click "Backup." This will show a word phrase representing your cryptographic keypair; keep this somewhere safe like a password manager. 
+
+<video
+  autoPlay
+  muted
+  loop
+  playsinline
+  className="aspect-video w-full"
+  src="https://files.stevedylan.dev/backup.mp4"
+></video>
+
+Now if you wanted to start using your Alcove instance on another device, simply use the "Restore from Backup" option on the home screen and paste in your passphrase. This will authorize your new device, download the data from the relay, and decrypt it with your keys. 
+
+<video
+  autoPlay
+  muted
+  loop
+  playsinline
+  className="aspect-video w-full"
+  src="https://files.stevedylan.dev/restore.mp4"
+></video>
+
+## Censorship Resistance
+
+While there is only so much we can do in terms of decentralized and censorship resistance in web hosting, Alcove is taking one step by using [ENS](https://ens.domains) and [IPFS](https://ipfs.tech). Every published release will have an IPFS CID that can be accessed through a gateway or directly with an IPFS node.
+
+```bash
+# CID: bafybeiejwvoe4bszg5rgppl4ww2lrvduglc2n55od53t3is7buh5fln5fu
+# Gateway: https://dweb.link
+https://bafybeiejwvoe4bszg5rgppl4ww2lrvduglc2n55od53t3is7buh5fln5fu.ipfs.dweb.link
+
+# Local IPFS node
+http://bafybeiejwvoe4bszg5rgppl4ww2lrvduglc2n55od53t3is7buh5fln5fu.ipfs.localhost:8080
+```
+
+You can get this CID hash from the GitHub releases page, or alternatively you can get it from the [alcovetools.eth ENS](https://app.ens.domains/alcovetools.eth). The `contenthash` field will be updated each time there is a release thanks to [Omnipin](https://omnipin.eth.limo/). You can also simply access it through a gateway as well with [alcovetools.eth.limo](https://alcovetools.eth.limo).
+
+## Wrapping Up
+
+That's Alcove. If you aren't already using RSS feeds or blogs then I highly recommend you start today. As long as someone is writing, someone can read. These are core principles to a society that is truly free, compared to one where you can't write freely at all. 
+
+> For some reason the telescreen in the living-room was in an unusual position. Instead of being placed, as was normal, in the end wall, where it could command the whole room, it was in the longer wall, opposite the window. To one side of it there was a shallow alcove in which Winston was now sitting, and which, when the flats were built, had probably been intended to hold bookshelves. By sitting in the alcove, and keeping well back, Winston was able to remain outside the range of the telescreen, so far as sight went. He could be heard, of course, but so long as he stayed in his present position he could not be seen. It was partly the unusual geography of the room that had suggested to him the thing that he was now about to do. - George Orwell, 1984
