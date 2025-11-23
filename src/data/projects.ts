@@ -8,6 +8,14 @@ export type ProjectItem = {
 
 export const projects: ProjectItem[] = [
 	{
+		title: "Alcove",
+		description:
+			"RSS and blogs pose to be a solution for freedom speech, however RSS readers with sync capabilities often result in a 'wont be evil' promise in regards to privacy of what you read. Alcove brings a 'cant be evil' tech stack to the table. This app uses Evolu to enable end to end encrption for reading RSS feeds while giving people the ability to sync their reader across multiple devices.",
+		image: "https://alcove.tools/og.png",
+		link: "https://stevedylan.dev/posts/introducing-alcove/",
+		tags: ["blogging", "privacy", "rss"],
+	},
+	{
 		title: "BlogFeeds.net",
 		description:
 			"I've personally found the potential of using blogs, rss, and feeds as a replacment for social media. This website is a simple static site that promotes the idea and includes an FreshRSS API proxy to feature people who have the same philosophy and include a feeds page on their blog.",
