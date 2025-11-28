@@ -2,10 +2,11 @@
 import PageLayout from "@/layouts/Base";
 import { Image } from "astro:assets";
 import aboutImg from "../assets/pfp.png";
+import { projects } from "../data/projects";
 
 const meta = {
-	title: "About",
-	description: "More about Steve Simkins",
+  title: "About",
+  description: "More about Steve Simkins",
 };
 ---
 
@@ -13,34 +14,33 @@ const meta = {
   <div class="space-y-6">
     <h1 class="title">About</h1>
     <p>
-      Hey there! My name is Steve and I’m a DX Engineer with a passion for developer tooling that advances cypherpunk values, such as privacy, decentralization, and self-sovereignty.
-      I’m currently working at
+      Hey there! My name is Steve and I’m a DX Engineer with a passion for
+      developer tooling that advances cypherpunk values, such as privacy,
+      decentralization, and self-sovereignty. I’m currently working at
       <a
         class="style-link inline-block"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="openzeppelin"
-        href="https://openzeppelin.com"
+        aria-label="namehash"
+        href="https://namehash.io"
       >
-        OpenZeppelin</a
+        NameHash Labs</a
       >
-      as a DevRel, where I work on anything from writing documentation, building
-      developer tools, to writing blog posts, and filming videos. I'm also working
-      on <a
+      where I'm helping build tools for ENS and improve the developer experience as
+      much as possible. I'm also working on a host of other <a
         class="style-link inline-block"
+        aria-label="projects"
+        href="/projects">projects</a
+      >, the latest being
+      <a
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Orbiter"
-        href="https://orbiter.host">Orbiter</a
-      >, a new approach and open approach to app hosting. Along side Orbiter I'm
-      also building a new stack called <a
         class="style-link inline-block"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="bhvr"
-        href="https://bhvr.dev">bhvr</a
-      > (Bun Hono Vite React) which is designed to be portable and deployable anywhere
-      to avoid walled garden providers.
+        aria-label={projects[0].title}
+        href={projects[0].link}
+      >
+        {projects[0].title}
+      </a>.
     </p>
     <p>
       My greatest desire is to help build technologies that empower people who
