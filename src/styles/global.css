@@ -44,19 +44,18 @@
 		@apply mx-auto flex h-full max-w-3xl flex-col bg-[#121113] px-8 pt-16 font-sans text-sm font-normal text-textColor antialiased;
 	}
 
-  ::-webkit-scrollbar {
-  width: 10px;
-}
+	::-webkit-scrollbar {
+		width: 10px;
+	}
 
-::-webkit-scrollbar-track {
-  background: #121113; /* Change this to your desired background color */
-}
+	::-webkit-scrollbar-track {
+		background: #121113; /* Change this to your desired background color */
+	}
 
-::-webkit-scrollbar-thumb {
-  background: #121113; /* Change this to your desired thumb color */
-  border-radius: 10px
-}
-
+	::-webkit-scrollbar-thumb {
+		background: #121113; /* Change this to your desired thumb color */
+		border-radius: 10px;
+	}
 }
 @tailwind components;
 @tailwind utilities;
