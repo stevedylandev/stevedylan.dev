@@ -24,6 +24,14 @@ export const projects: ProjectItem[] = [
 		tags: ["social networking", "blogging"],
 	},
 	{
+		title: "Feeds",
+		description:
+			"A minimal take on an RSS reader, Feeds lets you pull from multiple sources of feeds including URL query params, OPML files, and FreshRSS. Instead of rendering the post, Feeds simply gives you a feed link so you can view the content in its original context. Feeds is also designed to be simple and easy to self host for your own use cases.",
+		image: "https://feeds.software/assets/og.png",
+		link: "https://feeds.software",
+		tags: ["blogging", "rss"],
+	},
+	{
 		title: "Sipp",
 		description:
 			"A minimal code sharing app that runs purely on Bun with native html css js and sqlite. It's designed to be self hosted by developers so they have a space under their own domain where they can have snippets created and shared under their control, with the ability to customize the experience thanks to the simplicity of the structure.",
