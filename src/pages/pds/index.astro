@@ -74,7 +74,16 @@ const meta = {
           <article class="max-w-2xl mx-auto">
             <p class="mb-2">${post.text}</p>
             ${imagesHTML}
-            <time class="text-sm text-gray-500 mt-2 block">${createdAt}</time>
+            <div class="flex items-center justify-between mt-4">
+              <time class="text-sm text-gray-500">${createdAt}</time>
+              <button
+                id="share-btn"
+                class="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+                onclick="copyURL()"
+              >
+                Share
+              </button>
+            </div>
           </article>
         `;
 
@@ -87,6 +96,22 @@ const meta = {
     }
 
     fetchPost();
+
+    // Copy URL function
+    window.copyURL = function() {
+      const url = window.location.href;
+      navigator.clipboard.writeText(url).then(() => {
+        const btn = document.getElementById('share-btn');
+        const originalText = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => {
+          btn.textContent = originalText;
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy URL:', err);
+        alert('Failed to copy URL');
+      });
+    };
   </script>
 
 </PageLayout>
