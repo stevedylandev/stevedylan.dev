@@ -1,0 +1,44 @@
+---
+import PageLayout from "@/layouts/Base";
+const meta = {
+	title: "PDS",
+	description: "Posts",
+};
+---
+
+<PageLayout meta={meta}>
+  <div id="post-container">
+    <p>Loading...</p>
+  </div>
+
+  <script>
+    import { AtpAgent } from '@atproto/api';
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const rkey = urlParams.get('rkey');
+    const YOUR_DID = 'did:plc:ia2zdnhjaokf5lazhxrmj6eu';
+    const atUri = `at://${YOUR_DID}/app.bsky.feed.post/${rkey}`;
+
+    const agent = new AtpAgent({ service: 'https://public.api.bsky.app' });
+
+    agent.app.bsky.feed.getPostThread({ uri: atUri })
+      .then(({ data }) => {
+        const post = data.thread.post;
+
+        document.getElementById('post-container').innerHTML = `
+          <article>
+            <h1>${post.record.text}</h1>
+            <time>${new Date(post.record.createdAt).toLocaleDateString()}</time>
+          </article>
+        `;
+
+        document.title = post.record.text;
+      })
+      .catch(err => {
+        console.error('Error fetching post:', err);
+        document.getElementById('post-container').innerHTML =
+          `<p>Post not found: ${err.message}</p>`;
+      });
+  </script>
+
+</PageLayout>
