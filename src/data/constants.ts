@@ -16,6 +16,14 @@ export const MENU_LINKS = [
 		path: "/projects",
 	},
 	{
+		title: "Now",
+		path: "/now",
+	},
+	{
+		title: "Feeds",
+		path: "/feeds",
+	},
+	{
 		title: "Videos",
 		path: "/videos",
 	},

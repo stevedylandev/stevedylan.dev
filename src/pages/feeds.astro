@@ -1,0 +1,46 @@
+---
+import PageLayout from "@/layouts/Base";
+import { projects } from "../data/projects";
+
+const meta = {
+	title: "Feeds",
+	description: "A collection of RSS feeds I'm subscribed to",
+};
+
+// Fetch the feeds data
+const response = await fetch("https://feeds.stevedylan.dev/feeds?format=json");
+const data = await response.json();
+
+// Sort subscriptions by title
+const sortedFeeds = data.subscriptions.sort((a, b) =>
+	a.title.localeCompare(b.title),
+);
+---
+<PageLayout meta={meta}>
+  <div class="space-y-6">
+    <h1 class="title">Feeds</h1>
+    <p>Help build a blog network with me! Check out some of the people I follow below, and if you end up following them too, create a `Feeds` page of your own with your list of people!</p>
+    <h2 class="text-xl font-semibold text-accent-2">Links</h2>
+    <ul class="list-disc pl-4 space-y-4">
+      {sortedFeeds.map((feed) => (
+        <li>
+          <a
+            href={feed.htmlUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="style-link inline-block"
+          >
+            {feed.title}
+          </a>
+        </li>
+      ))}
+    </ul>
+    <h2 class="text-xl font-semibold text-accent-2 pt-8">API</h2>
+    <p>I'm currently using <a href="https://github.com/FreshRSS/FreshRSS" target="_blank" rel="noopener noreferrer" class="style-link">FreshRSS</a> to manage my feeds, and I've built a <a href="https://github.com/stevedylandev/freshrss-api-proxy" target="_blank" rel="noopener noreferrer" class="style-link">proxy</a> you can use to programatically fetch my subscriptions.</p>
+    <pre><code># JSON
+curl https://feeds.stevedylan.dev/feeds?format=json
+
+# OPML File
+curl https://feeds.stevedylan.dev/feeds?format=opml -o feed.opml</code></pre>
+  </div>
+</PageLayout>
