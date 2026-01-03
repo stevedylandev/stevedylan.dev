@@ -57,6 +57,9 @@ const meta = {
           const post = record.value;
           const createdAt = new Date(post.createdAt).toLocaleDateString();
 
+          // Extract rkey from the record URI (format: at://did/collection/rkey)
+          const rkey = record.uri.split('/').pop();
+
           // Handle images
           let imagesHTML = '';
           if (post.embed && post.embed.$type === 'app.bsky.embed.images' && post.embed.images) {
@@ -86,11 +89,13 @@ const meta = {
           }
 
           return `
-            <article class="border-b pb-6 mb-6 last:border-b-0">
-              <p class="mb-2">${post.text}</p>
-              ${imagesHTML}
-              <time class="text-sm text-gray-500 mt-2 block">${createdAt}</time>
-            </article>
+            <a href="/pds?rkey=${rkey}" class="block border-b pb-6 mb-6 last:border-b-0">
+              <article>
+                <p class="mb-2">${post.text}</p>
+                ${imagesHTML}
+                <time class="text-sm text-gray-500 mt-2 block">${createdAt}</time>
+              </article>
+            </a>
           `;
         }).join('');
 
