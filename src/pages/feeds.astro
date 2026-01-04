@@ -28,7 +28,7 @@ const sortedFeeds = data.subscriptions.sort((a, b) =>
             href={feed.htmlUrl}
             target="_blank"
             rel="noopener noreferrer"
-            class="style-link inline-block"
+            class="style-link"
           >
             {feed.title}
           </a>
@@ -37,7 +37,7 @@ const sortedFeeds = data.subscriptions.sort((a, b) =>
     </ul>
     <h2 class="text-xl font-semibold text-accent-2 pt-8">API</h2>
     <p>I'm currently using <a href="https://github.com/FreshRSS/FreshRSS" target="_blank" rel="noopener noreferrer" class="style-link">FreshRSS</a> to manage my feeds, and I've built a <a href="https://github.com/stevedylandev/freshrss-api-proxy" target="_blank" rel="noopener noreferrer" class="style-link">proxy</a> you can use to programatically fetch my subscriptions.</p>
-    <pre><code># JSON
+    <pre class="whitespace-pre-wrap break-all"><code># JSON
 curl https://feeds.stevedylan.dev/feeds?format=json
 
 # OPML File
