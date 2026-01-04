@@ -36,9 +36,7 @@ export const MENU_LINKS = [
 // ! Remember to add your own socials
 export const SOCIAL_LINKS = {
 	github: "https://github.com/stevedylandev",
-	twitter: "https://twitter.com/stevedylandev",
 	telegram: "https://telegram.me/stevedylandev",
-	medium: "https://medium.com/@stevedylandev",
 	linkedin: "https://www.linkedin.com/in/steve-simkins/",
 	photos: "https://steve.photo",
 	website: "/",
