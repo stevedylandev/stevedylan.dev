@@ -18,7 +18,29 @@ const meta = {
       <li>Reading The Dispossessed</li>
     </ul>
     <p class="text-gray-400">Last updated: January 3rd, 2026</p>
-  <h2 class="text-xl font-semibold pt-12">Updates</h2>
+  <div class="flex flex-row justify-between items-center w-full pt-12">
+    <h2 class="text-xl font-semibold">Updates</h2>
+    <a
+				class="inline-block p-2 sm:hover:text-link"
+				href="https://api.stevedylan.dev/now/rss"
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="h-6 w-6"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					fill="none"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
+				<g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></g>
+				</svg>
+				<span class="sr-only">RSS</span>
+			</a>
+  </div>
   <div id="posts-container">
     <p>Loading...</p>
   </div>
