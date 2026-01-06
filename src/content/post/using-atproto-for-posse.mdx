@@ -1,0 +1,31 @@
+---
+title: "ATProto, POSSE, and Personal Sites"
+publishDate: "05 Jan 2026"
+description: "My little weekend experiment to bring micro updates to my personal site"
+tags: ["atproto", "blog", "open web"]
+ogImage: "/blog-images/other/atproto.png"
+---
+
+![atproto](https://files.stevedylan.dev/atproto.png)
+
+Last year after reading [a post by Herman](https://herman.bearblog.dev/slow-social-media/) I realized I didn't need social media; I could just be blogging. Thus started a new journey into [feeds](https://bearblog.stevedylan.dev/resurrect-the-old-web/), RSS, and deleting the majority of my social media accounts. I started by using [Bear Blog](https://bearblog.dev) as a "side blog", a place to post more casual thoughts or updates in my life. This approach has honestly been a great success in my opinion as I've been able to connect with so many wonderful people. Lately, however, I've been thinking more about [personal sites](https://henry.codes/writing/a-website-to-destroy-all-websites/), [POSSE](https://indieweb.org/POSSE)(publish on your own site syndicate elsewhere), and how I could better adapt this concept of a side blog. While I did have my bear blog on a subdomain of my primary domain, I liked the idea of bringing it all back to my personal site and investing in it more. 
+
+These ideas got me thinking about building a simple API + DB that would create, list, update, or delete small posts for my site. Not long after sketching out what this might look like, I realized it looked awful lot like a Personal Data Server (PDS) from [ATProto](https://atproto.com/). I got on Bluesky not long after it launched during the invite code frenzy, and I used it on and off but it didn't stick much. I never looked too much into the protocol behind it, but my curiosity got the best of me. Within a couple of hours I already had my own PDS hosted and migrated my existing account over. 
+
+In the process of setting up the PDS, I had a realization that it might not be possible or a [good idea](https://atproto.com/guides/going-to-production#domain-names) to use my primary domain for the instance. This is when I started to question if I could truly implement POSSE with ATProto. On one hand the approach of using a self hosted PDS checks several boxes like ownership, reduce third party dependencies, etc. The primary missing piece is canonical URLs. If I make a post to my PDS through a client like Bluesky, there isn't a direct URL that points back to my domain. At best it could maybe point to it's location on my PDS. Due to this I'm sure it doesn't count as true POSSE, but it did give me some ideas of how I could get pretty close. 
+
+What I ended up doing is implementing a [now page](/now) for my site. This includes some general updates or bullets on what's happening in my life right now, but it also includes a feed of posts coming directly from my PDS. I love this setup because it means I can let people view these updates without asking them to sign up for Bluesky and follow me; they can just visit my site. 
+
+![now page](https://files.stevedylan.dev/now-updates.png)
+
+Naturally I turned this feed of posts into an RSS feed. This introduced another piece of the puzzle: a place to view individual posts. The RSS feed needs a canonical URL, and instead of using a Bluesky URL, I could setup my own! The URL is a bit ugly since I want to keep my site static, but I setup a page on my site that loads posts client side via a query param, like so: 
+
+```
+https://stevedylan.dev/pds?rkey=3mbjwj62kak2u
+```
+
+The page includes a share button that copies the link to the current page to the viewer's clipboard. If we step back and consider what we have now, I think you could argue that it is a close second to POSSE. Someone can visit my `/now` page, view a post, maybe subscribe to the RSS feed, and all of the URLs in that feed point to my site. Everything happens on a protocol layer, and yeah sure you could go on Bluesky and see all these posts, but it also enables a flow where anyone can view my updates with ease and build links pointing back to my site. 
+
+While my PDS doesn't share my personal domain, I still have my handle setup to be my domain. This is probably one of the best features behind ATProto because even if your content isn't self hosted, the content follows your domain. I will admit that you could easily do this with an account hosted on the default `bsky.social` PDS, but I love the fact that this is data I own and I have full control over it. 
+
+By all means this little experiment and implementation is not perfected or complete, and that's because it's my personal site. I don't think any personal site can be truly "complete;" it should be an ever evolving garden that you tend with care. Adding these small pieces is just me getting my hands dirty after a long period of neglect, and most important of all, I had fun.
