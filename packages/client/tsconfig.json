@@ -1,40 +1,23 @@
 {
-  "extends": "astro/tsconfigs/base",
-  "compilerOptions": {
-    "strict": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/components/*": [
-        "src/components/*.astro"
-      ],
-      "@/layouts/*": [
-        "src/layouts/*.astro"
-      ],
-      "@/utils": [
-        "src/utils/index.ts"
-      ],
-      "@/stores/*": [
-        "src/stores/*"
-      ],
-      "@/data/*": [
-        "src/data/*"
-      ],
-      "@/site-config": [
-        "src/site.config.ts"
-      ]
-    },
-    "plugins": [
-      {
-        "name": "@astrojs/ts-plugin"
-      }
-    ],
-    "jsx": "react-jsx",
-    "jsxImportSource": "react"
-  },
-  "exclude": [
-    "node_modules",
-    "**/node_modules/*",
-    ".vscode",
-    "dist"
-  ]
+	"extends": "astro/tsconfigs/base",
+	"compilerOptions": {
+		"strict": true,
+		"baseUrl": ".",
+		"paths": {
+			"@/components/*": ["src/components/*"],
+			"@/layouts/*": ["src/layouts/*"],
+			"@/utils": ["src/utils/index.ts"],
+			"@/stores/*": ["src/stores/*"],
+			"@/data/*": ["src/data/*"],
+			"@/site-config": ["src/site.config.ts"]
+		},
+		"plugins": [
+			{
+				"name": "@astrojs/ts-plugin"
+			}
+		],
+		"jsx": "react-jsx",
+		"jsxImportSource": "react"
+	},
+	"exclude": ["node_modules", "**/node_modules/*", ".vscode", "dist"]
 }
