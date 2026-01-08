@@ -17,8 +17,8 @@ export function NowAdmin() {
 
 	return (
 		<AuthProvider>
-			<div className="mb-6">
-				<div className="flex justify-end mb-4">
+			<div className="mb-6 mt-12">
+				<div className="flex justify-center mb-4">
 					<LoginButton />
 				</div>
 				<PostComposer onPostCreated={handlePostCreated} />

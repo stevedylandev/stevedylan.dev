@@ -1,4 +1,10 @@
-import { useState, useEffect, createContext, useContext, type ReactNode } from "react";
+import {
+	useState,
+	useEffect,
+	createContext,
+	useContext,
+	type ReactNode,
+} from "react";
 
 interface AuthState {
 	authenticated: boolean;
@@ -84,18 +90,15 @@ export function LoginButton() {
 	const { authenticated, loading, login, logout } = useAuth();
 
 	if (loading) {
-		return (
-			<div className="text-sm text-gray-500">
-				Checking auth...
-			</div>
-		);
+		return <div className="text-sm text-gray-400">Checking auth...</div>;
 	}
 
 	if (authenticated) {
 		return (
 			<button
+				type="button"
 				onClick={logout}
-				className="text-sm px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+				className="text-sm px-3 py-1.5 border border-white"
 			>
 				Logout
 			</button>
@@ -105,7 +108,8 @@ export function LoginButton() {
 	return (
 		<button
 			onClick={login}
-			className="text-sm px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+			type="button"
+			className="text-sm px-3 py-1.5 border border-white transition-colors"
 		>
 			Login with ATProto
 		</button>

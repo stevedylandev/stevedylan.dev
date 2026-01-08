@@ -69,10 +69,7 @@ export function PostComposer({ onPostCreated }: PostComposerProps) {
 	const isOverLimit = remaining < 0;
 
 	return (
-		<form
-			onSubmit={handleSubmit}
-			className="mb-8 p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
-		>
+		<form onSubmit={handleSubmit} className="mb-8 mt-12">
 			<label htmlFor="post-text" className="block text-sm font-medium mb-2">
 				New Update
 			</label>
@@ -82,7 +79,7 @@ export function PostComposer({ onPostCreated }: PostComposerProps) {
 				onChange={(e) => setText(e.target.value)}
 				placeholder="What's happening?"
 				rows={3}
-				className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-800 resize-none focus:outline-none text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+				className="w-full bg-transparent p-3 border border-white  text-white"
 				disabled={isSubmitting}
 			/>
 
@@ -96,15 +93,13 @@ export function PostComposer({ onPostCreated }: PostComposerProps) {
 
 					{error && <span className="text-sm text-red-500">{error}</span>}
 
-					{success && (
-						<span className="text-sm text-green-500">Posted successfully!</span>
-					)}
+					{success && <span className="text-sm">Posted successfully!</span>}
 				</div>
 
 				<button
 					type="submit"
 					disabled={isSubmitting || isOverLimit || !text.trim()}
-					className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+					className="px-4 py-2 border-white border text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
 				>
 					{isSubmitting ? "Posting..." : "Post"}
 				</button>
