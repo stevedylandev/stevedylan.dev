@@ -1,0 +1,49 @@
+{
+	"name": "client",
+	"version": "1.0.0",
+	"private": true,
+	"scripts": {
+		"dev": "astro dev",
+		"start": "astro dev",
+		"sync": "astro sync",
+		"build": "astro build",
+		"build:ens": "SITE_URL=https://stevedylandev.eth.limo astro build",
+		"preview": "astro preview",
+		"format": "biome format --write src package.json",
+		"deploy:orbiter": "orbiter deploy",
+		"deploy:ens": "bun run build:ens && omnipin deploy --ens stevedylandev.eth",
+		"deploy": "bun run deploy:orbiter && bun run deploy:ens"
+	},
+	"devDependencies": {
+		"@astrojs/mdx": "^3.1.6",
+		"@astrojs/sitemap": "3.1.6",
+		"@astrojs/tailwind": "5.1.1",
+		"@biomejs/biome": "2.1.1",
+		"@tailwindcss/aspect-ratio": "^0.4.2",
+		"@tailwindcss/line-clamp": "^0.4.2",
+		"@tailwindcss/typography": "^0.5.8",
+		"@types/markdown-it": "^14.1.2",
+		"@types/sanitize-html": "^2.16.0",
+		"autoprefixer": "^10.4.13",
+		"postcss": "^8.4.21",
+		"tailwindcss": "^3.4.7",
+		"typescript": "^5.6.2"
+	},
+	"dependencies": {
+		"@astrojs/node": "^8.3.4",
+		"@astrojs/partytown": "^2.1.2",
+		"@astrojs/react": "^3.6.2",
+		"@astrojs/rss": "^4.0.7",
+		"@astrojs/ts-plugin": "^1.10.2",
+		"@atproto/api": "^0.18.9",
+		"@nanostores/react": "^0.7.3",
+		"@types/react": "^18.3.8",
+		"@types/react-dom": "^18.3.0",
+		"astro": "^4.16.19",
+		"markdown-it": "^14.1.0",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
+		"sanitize-html": "^2.17.0",
+		"sharp": "^0.33.1"
+	}
+}
