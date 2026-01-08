@@ -68,25 +68,52 @@ now.post("/post", async (c) => {
 		}
 
 		// Parse request body
-		const body = await c.req.json<{ text: string }>();
-		if (!body.text || body.text.trim().length === 0) {
-			return c.json({ error: "Post text is required" }, 400);
+		const body = await c.req.json<{
+			title: string;
+			content: string;
+		}>();
+
+		if (!body.title || body.title.trim().length === 0) {
+			return c.json({ error: "Document title is required" }, 400);
 		}
 
-		if (body.text.length > 300) {
-			return c.json({ error: "Post text must be 300 characters or less" }, 400);
+		if (body.title.length > 128) {
+			return c.json({ error: "Title must be 128 characters or less" }, 400);
 		}
 
-		// Create the post record
+		if (!body.content || body.content.trim().length === 0) {
+			return c.json({ error: "Content is required" }, 400);
+		}
+
+		// Create the document record using site.standard.document lexicon
 		const createRecordUrl = `${c.env.PDS_URL}/xrpc/com.atproto.repo.createRecord`;
 
-		const postRecord = {
+		// Create markdown content with $type
+		const markdownContent = {
+			$type: "site.standard.content.markdown",
+			markdown: body.content.trim(),
+		};
+
+		// Strip markdown for textContent (basic implementation)
+		const textContent = body.content
+			.trim()
+			.replace(/#{1,6}\s/g, "") // Remove headers
+			.replace(/\*\*([^*]+)\*\*/g, "$1") // Remove bold
+			.replace(/\*([^*]+)\*/g, "$1") // Remove italic
+			.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1") // Remove links, keep text
+			.replace(/`([^`]+)`/g, "$1") // Remove code formatting
+			.trim();
+
+		const documentRecord = {
 			repo: session.did,
-			collection: "app.bsky.feed.post",
+			collection: "site.standard.document",
 			record: {
-				$type: "app.bsky.feed.post",
-				text: body.text.trim(),
-				createdAt: new Date().toISOString(),
+				$type: "site.standard.document",
+				title: body.title.trim(),
+				site: "https://stevedylan.dev",
+				content: markdownContent,
+				textContent: textContent,
+				publishedAt: new Date().toISOString(),
 			},
 		};
 
@@ -106,7 +133,7 @@ now.post("/post", async (c) => {
 					Authorization: `DPoP ${session.accessToken}`,
 					DPoP: dpopProof,
 				},
-				body: JSON.stringify(postRecord),
+				body: JSON.stringify(documentRecord),
 			});
 		};
 
@@ -133,9 +160,9 @@ now.post("/post", async (c) => {
 
 		if (!response.ok) {
 			const errorData = await response.json();
-			console.error("Failed to create post:", errorData);
+			console.error("Failed to create document:", errorData);
 			return c.json(
-				{ error: "Failed to create post", details: errorData },
+				{ error: "Failed to create document", details: errorData },
 				response.status as 400 | 401 | 403 | 500,
 			);
 		}
@@ -143,21 +170,20 @@ now.post("/post", async (c) => {
 		const result = (await response.json()) as { uri: string; cid: string };
 		return c.json({ success: true, uri: result.uri, cid: result.cid });
 	} catch (error) {
-		console.error("Error creating post:", error);
+		console.error("Error creating document:", error);
 		return c.json({ error: "Internal server error" }, 500);
 	}
 });
 
 now.get("/rss", async (c) => {
 	try {
-		// Fetch posts directly from your PDS using the repo.listRecords endpoint
+		// Fetch documents directly from your PDS using the repo.listRecords endpoint
 		const response = await fetch(
 			`${PDS_URL}/xrpc/com.atproto.repo.listRecords?` +
 				new URLSearchParams({
 					repo: DID,
-					collection: "app.bsky.feed.post",
+					collection: "site.standard.document",
 					limit: "50",
-					filter: "posts_no_replies",
 				}),
 		);
 
@@ -166,7 +192,7 @@ now.get("/rss", async (c) => {
 		}
 
 		const data = (await response.json()) as ListRecordsResponse;
-		const posts = data.records.filter((record) => !record.value.reply);
+		const documents = data.records;
 
 		// Create the feed
 		const feed = new Feed({
@@ -188,43 +214,30 @@ now.get("/rss", async (c) => {
 			},
 		});
 
-		// Add posts to the feed
-		posts.forEach((record) => {
-			const post = record.value;
+		// Add documents to the feed
+		documents.forEach((record) => {
+			const doc = record.value;
 			const rkey = record.uri.split("/").pop();
 
-			// Build content with images if they exist
-			let content = post.text;
+			// Extract content - prefer markdown content, fallback to textContent
+			let content = doc.title;
+			let description = doc.title;
 
-			if (
-				post.embed &&
-				post.embed.$type === "app.bsky.embed.images" &&
-				post.embed.images
-			) {
-				const imageHTML = post.embed.images
-					.map((image) => {
-						const blobUrl =
-							`${PDS_URL}/xrpc/com.atproto.sync.getBlob?` +
-							new URLSearchParams({
-								did: DID,
-								cid: image.image.ref.$link,
-							});
-
-						return `<img src="${blobUrl}" alt="${image.alt || "Image from post"}" />`;
-					})
-					.join("");
-
-				content = `<p>${post.text}</p>${imageHTML}`;
+			if (doc.content && doc.content.markdown) {
+				content = doc.content.markdown;
+				description = doc.textContent || doc.title;
+			} else if (doc.textContent) {
+				content = doc.textContent;
+				description = doc.textContent;
 			}
 
 			feed.addItem({
-				title:
-					post.text.substring(0, 100) + (post.text.length > 100 ? "..." : ""),
+				title: doc.title,
 				id: `https://stevedylan.dev/pds?rkey=${rkey}`,
-				link: `https://stevedylan.dev/pds?rkey=${rkey}`,
-				description: post.text,
+				link: doc.site,
+				description: description,
 				content: content,
-				date: new Date(post.createdAt),
+				date: new Date(doc.publishedAt),
 			});
 		});
 

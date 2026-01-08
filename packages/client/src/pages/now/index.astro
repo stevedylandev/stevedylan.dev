@@ -45,14 +45,33 @@ const meta = {
   <div id="posts-container">
     <p>Loading...</p>
   </div>
-  <script>
+  <script type="module">
+    import MarkdownIt from 'markdown-it';
+
+    const md = new MarkdownIt({
+      html: false,
+      linkify: true,
+      typographer: true
+    });
+
     const DID = 'did:plc:ia2zdnhjaokf5lazhxrmj6eu';
     const PDS_URL = 'https://polybius.social';
 
-    // Fetch posts directly from your PDS using the repo.listRecords endpoint
+    // Fetch both documents and posts for backward compatibility
     async function fetchPosts() {
       try {
-        const response = await fetch(
+        // Fetch new site.standard.document records
+        const documentsPromise = fetch(
+          `${PDS_URL}/xrpc/com.atproto.repo.listRecords?` +
+          new URLSearchParams({
+            repo: DID,
+            collection: 'site.standard.document',
+            limit: '20'
+          })
+        ).then(res => res.ok ? res.json() : { records: [] }).catch(() => ({ records: [] }));
+
+        // Fetch old app.bsky.feed.post records for backward compatibility
+        const postsPromise = fetch(
           `${PDS_URL}/xrpc/com.atproto.repo.listRecords?` +
           new URLSearchParams({
             repo: DID,
@@ -60,66 +79,106 @@ const meta = {
             limit: '20',
             filter: 'posts_no_replies'
           })
-        );
+        ).then(res => res.ok ? res.json() : { records: [] }).catch(() => ({ records: [] }));
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const [documentsData, postsData] = await Promise.all([documentsPromise, postsPromise]);
 
-        const data = await response.json();
+        // Combine and normalize records
+        const documents = (documentsData.records || []).map(record => ({
+          ...record,
+          type: 'document'
+        }));
 
-        if (!data.records || data.records.length === 0) {
-          document.getElementById('posts-container').innerHTML = '<p>No recent posts found.</p>';
+        const posts = (postsData.records || [])
+          .filter(record => !record.value.reply)
+          .map(record => ({
+            ...record,
+            type: 'post'
+          }));
+
+        // Combine all records and sort by date
+        const allRecords = [...documents, ...posts].sort((a, b) => {
+          const dateA = new Date(a.value.publishedAt || a.value.createdAt);
+          const dateB = new Date(b.value.publishedAt || b.value.createdAt);
+          return dateB - dateA; // Most recent first
+        });
+
+        if (allRecords.length === 0) {
+          document.getElementById('posts-container').innerHTML = '<p>No recent updates found.</p>';
           return;
         }
 
-        // Filter out replies (posts that have a reply reference)
-        const posts = data.records.filter(record => !record.value.reply);
-
-        const postsHTML = posts.map(record => {
-          const post = record.value;
-          const createdAt = new Date(post.createdAt).toLocaleDateString();
-
-          // Extract rkey from the record URI (format: at://did/collection/rkey)
+        const postsHTML = allRecords.map(record => {
+          const value = record.value;
           const rkey = record.uri.split('/').pop();
 
-          // Handle images
-          let imagesHTML = '';
-          if (post.embed && post.embed.$type === 'app.bsky.embed.images' && post.embed.images) {
-            const imageElements = post.embed.images.map(image => {
-              // Construct blob URL - images are stored as blobs on the PDS
-              const blobUrl = `${PDS_URL}/xrpc/com.atproto.sync.getBlob?` +
-                new URLSearchParams({
-                  did: DID,
-                  cid: image.image.ref.$link
-                });
+          // Render based on record type
+          if (record.type === 'document') {
+            // site.standard.document
+            const publishedAt = new Date(value.publishedAt).toLocaleDateString();
 
-              return `
-                <img
-                  src="${blobUrl}"
-                  alt="${image.alt || 'Image from post'}"
-                  class="max-w-full h-auto"
-                  loading="lazy"
-                />
-              `;
-            }).join('');
+            // Extract markdown content
+            let contentHTML = '';
+            if (value.content && value.content.markdown) {
+              contentHTML = md.render(value.content.markdown);
+            } else if (value.textContent) {
+              contentHTML = `<p>${value.textContent}</p>`;
+            }
 
-            imagesHTML = `
-              <div class="mt-3 grid gap-2 ${post.embed.images.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}">
-                ${imageElements}
+            return `
+              <div class="block border-b pb-6 mb-6 last:border-b-0">
+                <article>
+                  <h3 class="text-lg font-semibold mb-3">${value.title}</h3>
+                  <div class="prose prose-invert max-w-none mb-3">
+                    ${contentHTML}
+                  </div>
+                  <div class="flex items-center gap-2 text-sm text-gray-500">
+                    <time>${publishedAt}</time>
+                  </div>
+                </article>
               </div>
             `;
-          }
+          } else {
+            // app.bsky.feed.post (backward compatibility)
+            const createdAt = new Date(value.createdAt).toLocaleDateString();
 
-          return `
-            <a href="/pds?rkey=${rkey}" class="block border-b pb-6 mb-6 last:border-b-0">
-              <article>
-                <p class="mb-2">${post.text}</p>
-                ${imagesHTML}
-                <time class="text-sm text-gray-500 mt-2 block">${createdAt}</time>
-              </article>
-            </a>
-          `;
+            // Handle images
+            let imagesHTML = '';
+            if (value.embed && value.embed.$type === 'app.bsky.embed.images' && value.embed.images) {
+              const imageElements = value.embed.images.map(image => {
+                const blobUrl = `${PDS_URL}/xrpc/com.atproto.sync.getBlob?` +
+                  new URLSearchParams({
+                    did: DID,
+                    cid: image.image.ref.$link
+                  });
+
+                return `
+                  <img
+                    src="${blobUrl}"
+                    alt="${image.alt || 'Image from post'}"
+                    class="max-w-full h-auto"
+                    loading="lazy"
+                  />
+                `;
+              }).join('');
+
+              imagesHTML = `
+                <div class="mt-3 grid gap-2 ${value.embed.images.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}">
+                  ${imageElements}
+                </div>
+              `;
+            }
+
+            return `
+              <a href="/pds?rkey=${rkey}" class="block border-b pb-6 mb-6 last:border-b-0">
+                <article>
+                  <p class="mb-2">${value.text}</p>
+                  ${imagesHTML}
+                  <time class="text-sm text-gray-500 mt-2 block">${createdAt}</time>
+                </article>
+              </a>
+            `;
+          }
         }).join('');
 
         document.getElementById('posts-container').innerHTML = `
@@ -128,9 +187,9 @@ const meta = {
           </div>
         `;
       } catch (err) {
-        console.error('Error fetching posts:', err);
+        console.error('Error fetching updates:', err);
         document.getElementById('posts-container').innerHTML =
-          '<p>Error loading recent posts. Make sure your PDS is accessible.</p>';
+          '<p>Error loading recent updates. Make sure your PDS is accessible.</p>';
       }
     }
 
