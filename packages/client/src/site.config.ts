@@ -1,7 +1,7 @@
 const siteMeta = {
 	author: "Steve Simkins",
 	title: "Steve Simkins",
-	description: "DX Engineer | Building Orbiter",
+	description: "DX Engineer | Defending the Open Web",
 	lang: "en-GB",
 	ogLocale: "en_GB",
 	githubUrl: "https://github.com/stevedsimkins/stevedsimkins-dev-astro",

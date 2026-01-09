@@ -67,7 +67,9 @@ export default function NowUpdates() {
 	}
 
 	if (error) {
-		return <p>Error loading recent updates. Make sure your PDS is accessible.</p>;
+		return (
+			<p>Error loading recent updates. Make sure your PDS is accessible.</p>
+		);
 	}
 
 	if (documents.length === 0) {
@@ -89,8 +91,14 @@ export default function NowUpdates() {
 				}
 
 				return (
-					<article key={record.uri} className="border-b pb-6 mb-6 last:border-b-0">
-						<a href={`/now/${path}`} className="block hover:opacity-80 transition-opacity">
+					<article
+						key={record.uri}
+						className="border-b pb-6 mb-6 last:border-b-0"
+					>
+						<a
+							href={`/now/${path}`}
+							className="block hover:opacity-80 transition-opacity"
+						>
 							<h3 className="text-lg font-semibold mb-3">{value.title}</h3>
 						</a>
 						<div

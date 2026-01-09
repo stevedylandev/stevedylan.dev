@@ -53,7 +53,11 @@ export function PostComposer({ onPostCreated }: PostComposerProps) {
 				},
 				body: JSON.stringify({
 					title: title.trim(),
-					path: path.trim() ? (path.trim().startsWith('/') ? path.trim() : `/${path.trim()}`) : undefined,
+					path: path.trim()
+						? path.trim().startsWith("/")
+							? path.trim()
+							: `/${path.trim()}`
+						: undefined,
 					content: content.trim(),
 				}),
 			});
