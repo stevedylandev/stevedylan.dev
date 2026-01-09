@@ -24,6 +24,8 @@ let description = "A post from my PDS";
 let contentHTML = "";
 let publishedAt = "";
 let atUri = "";
+let errorMessage = "";
+let isError = false;
 
 try {
 	let documentFound = false;
@@ -98,17 +100,17 @@ try {
 	}
 
 	if (!documentFound) {
-		return new Response(null, {
-			status: 404,
-			statusText: "Not Found",
-		});
+		Astro.response.status = 404;
+		isError = true;
+		title = "Not Found";
+		errorMessage = "The post you're looking for doesn't exist.";
 	}
 } catch (err) {
 	console.error("Error fetching post:", err);
-	return new Response(null, {
-		status: 500,
-		statusText: "Internal Server Error",
-	});
+	Astro.response.status = 500;
+	isError = true;
+	title = "Error";
+	errorMessage = "Something went wrong while loading this post.";
 }
 
 const meta = {
@@ -120,21 +122,31 @@ const meta = {
 
 <PageLayout meta={meta}>
 	<article>
-		<h1 class="text-2xl font-bold mb-2">{title}</h1>
-		<time class="text-sm text-gray-400">{publishedAt}</time>
-		<div class="prose prose-invert max-w-none my-4">
-			<Fragment set:html={contentHTML} />
-		</div>
-		<p class="text-xs text-gray-400 mt-4 break-all">{atUri}</p>
-		<div class="mt-12 flex items-center justify-between">
-			<a class="style-link" href="/now">&larr; Now</a>
-			<button
-				id="share-btn"
-				class="text-sm text-gray-500 hover:text-gray-700 transition-colors"
-			>
-				Share
-			</button>
-		</div>
+		{isError ? (
+			<>
+				<h1 class="text-2xl font-bold mb-4">{title}</h1>
+				<p class="text-gray-400 mb-8">{errorMessage}</p>
+				<a class="style-link" href="/now">&larr; Back to Now</a>
+			</>
+		) : (
+			<>
+				<h1 class="text-2xl font-bold mb-2">{title}</h1>
+				<time class="text-sm text-gray-400">{publishedAt}</time>
+				<div class="prose prose-invert max-w-none my-4">
+					<Fragment set:html={contentHTML} />
+				</div>
+				<p class="text-xs text-gray-400 mt-4 break-all">{atUri}</p>
+				<div class="mt-12 flex items-center justify-between">
+					<a class="style-link" href="/now">&larr; Now</a>
+					<button
+						id="share-btn"
+						class="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+					>
+						Share
+					</button>
+				</div>
+			</>
+		)}
 	</article>
 </PageLayout>
 
