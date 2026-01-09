@@ -26,6 +26,7 @@ let publishedAt = "";
 let isPost = false;
 let postText = "";
 let imagesHTML = "";
+let atUri = "";
 
 try {
 	let documentFound = false;
@@ -60,6 +61,7 @@ try {
 			title = doc.title || "Post";
 			description = doc.content?.markdown?.slice(0, 160) || description;
 			publishedAt = new Date(doc.publishedAt).toLocaleDateString();
+			atUri = matchingDoc.uri;
 
 			if (doc.content && doc.content.markdown) {
 				contentHTML = md.render(doc.content.markdown);
@@ -87,6 +89,7 @@ try {
 			title = doc.title || "Post";
 			description = doc.content?.markdown?.slice(0, 160) || description;
 			publishedAt = new Date(doc.publishedAt).toLocaleDateString();
+			atUri = `at://${DID}/site.standard.document/${slug}`;
 
 			if (doc.content && doc.content.markdown) {
 				contentHTML = md.render(doc.content.markdown);
@@ -156,6 +159,7 @@ try {
 const meta = {
 	title,
 	description,
+	atUri,
 };
 ---
 

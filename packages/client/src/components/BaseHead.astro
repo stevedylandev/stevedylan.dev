@@ -5,7 +5,7 @@ import "../styles/global.css";
 
 type Props = SiteMeta;
 
-const { title, description, ogImage, articleDate } = Astro.props;
+const { title, description, ogImage, articleDate, atUri } = Astro.props;
 
 const titleSeparator = "•";
 const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`;
@@ -65,6 +65,9 @@ const socialImageURL = new URL(
 <!-- RSS auto-discovery -->
 <link rel="alternate" type="application/rss+xml" title={siteConfig.title} href={new URL("rss.xml", Astro.site)}
  />
+
+<!-- Standard.site document verification -->
+{atUri && <link rel="site.standard.document" href={atUri} />}
 
 <link
   rel="preload"

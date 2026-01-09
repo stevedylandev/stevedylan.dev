@@ -127,6 +127,9 @@ now.post("/post", async (c) => {
 			collection: "site.standard.document",
 			record: {
 				$type: "site.standard.document",
+				publication: {
+					uri: `at://${session.did}/site.standard.publication/self`,
+				},
 				title: body.title.trim(),
 				site: "https://stevedylan.dev",
 				...(body.path && { path: body.path.trim() }),

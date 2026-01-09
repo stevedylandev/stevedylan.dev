@@ -15,6 +15,7 @@ const post = defineCollection({
 		tags: z.array(z.string()).default([]).transform(removeDupsAndLowerCase),
 		ogImage: z.string().optional(),
 		hidden: z.boolean().optional().default(false),
+		atUri: z.string().optional(),
 	}),
 });
 
