@@ -70,6 +70,7 @@ now.post("/post", async (c) => {
 		// Parse request body
 		const body = await c.req.json<{
 			title: string;
+			path?: string;
 			content: string;
 		}>();
 
@@ -83,6 +84,23 @@ now.post("/post", async (c) => {
 
 		if (!body.content || body.content.trim().length === 0) {
 			return c.json({ error: "Content is required" }, 400);
+		}
+
+		// Validate path if provided
+		if (body.path) {
+			if (!body.path.startsWith("/")) {
+				return c.json({ error: "Path must start with /" }, 400);
+			}
+			// Basic validation: no spaces, no special chars except dashes and underscores
+			if (!/^\/[a-zA-Z0-9\-_\/]*$/.test(body.path)) {
+				return c.json(
+					{
+						error:
+							"Path can only contain letters, numbers, dashes, underscores, and slashes",
+					},
+					400,
+				);
+			}
 		}
 
 		// Create the document record using site.standard.document lexicon
@@ -111,6 +129,7 @@ now.post("/post", async (c) => {
 				$type: "site.standard.document",
 				title: body.title.trim(),
 				site: "https://stevedylan.dev",
+				...(body.path && { path: body.path.trim() }),
 				content: markdownContent,
 				textContent: textContent,
 				publishedAt: new Date().toISOString(),
@@ -219,6 +238,10 @@ now.get("/rss", async (c) => {
 			const doc = record.value;
 			const rkey = record.uri.split("/").pop();
 
+			// Use custom path if available, otherwise use rkey
+			const urlPath = doc.path || `/${rkey}`;
+			const fullUrl = `https://stevedylan.dev/now${urlPath}`;
+
 			// Extract content - prefer markdown content, fallback to textContent
 			let content = doc.title;
 			let description = doc.title;
@@ -233,8 +256,8 @@ now.get("/rss", async (c) => {
 
 			feed.addItem({
 				title: doc.title,
-				id: `https://stevedylan.dev/now/${rkey}`,
-				link: `https://stevedylan.dev/now/${rkey}`,
+				id: fullUrl,
+				link: fullUrl,
 				description: description,
 				content: content,
 				date: new Date(doc.publishedAt),

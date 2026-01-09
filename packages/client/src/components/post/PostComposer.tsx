@@ -12,6 +12,7 @@ interface PostComposerProps {
 export function PostComposer({ onPostCreated }: PostComposerProps) {
 	const { authenticated } = useAuth();
 	const [title, setTitle] = useState("");
+	const [path, setPath] = useState("");
 	const [content, setContent] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [error, setError] = useState<string | null>(null);
@@ -52,6 +53,7 @@ export function PostComposer({ onPostCreated }: PostComposerProps) {
 				},
 				body: JSON.stringify({
 					title: title.trim(),
+					path: path.trim() || undefined,
 					content: content.trim(),
 				}),
 			});
@@ -63,6 +65,7 @@ export function PostComposer({ onPostCreated }: PostComposerProps) {
 			}
 
 			setTitle("");
+			setPath("");
 			setContent("");
 			setSuccess(true);
 			setTimeout(() => setSuccess(false), 3000);
@@ -108,6 +111,28 @@ export function PostComposer({ onPostCreated }: PostComposerProps) {
 					className={`text-xs ${isTitleOverLimit ? "text-red-500" : titleRemaining <= 20 ? "text-yellow-500" : "text-gray-500"}`}
 				>
 					{titleRemaining} characters remaining
+				</span>
+			</div>
+
+			{/* Path Field */}
+			<div className="mb-4">
+				<label htmlFor="path" className="block text-xs font-medium mb-1">
+					Path
+				</label>
+				<div className="flex items-center gap-2">
+					<span className="text-gray-400 text-sm">{SITE_URL}/now</span>
+					<input
+						id="path"
+						type="text"
+						value={path}
+						onChange={(e) => setPath(e.target.value)}
+						placeholder="/custom-path"
+						className="flex-1 bg-transparent p-3 border border-white text-white"
+						disabled={isSubmitting}
+					/>
+				</div>
+				<span className="text-xs text-gray-500">
+					Optional. Leave empty to use auto-generated path. Must start with /
 				</span>
 			</div>
 

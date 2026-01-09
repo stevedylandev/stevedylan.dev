@@ -12,6 +12,7 @@ interface DocumentRecord {
 		$type: string;
 		title: string;
 		site: string;
+		path?: string;
 		content?: {
 			$type: string;
 			markdown: string;
@@ -57,6 +58,10 @@ export const GET: APIRoute = async () => {
 				const doc = record.value;
 				const rkey = record.uri.split("/").pop();
 
+				// Use custom path if available, otherwise use rkey
+				const urlPath = doc.path || `/${rkey}`;
+				const fullUrl = `https://stevedylan.dev/now${urlPath}`;
+
 				let content = doc.title;
 				let description = doc.title;
 
@@ -81,8 +86,8 @@ export const GET: APIRoute = async () => {
 
 				return `    <item>
       <title>${escapeXml(doc.title)}</title>
-      <link>https://stevedylan.dev/now/${rkey}</link>
-      <guid>https://stevedylan.dev/now/${rkey}</guid>
+      <link>${fullUrl}</link>
+      <guid>${fullUrl}</guid>
       <description>${escapeXml(description)}</description>
       <content:encoded><![CDATA[${content}]]></content:encoded>
       <pubDate>${pubDate}</pubDate>

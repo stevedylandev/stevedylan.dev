@@ -28,29 +28,76 @@ let postText = "";
 let imagesHTML = "";
 
 try {
-	// Try fetching as a document first
-	const documentResponse = await fetch(
-		`${PDS_URL}/xrpc/com.atproto.repo.getRecord?` +
+	let documentFound = false;
+
+	// First, try to find a document with a matching custom path
+	const listResponse = await fetch(
+		`${PDS_URL}/xrpc/com.atproto.repo.listRecords?` +
 			new URLSearchParams({
 				repo: DID,
 				collection: "site.standard.document",
-				rkey: slug,
+				limit: "100",
 			}),
 	);
 
-	if (documentResponse.ok) {
-		const data = await documentResponse.json();
-		const doc = data.value;
-		title = doc.title || "Post";
-		description = doc.content?.markdown?.slice(0, 160) || description;
-		publishedAt = new Date(doc.publishedAt).toLocaleDateString();
+	if (listResponse.ok) {
+		const listData = await listResponse.json();
+		const matchingDoc = listData.records.find((record: any) => {
+			// Check if document has a custom path that matches
+			const docPath = record.value.path;
+			if (docPath) {
+				// Remove leading slash for comparison
+				const normalizedPath = docPath.startsWith("/")
+					? docPath.slice(1)
+					: docPath;
+				return normalizedPath === slug;
+			}
+			return false;
+		});
 
-		if (doc.content && doc.content.markdown) {
-			contentHTML = md.render(doc.content.markdown);
-		} else if (doc.textContent) {
-			contentHTML = `<p>${doc.textContent}</p>`;
+		if (matchingDoc) {
+			const doc = matchingDoc.value;
+			title = doc.title || "Post";
+			description = doc.content?.markdown?.slice(0, 160) || description;
+			publishedAt = new Date(doc.publishedAt).toLocaleDateString();
+
+			if (doc.content && doc.content.markdown) {
+				contentHTML = md.render(doc.content.markdown);
+			} else if (doc.textContent) {
+				contentHTML = `<p>${doc.textContent}</p>`;
+			}
+			documentFound = true;
 		}
-	} else {
+	}
+
+	// If no custom path match, try fetching by rkey
+	if (!documentFound) {
+		const documentResponse = await fetch(
+			`${PDS_URL}/xrpc/com.atproto.repo.getRecord?` +
+				new URLSearchParams({
+					repo: DID,
+					collection: "site.standard.document",
+					rkey: slug,
+				}),
+		);
+
+		if (documentResponse.ok) {
+			const data = await documentResponse.json();
+			const doc = data.value;
+			title = doc.title || "Post";
+			description = doc.content?.markdown?.slice(0, 160) || description;
+			publishedAt = new Date(doc.publishedAt).toLocaleDateString();
+
+			if (doc.content && doc.content.markdown) {
+				contentHTML = md.render(doc.content.markdown);
+			} else if (doc.textContent) {
+				contentHTML = `<p>${doc.textContent}</p>`;
+			}
+			documentFound = true;
+		}
+	}
+
+	if (!documentFound) {
 		// Fall back to fetching as a post
 		const postResponse = await fetch(
 			`${PDS_URL}/xrpc/com.atproto.repo.getRecord?` +
