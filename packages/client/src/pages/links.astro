@@ -15,26 +15,6 @@ const meta = {
       <li>
         <a
           class="flex items-center gap-4 p-2 sm:hover:text-link"
-          href={SOCIAL_LINKS.ethereum}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <svg
-  				class="h-6 w-6" stroke-width="1.5" stroke="currentColor"
-  				 viewBox="0 0 202 231"  xmlns="http://www.w3.org/2000/svg">
-                <path d="M98.3592 2.80337L34.8353 107.327C34.3371 108.147 33.1797 108.238 32.5617 107.505C26.9693 100.864 6.13478 72.615 31.9154 46.8673C55.4403 23.3726 85.4045 6.62129 96.5096 0.831705C97.7695 0.174847 99.0966 1.59007 98.3592 2.80337Z" fill="#fff" />
-                <path d="M94.8459 230.385C96.1137 231.273 97.6758 229.759 96.8261 228.467C82.6374 206.886 35.4713 135.081 28.9559 124.302C22.5295 113.67 9.88976 96.001 8.83534 80.8842C8.7301 79.3751 6.64332 79.0687 6.11838 80.4879C5.27178 82.7767 4.37045 85.5085 3.53042 88.6292C-7.07427 128.023 8.32698 169.826 41.7753 193.238L94.8459 230.386V230.385Z" fill="#fff" />
-                <path d="M103.571 228.526L167.095 124.003C167.593 123.183 168.751 123.092 169.369 123.825C174.961 130.465 195.796 158.715 170.015 184.463C146.49 207.957 116.526 224.709 105.421 230.498C104.161 231.155 102.834 229.74 103.571 228.526Z" fill="#fff" />
-                <path d="M107.154 0.930762C105.886 0.0433954 104.324 1.5567 105.174 2.84902C119.363 24.4301 166.529 96.2354 173.044 107.014C179.471 117.646 192.11 135.315 193.165 150.432C193.27 151.941 195.357 152.247 195.882 150.828C196.728 148.539 197.63 145.808 198.47 142.687C209.074 103.293 193.673 61.4905 160.225 38.078L107.154 0.930762Z" fill="#fff" />
-              </svg>
-          </svg>
-          ENS
-          <span class="sr-only">Ethereum</span>
-        </a>
-      </li>
-      <li>
-        <a
-          class="flex items-center gap-4 p-2 sm:hover:text-link"
           href={SOCIAL_LINKS.website}
         >
           <svg
@@ -106,17 +86,25 @@ const meta = {
 			</a>
 		</li>
     <li>
-			<a
-  			class="flex items-center gap-4 p-2 sm:hover:text-link"
-				href={SOCIAL_LINKS.pgp}
-				target="_blank"
-				rel="noopener noreferrer"
-			>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke-width="1.5" stroke="currentColor" class="h-6 w-6" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Bitcoin Icons by Bitcoin Design Community - https://github.com/BitcoinDesign/Bitcoin-Icons/blob/main/LICENSE-MIT --><g fill="none"><g stroke="currentColor" clip-path="url(#SVGXv8lpc2Y)"><path stroke-linecap="round" d="M14.257 5.976c-.85-1.7-2.832-2.638-4.802-2.147c-2.27.566-3.663 2.815-3.112 5.023c.157.633.458 1.194.86 1.659l-2.709 4.37a1.5 1.5 0 0 0-.18 1.153l.36 1.44a.25.25 0 0 0 .302.183l1.528-.381a1.5 1.5 0 0 0 .912-.666l2.884-4.655"/><ellipse cx="10.82" cy="7.266" rx="1.059" ry="1.03" transform="rotate(-14 10.82 7.266)"/><path d="M17.81 15.61c2.27-.566 3.664-2.815 3.113-5.023c-.55-2.209-2.837-3.54-5.106-2.974c-2.27.566-3.663 2.815-3.113 5.023c.158.633.458 1.194.86 1.659l-2.708 4.37a1.5 1.5 0 0 0-.18 1.153l.359 1.44a.25.25 0 0 0 .303.183l1.527-.381a1.5 1.5 0 0 0 .912-.666l2.885-4.655q.569.014 1.149-.129Z"/><ellipse cx="17.203" cy="10.984" rx="1.059" ry="1.03" transform="rotate(-14 17.203 10.984)"/></g><defs><clipPath id="SVGXv8lpc2Y"><path fill="#fff" d="M0 0h24v24H0z"/></clipPath></defs></g></svg>
-				PGP
-				<span class="sr-only">PGP</span>
-			</a>
-		</li>
+      <a
+          class="flex items-center gap-4 p-2 sm:hover:text-link"
+          href={SOCIAL_LINKS.atproto}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg
+  				class="h-6 w-6" stroke-width="1.5" stroke="currentColor"
+  				 viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg">
+            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+              <circle cx="12" cy="12" r="4"/>
+              <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/>
+            </g>
+            </svg>
+          </svg>
+          ATProto
+          <span class="sr-only">ATProto</span>
+        </a>
+    </li>
 
       <li>
         <a
@@ -181,6 +169,39 @@ const meta = {
         </a>
       </li>
 
+      <li>
+          <a
+            class="flex items-center gap-4 p-2 sm:hover:text-link"
+            href={SOCIAL_LINKS.ethereum}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg
+    				class="h-6 w-6" stroke-width="1.5" stroke="currentColor"
+    				 viewBox="0 0 202 231"  xmlns="http://www.w3.org/2000/svg">
+                  <path d="M98.3592 2.80337L34.8353 107.327C34.3371 108.147 33.1797 108.238 32.5617 107.505C26.9693 100.864 6.13478 72.615 31.9154 46.8673C55.4403 23.3726 85.4045 6.62129 96.5096 0.831705C97.7695 0.174847 99.0966 1.59007 98.3592 2.80337Z" fill="#fff" />
+                  <path d="M94.8459 230.385C96.1137 231.273 97.6758 229.759 96.8261 228.467C82.6374 206.886 35.4713 135.081 28.9559 124.302C22.5295 113.67 9.88976 96.001 8.83534 80.8842C8.7301 79.3751 6.64332 79.0687 6.11838 80.4879C5.27178 82.7767 4.37045 85.5085 3.53042 88.6292C-7.07427 128.023 8.32698 169.826 41.7753 193.238L94.8459 230.386V230.385Z" fill="#fff" />
+                  <path d="M103.571 228.526L167.095 124.003C167.593 123.183 168.751 123.092 169.369 123.825C174.961 130.465 195.796 158.715 170.015 184.463C146.49 207.957 116.526 224.709 105.421 230.498C104.161 231.155 102.834 229.74 103.571 228.526Z" fill="#fff" />
+                  <path d="M107.154 0.930762C105.886 0.0433954 104.324 1.5567 105.174 2.84902C119.363 24.4301 166.529 96.2354 173.044 107.014C179.471 117.646 192.11 135.315 193.165 150.432C193.27 151.941 195.357 152.247 195.882 150.828C196.728 148.539 197.63 145.808 198.47 142.687C209.074 103.293 193.673 61.4905 160.225 38.078L107.154 0.930762Z" fill="#fff" />
+                </svg>
+            </svg>
+            ENS
+            <span class="sr-only">Ethereum</span>
+          </a>
+        </li>
+
+      <li>
+			<a
+    			class="flex items-center gap-4 p-2 sm:hover:text-link"
+				href={SOCIAL_LINKS.pgp}
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke-width="1.5" stroke="currentColor" class="h-6 w-6" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Bitcoin Icons by Bitcoin Design Community - https://github.com/BitcoinDesign/Bitcoin-Icons/blob/main/LICENSE-MIT --><g fill="none"><g stroke="currentColor" clip-path="url(#SVGXv8lpc2Y)"><path stroke-linecap="round" d="M14.257 5.976c-.85-1.7-2.832-2.638-4.802-2.147c-2.27.566-3.663 2.815-3.112 5.023c.157.633.458 1.194.86 1.659l-2.709 4.37a1.5 1.5 0 0 0-.18 1.153l.36 1.44a.25.25 0 0 0 .302.183l1.528-.381a1.5 1.5 0 0 0 .912-.666l2.884-4.655"/><ellipse cx="10.82" cy="7.266" rx="1.059" ry="1.03" transform="rotate(-14 10.82 7.266)"/><path d="M17.81 15.61c2.27-.566 3.664-2.815 3.113-5.023c-.55-2.209-2.837-3.54-5.106-2.974c-2.27.566-3.663 2.815-3.113 5.023c.158.633.458 1.194.86 1.659l-2.708 4.37a1.5 1.5 0 0 0-.18 1.153l.359 1.44a.25.25 0 0 0 .303.183l1.527-.381a1.5 1.5 0 0 0 .912-.666l2.885-4.655q.569.014 1.149-.129Z"/><ellipse cx="17.203" cy="10.984" rx="1.059" ry="1.03" transform="rotate(-14 17.203 10.984)"/></g><defs><clipPath id="SVGXv8lpc2Y"><path fill="#fff" d="M0 0h24v24H0z"/></clipPath></defs></g></svg>
+				PGP
+				<span class="sr-only">PGP</span>
+			</a>
+		</li>
       <li>
         <a
           class="flex items-center gap-4 p-2 sm:hover:text-link"
