@@ -53,7 +53,7 @@ export function PostComposer({ onPostCreated }: PostComposerProps) {
 				},
 				body: JSON.stringify({
 					title: title.trim(),
-					path: path.trim() || undefined,
+					path: path.trim() ? (path.trim().startsWith('/') ? path.trim() : `/${path.trim()}`) : undefined,
 					content: content.trim(),
 				}),
 			});
@@ -120,20 +120,16 @@ export function PostComposer({ onPostCreated }: PostComposerProps) {
 					Path
 				</label>
 				<div className="flex items-center gap-2">
-					<span className="text-gray-400 text-sm">{SITE_URL}/now</span>
 					<input
 						id="path"
 						type="text"
 						value={path}
 						onChange={(e) => setPath(e.target.value)}
-						placeholder="/custom-path"
+						placeholder="custom-slug"
 						className="flex-1 bg-transparent p-3 border border-white text-white"
 						disabled={isSubmitting}
 					/>
 				</div>
-				<span className="text-xs text-gray-500">
-					Optional. Leave empty to use auto-generated path. Must start with /
-				</span>
 			</div>
 
 			{/* Content Field */}

@@ -86,13 +86,15 @@ now.post("/post", async (c) => {
 			return c.json({ error: "Content is required" }, 400);
 		}
 
-		// Validate path if provided
-		if (body.path) {
-			if (!body.path.startsWith("/")) {
-				return c.json({ error: "Path must start with /" }, 400);
+		// Normalize and validate path if provided
+		let normalizedPath = body.path;
+		if (normalizedPath) {
+			// Add leading / if missing
+			if (!normalizedPath.startsWith("/")) {
+				normalizedPath = `/${normalizedPath}`;
 			}
 			// Basic validation: no spaces, no special chars except dashes and underscores
-			if (!/^\/[a-zA-Z0-9\-_\/]*$/.test(body.path)) {
+			if (!/^\/[a-zA-Z0-9\-_\/]*$/.test(normalizedPath)) {
 				return c.json(
 					{
 						error:
@@ -132,7 +134,7 @@ now.post("/post", async (c) => {
 				},
 				title: body.title.trim(),
 				site: "https://stevedylan.dev",
-				...(body.path && { path: body.path.trim() }),
+				...(normalizedPath && { path: normalizedPath.trim() }),
 				content: markdownContent,
 				textContent: textContent,
 				publishedAt: new Date().toISOString(),
