@@ -233,8 +233,8 @@ now.get("/rss", async (c) => {
 
 			feed.addItem({
 				title: doc.title,
-				id: `https://stevedylan.dev/pds?rkey=${rkey}`,
-				link: doc.site,
+				id: `https://stevedylan.dev/now/${rkey}`,
+				link: `https://stevedylan.dev/now/${rkey}`,
 				description: description,
 				content: content,
 				date: new Date(doc.publishedAt),
