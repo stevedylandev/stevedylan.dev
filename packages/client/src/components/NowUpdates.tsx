@@ -63,7 +63,7 @@ export default function NowUpdates() {
 						}
 
 						return `
-              <a href="/pds?rkey=${rkey}" class="block border-b pb-6 mb-6 last:border-b-0">
+              <a href="/now/${rkey}" class="block border-b pb-6 mb-6 last:border-b-0">
                 <article>
                   <h3 class="text-lg font-semibold mb-3">${value.title}</h3>
                   <div class="prose prose-invert max-w-none mb-3">

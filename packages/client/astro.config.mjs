@@ -1,4 +1,5 @@
 import { defineConfig } from "astro/config";
+import cloudflare from "@astrojs/cloudflare";
 import mdx from "@astrojs/mdx";
 import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
@@ -54,12 +55,7 @@ export default defineConfig({
 			},
 			extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json", ".astro"],
 		},
-		ssr: {
-			external: ["node:async_hooks"],
-		},
-		define: {
-			"process.env": process.env,
-		},
 	},
 	output: "static",
+	adapter: cloudflare(),
 });

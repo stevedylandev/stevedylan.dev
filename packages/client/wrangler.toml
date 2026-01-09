@@ -1,9 +1,7 @@
-name = "stevedsimkins-dev-astro"
-pages_build_output_dir = "./dist"
-compatibility_date = "2024-09-20"
+name = "stevedylan-dev"
+main = "./dist/_worker.js"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
 
-compatibility_flags = ["nodejs_als"]
-
-[vars]
-
-PUBLIC_API_URL = "https://guestbook-db-production.up.railway.app"
+[assets]
+directory = "./dist"
