@@ -49,7 +49,7 @@ export default function NowUpdates() {
 				const postsHTML = documents
 					.map((record) => {
 						const value = record.value;
-						const rkey = record.uri.split("/").pop();
+						const path = record.value.path.slice(1)
 						const publishedAt = new Date(
 							value.publishedAt,
 						).toLocaleDateString();
@@ -63,7 +63,7 @@ export default function NowUpdates() {
 						}
 
 						return `
-              <a href="/now/${rkey}" class="block border-b pb-6 mb-6 last:border-b-0">
+              <a href="/now/${path}" class="block border-b pb-6 mb-6 last:border-b-0">
                 <article>
                   <h3 class="text-lg font-semibold mb-3">${value.title}</h3>
                   <div class="prose prose-invert max-w-none mb-3">
