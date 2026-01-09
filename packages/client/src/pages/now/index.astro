@@ -1,6 +1,7 @@
 ---
 import PageLayout from "@/layouts/Base";
 import NowUpdates from "@/components/NowUpdates";
+import { SOCIAL_LINKS } from "@/data/constants";
 
 const meta = {
 	title: "Now",
@@ -22,6 +23,7 @@ const meta = {
     <p class="text-gray-400">Last updated: January 3rd, 2026</p>
   <div class="flex flex-row justify-between items-center w-full pt-12 pb-6">
     <h2 class="title">Updates</h2>
+    <div class="flex gap-2 items-center">
     <a
 				class="inline-block p-2 sm:hover:text-link"
 				href="/now/rss.xml"
@@ -41,7 +43,25 @@ const meta = {
 				<g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></g>
 				</svg>
 				<span class="sr-only">RSS</span>
-			</a>
+  			</a>
+        <a
+          class="flex items-center gap-4 p-2 sm:hover:text-link"
+          href={SOCIAL_LINKS.atproto}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg
+  				class="h-6 w-6" stroke-width="1.5" stroke="currentColor"
+  				 viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg">
+            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+              <circle cx="12" cy="12" r="4"/>
+              <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/>
+            </g>
+            </svg>
+          </svg>
+          <span class="sr-only">ATProto</span>
+        </a>
+    </div>
   </div>
   <NowUpdates client:load />
   </div>
