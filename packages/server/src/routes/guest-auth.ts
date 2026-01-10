@@ -44,7 +44,7 @@ guestAuth.get("/client-metadata.json", (c) => {
 		redirect_uris: [redirectUri],
 		grant_types: ["authorization_code", "refresh_token"],
 		response_types: ["code"],
-		scope: "atproto transition:generic",
+		scope: "atproto repo:site.standard.document.comment?action=create",
 		token_endpoint_auth_method: "none",
 		application_type: "web",
 		dpop_bound_access_tokens: true,
@@ -78,7 +78,7 @@ guestAuth.get("/login", async (c) => {
 			state,
 			pkce,
 			dpopKeyPair,
-			"atproto transition:generic",
+			"atproto repo:site.standard.document.comment?action=create",
 		);
 
 		// Store auth state in KV with returnTo URL
