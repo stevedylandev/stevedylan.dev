@@ -11,7 +11,13 @@ interface Props {
 }
 
 const {
-	meta: { title, description = siteConfig.description, ogImage, articleDate },
+	meta: {
+		title,
+		description = siteConfig.description,
+		ogImage,
+		articleDate,
+		atUri,
+	},
 } = Astro.props;
 ---
 
@@ -21,7 +27,7 @@ const {
     <meta name="theme-color" content="#121113" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 		<!-- Google tag (gtag.js) -->
-		<BaseHead title={title} description={description} ogImage={ogImage} articleDate={articleDate} />
+		<BaseHead title={title} description={description} ogImage={ogImage} articleDate={articleDate} atUri={atUri} />
 		<script defer src="https://cloud.umami.is/script.js" data-website-id="6951e531-a667-495e-b045-4f7dbe062446"></script>
 	</head>
 	<body>
