@@ -398,14 +398,14 @@ now.post("/reply", async (c) => {
 		const parentData = await parentResponse.json();
 		const parentCid = parentData.cid;
 
-		// Create the comment record using site.standard.comment lexicon
+		// Create the comment record using site.standard.document.comment lexicon
 		const createRecordUrl = `${c.env.PDS_URL}/xrpc/com.atproto.repo.createRecord`;
 
 		const commentRecord = {
 			repo: session.did,
-			collection: "site.standard.comment",
+			collection: "site.standard.document.comment",
 			record: {
-				$type: "site.standard.comment",
+				$type: "site.standard.document.comment",
 				parent: {
 					uri: body.parentUri,
 					cid: parentCid,
@@ -506,14 +506,14 @@ now.get("/replies/:uri", async (c) => {
 		const parentData = await parentResponse.json();
 		const parentCid = parentData.cid;
 
-		// Fetch all site.standard.comment records
+		// Fetch all site.standard.document.comment records
 		// Note: This is a simple implementation that fetches all comments
 		// In production, you'd want to filter by parent URI server-side if possible
 		const listUrl =
 			`${PDS_URL}/xrpc/com.atproto.repo.listRecords?` +
 			new URLSearchParams({
 				repo: DID,
-				collection: "site.standard.comment",
+				collection: "site.standard.document.comment",
 				limit: "100",
 			});
 
