@@ -398,26 +398,24 @@ now.post("/reply", async (c) => {
 		const parentData = await parentResponse.json();
 		const parentCid = parentData.cid;
 
-		// Create the reply record using app.bsky.feed.post lexicon
+		// Create the comment record using site.standard.comment lexicon
 		const createRecordUrl = `${c.env.PDS_URL}/xrpc/com.atproto.repo.createRecord`;
 
-		const replyRecord = {
+		const commentRecord = {
 			repo: session.did,
-			collection: "app.bsky.feed.post",
+			collection: "site.standard.comment",
 			record: {
-				$type: "app.bsky.feed.post",
-				text: body.content.trim(),
-				createdAt: new Date().toISOString(),
-				reply: {
-					root: {
-						uri: body.parentUri,
-						cid: parentCid,
-					},
-					parent: {
-						uri: body.parentUri,
-						cid: parentCid,
-					},
+				$type: "site.standard.comment",
+				parent: {
+					uri: body.parentUri,
+					cid: parentCid,
 				},
+				root: {
+					uri: body.parentUri,
+					cid: parentCid,
+				},
+				content: body.content.trim(),
+				createdAt: new Date().toISOString(),
 			},
 		};
 
@@ -437,7 +435,7 @@ now.post("/reply", async (c) => {
 					Authorization: `DPoP ${session.accessToken}`,
 					DPoP: dpopProof,
 				},
-				body: JSON.stringify(replyRecord),
+				body: JSON.stringify(commentRecord),
 			});
 		};
 
@@ -484,51 +482,105 @@ now.post("/reply", async (c) => {
 	}
 });
 
-// Get replies for a post
+// Get comments for a post
 now.get("/replies/:uri", async (c) => {
 	try {
 		const encodedUri = c.req.param("uri");
 		const uri = decodeURIComponent(encodedUri);
 
-		// Use app.bsky.feed.getPostThread to fetch the post and its replies
-		const threadUrl = `${PDS_URL}/xrpc/app.bsky.feed.getPostThread?uri=${encodeURIComponent(uri)}`;
+		// Get the parent post to find its CID for matching
+		const getRecordUrl =
+			`${PDS_URL}/xrpc/com.atproto.repo.getRecord?` +
+			new URLSearchParams({
+				repo: uri.split("/")[2], // Extract DID from URI
+				collection: uri.split("/")[3], // Extract collection
+				rkey: uri.split("/")[4], // Extract rkey
+			});
 
-		const response = await fetch(threadUrl);
+		const parentResponse = await fetch(getRecordUrl);
+		if (!parentResponse.ok) {
+			console.error("Failed to fetch parent post:", parentResponse.status);
+			return c.json({ replies: [] });
+		}
+
+		const parentData = await parentResponse.json();
+		const parentCid = parentData.cid;
+
+		// Fetch all site.standard.comment records
+		// Note: This is a simple implementation that fetches all comments
+		// In production, you'd want to filter by parent URI server-side if possible
+		const listUrl =
+			`${PDS_URL}/xrpc/com.atproto.repo.listRecords?` +
+			new URLSearchParams({
+				repo: DID,
+				collection: "site.standard.comment",
+				limit: "100",
+			});
+
+		const response = await fetch(listUrl);
 
 		if (!response.ok) {
-			console.error("Failed to fetch thread:", response.status);
+			console.error("Failed to fetch comments:", response.status);
 			return c.json({ replies: [] });
 		}
 
 		const data = await response.json();
 
-		// Extract replies from the thread
+		// Filter comments that match the parent URI
 		const replies: any[] = [];
 
-		if (data.thread?.replies && Array.isArray(data.thread.replies)) {
-			for (const reply of data.thread.replies) {
-				if (reply.post) {
-					replies.push({
-						uri: reply.post.uri,
-						cid: reply.post.cid,
-						author: {
-							did: reply.post.author.did,
-							handle: reply.post.author.handle,
-							displayName: reply.post.author.displayName,
-							avatar: reply.post.author.avatar,
-						},
-						record: reply.post.record,
-						indexedAt: reply.post.indexedAt,
-						replyCount: reply.post.replyCount || 0,
-						likeCount: reply.post.likeCount || 0,
-					});
+		for (const record of data.records) {
+			const comment = record.value;
+			// Check if this comment's parent matches our URI
+			if (comment.parent?.uri === uri || comment.parent?.cid === parentCid) {
+				// Fetch author profile info
+				let handle = record.uri.split("/")[2]; // DID as fallback
+				let displayName = undefined;
+				let avatar = undefined;
+
+				try {
+					const profileUrl = `${PDS_URL}/xrpc/app.bsky.actor.getProfile?actor=${handle}`;
+					const profileResponse = await fetch(profileUrl);
+					if (profileResponse.ok) {
+						const profileData = await profileResponse.json();
+						handle = profileData.handle || handle;
+						displayName = profileData.displayName;
+						avatar = profileData.avatar;
+					}
+				} catch (err) {
+					console.error("Failed to fetch profile:", err);
 				}
+
+				replies.push({
+					uri: record.uri,
+					cid: record.cid,
+					author: {
+						did: record.uri.split("/")[2],
+						handle: handle,
+						displayName: displayName,
+						avatar: avatar,
+					},
+					record: {
+						text: comment.content,
+						createdAt: comment.createdAt,
+					},
+					indexedAt: record.indexedAt || comment.createdAt,
+					replyCount: 0,
+					likeCount: 0,
+				});
 			}
 		}
 
+		// Sort by creation date
+		replies.sort(
+			(a, b) =>
+				new Date(a.record.createdAt).getTime() -
+				new Date(b.record.createdAt).getTime(),
+		);
+
 		return c.json({ replies });
 	} catch (error) {
-		console.error("Error fetching replies:", error);
+		console.error("Error fetching comments:", error);
 		return c.json({ replies: [] });
 	}
 });
