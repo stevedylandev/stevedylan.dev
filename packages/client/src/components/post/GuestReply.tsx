@@ -139,13 +139,13 @@ export function GuestReply({
 					<div className="flex gap-3 flex-wrap">
 						<button
 							onClick={handleLogin}
-							className="px-4 py-2 border border-white hover:bg-white hover:text-black transition-colors text-sm"
+							className="px-2 py-0.5 border border-white hover:border-gray-400 hover:text-gray-400 transition-colors text-xs"
 						>
 							Sign in with ATProto
 						</button>
 						<a
 							href={mailtoLink}
-							className="px-4 py-2 border border-white hover:bg-white hover:text-black transition-colors text-sm inline-block"
+							className="px-4 py-0.5 border border-white hover:border-gray-400 hover:text-gray-400 transition-colors text-xs"
 						>
 							Reply via Email
 						</a>
@@ -179,23 +179,17 @@ export function GuestReply({
 							<div className="flex items-center gap-3">
 								{error && <span className="text-sm text-red-500">{error}</span>}
 								{success && (
-									<span className="text-sm text-green-500">
+									<span className="text-sm text-white">
 										Reply posted successfully!
 									</span>
 								)}
 							</div>
 
 							<div className="flex gap-3">
-								<a
-									href={mailtoLink}
-									className="text-sm text-gray-500 hover:text-gray-300 transition-colors"
-								>
-									or email
-								</a>
 								<button
 									type="submit"
 									disabled={isSubmitting || !replyContent.trim()}
-									className="px-4 py-2 border border-white hover:bg-white hover:text-black disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
+									className="px-4 py-0.5 border border-white hover:border-gray-400 hover:text-gray-400 disabled:border-opacity-50 disabled:cursor-not-allowed transition-colors text-xs"
 								>
 									{isSubmitting ? "Posting..." : "Post Reply"}
 								</button>

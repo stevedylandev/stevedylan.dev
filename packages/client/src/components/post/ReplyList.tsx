@@ -106,13 +106,10 @@ export function ReplyList({ atUri }: ReplyListProps) {
 
 	return (
 		<div className="mt-8">
-			<h3 className="text-lg font-bold mb-4">Replies ({replies.length})</h3>
-			<div className="space-y-4">
+			<h3 className="text-lg font-bold mb-4">Replies</h3>
+			<div className="space-y-6">
 				{replies.map((reply) => (
-					<div
-						key={reply.uri}
-						className="border border-gray-700 rounded-lg p-4 hover:border-gray-600 transition-colors"
-					>
+					<div key={reply.uri}>
 						<div className="flex items-start gap-3">
 							{reply.author.avatar ? (
 								<img
@@ -133,37 +130,35 @@ export function ReplyList({ atUri }: ReplyListProps) {
 									<span className="font-semibold text-sm">
 										{reply.author.displayName || reply.author.handle}
 									</span>
+									{reply.author.displayName && (
+										<a
+											href={`https://pdsls.dev/at://${reply.author.did}`}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="text-xs text-gray-400 hover:text-gray-300"
+										>
+											@{reply.author.handle}
+										</a>
+									)}
 									<a
-										href={`https://bsky.app/profile/${reply.author.handle}`}
-										target="_blank"
-										rel="noopener noreferrer"
+										href={`https://pdsls.dev/${reply.uri}`}
 										className="text-xs text-gray-400 hover:text-gray-300"
 									>
-										@{reply.author.handle}
-									</a>
-									<span className="text-xs text-gray-500">
 										{formatDate(reply.record.createdAt)}
-									</span>
+									</a>
 								</div>
 
 								<p className="mt-2 text-sm whitespace-pre-wrap break-words">
 									{reply.record.text}
 								</p>
 
-								<div className="mt-3 flex items-center gap-4 text-xs text-gray-500">
-									{reply.replyCount > 0 && (
-										<span>{reply.replyCount} replies</span>
-									)}
-									{reply.likeCount > 0 && <span>{reply.likeCount} likes</span>}
-									<a
-										href={`https://bsky.app/profile/${reply.author.handle}/post/${reply.uri.split("/").pop()}`}
-										target="_blank"
-										rel="noopener noreferrer"
-										className="hover:text-gray-300"
-									>
-										View on Bluesky
-									</a>
-								</div>
+								{reply.replyCount > 0 && (
+									<div className="mt-3 flex items-center gap-4 text-xs text-gray-500">
+										{reply.replyCount > 0 && (
+											<span>{reply.replyCount} replies</span>
+										)}
+									</div>
+								)}
 							</div>
 						</div>
 					</div>

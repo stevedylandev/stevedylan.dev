@@ -395,8 +395,30 @@ now.post("/reply", async (c) => {
 			return c.json({ error: "Failed to fetch parent post" }, 400);
 		}
 
-		const parentData = await parentResponse.json();
+		const parentData = (await parentResponse.json()) as { cid: string };
 		const parentCid = parentData.cid;
+
+		// Fetch author profile to get handle, displayName, and avatar from Bluesky public API
+		let authorHandle = session.did;
+		let authorDisplayName: string | undefined;
+		let authorAvatar: string | undefined;
+
+		try {
+			const profileUrl = `https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${session.did}`;
+			const profileResponse = await fetch(profileUrl);
+			if (profileResponse.ok) {
+				const profileData = (await profileResponse.json()) as {
+					handle?: string;
+					displayName?: string;
+					avatar?: string;
+				};
+				authorHandle = profileData.handle || session.did;
+				authorDisplayName = profileData.displayName;
+				authorAvatar = profileData.avatar;
+			}
+		} catch (err) {
+			console.error("Failed to fetch author profile:", err);
+		}
 
 		// Create the comment record using site.standard.document.comment lexicon
 		const createRecordUrl = `${c.env.PDS_URL}/xrpc/com.atproto.repo.createRecord`;
@@ -415,6 +437,12 @@ now.post("/reply", async (c) => {
 					cid: parentCid,
 				},
 				content: body.content.trim(),
+				author: {
+					did: session.did,
+					handle: authorHandle,
+					...(authorDisplayName && { displayName: authorDisplayName }),
+					...(authorAvatar && { avatar: authorAvatar }),
+				},
 				createdAt: new Date().toISOString(),
 			},
 		};
@@ -503,7 +531,7 @@ now.get("/replies/:uri", async (c) => {
 			return c.json({ replies: [] });
 		}
 
-		const parentData = await parentResponse.json();
+		const parentData = (await parentResponse.json()) as { cid: string };
 		const parentCid = parentData.cid;
 
 		// Fetch all site.standard.document.comment records
@@ -524,7 +552,19 @@ now.get("/replies/:uri", async (c) => {
 			return c.json({ replies: [] });
 		}
 
-		const data = await response.json();
+		interface CommentRecord {
+			uri: string;
+			cid: string;
+			value: {
+				parent?: { uri?: string; cid?: string };
+				content: string;
+				createdAt: string;
+				author?: { handle?: string; displayName?: string; avatar?: string };
+			};
+			indexedAt?: string;
+		}
+
+		const data = (await response.json()) as { records: CommentRecord[] };
 
 		// Filter comments that match the parent URI
 		const replies: any[] = [];
@@ -533,32 +573,14 @@ now.get("/replies/:uri", async (c) => {
 			const comment = record.value;
 			// Check if this comment's parent matches our URI
 			if (comment.parent?.uri === uri || comment.parent?.cid === parentCid) {
-				// Fetch author profile info
-				let handle = record.uri.split("/")[2]; // DID as fallback
-				let displayName = undefined;
-				let avatar = undefined;
-
-				try {
-					const profileUrl = `${PDS_URL}/xrpc/app.bsky.actor.getProfile?actor=${handle}`;
-					const profileResponse = await fetch(profileUrl);
-					if (profileResponse.ok) {
-						const profileData = await profileResponse.json();
-						handle = profileData.handle || handle;
-						displayName = profileData.displayName;
-						avatar = profileData.avatar;
-					}
-				} catch (err) {
-					console.error("Failed to fetch profile:", err);
-				}
-
 				replies.push({
 					uri: record.uri,
 					cid: record.cid,
 					author: {
 						did: record.uri.split("/")[2],
-						handle: handle,
-						displayName: displayName,
-						avatar: avatar,
+						handle: comment.author?.handle || record.uri.split("/")[2],
+						displayName: comment.author?.displayName,
+						avatar: comment.author?.avatar,
 					},
 					record: {
 						text: comment.content,
