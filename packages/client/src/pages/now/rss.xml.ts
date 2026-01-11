@@ -1,9 +1,17 @@
-import type { APIRoute } from "astro";
+import rss from "@astrojs/rss";
+import sanitizeHtml from "sanitize-html";
+import MarkdownIt from "markdown-it";
 
 export const prerender = false;
 
 const DID = "did:plc:ia2zdnhjaokf5lazhxrmj6eu";
 const PDS_URL = "https://polybius.social";
+
+const md = new MarkdownIt({
+	html: true,
+	linkify: true,
+	typographer: true,
+});
 
 interface DocumentRecord {
 	uri: string;
@@ -27,7 +35,7 @@ interface ListRecordsResponse {
 	cursor?: string;
 }
 
-export const GET: APIRoute = async () => {
+export async function GET() {
 	try {
 		const response = await fetch(
 			`${PDS_URL}/xrpc/com.atproto.repo.listRecords?` +
@@ -52,88 +60,46 @@ export const GET: APIRoute = async () => {
 			return dateB.getTime() - dateA.getTime();
 		});
 
-		// Build RSS XML manually to avoid dependencies
-		const items = documents
-			.map((record) => {
-				const doc = record.value;
-				const rkey = record.uri.split("/").pop();
+		const items = documents.map((record) => {
+			const doc = record.value;
+			const rkey = record.uri.split("/").pop();
 
-				// Use custom path if available, otherwise use rkey
-				const urlPath = doc.path || `/${rkey}`;
-				const fullUrl = `https://stevedylan.dev/now${urlPath}`;
+			// Use custom path if available, otherwise use rkey
+			const urlPath = doc.path || `/${rkey}`;
 
-				let content = doc.title;
-				let description = doc.title;
+			// Always treat content as markdown and render to HTML
+			const markdownContent = doc.content?.markdown || doc.title;
+			const htmlContent = md.render(markdownContent);
+			const description = doc.textContent || doc.title;
 
-				if (doc.content && doc.content.markdown) {
-					content = doc.content.markdown;
-					description = doc.textContent || doc.title;
-				} else if (doc.textContent) {
-					content = doc.textContent;
-					description = doc.textContent;
-				}
+			return {
+				title: doc.title,
+				description: description,
+				pubDate: new Date(doc.publishedAt),
+				link: `/now${urlPath}`,
+				content: sanitizeHtml(htmlContent, {
+					allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+				}),
+			};
+		});
 
-				// Escape XML entities
-				const escapeXml = (str: string) =>
-					str
-						.replace(/&/g, "&amp;")
-						.replace(/</g, "&lt;")
-						.replace(/>/g, "&gt;")
-						.replace(/"/g, "&quot;")
-						.replace(/'/g, "&apos;");
-
-				const pubDate = new Date(doc.publishedAt).toUTCString();
-
-				return `    <item>
-      <title>${escapeXml(doc.title)}</title>
-      <link>${fullUrl}</link>
-      <guid>${fullUrl}</guid>
-      <description>${escapeXml(description)}</description>
-      <content:encoded><![CDATA[${content}]]></content:encoded>
-      <pubDate>${pubDate}</pubDate>
-    </item>`;
-			})
-			.join("\n");
-
-		const rssXml = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Steve Dylan - Updates</title>
-    <description>Small updates from my life that don't quite fit into a blog</description>
-    <link>https://stevedylan.dev/now</link>
-    <atom:link href="https://stevedylan.dev/now/rss.xml" rel="self" type="application/rss+xml"/>
-    <language>en</language>
-    <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
-${items}
-  </channel>
-</rss>`;
-
-		return new Response(rssXml, {
-			status: 200,
-			headers: {
-				"Content-Type": "application/xml",
-				"Cache-Control": "public, max-age=3600",
-			},
+		return rss({
+			title: "Steve Dylan - Updates",
+			description:
+				"Small updates from my life that don't quite fit into a blog",
+			site: process.env.SITE_URL || "https://stevedylan.dev",
+			items: items,
 		});
 	} catch (error) {
 		console.error("Error generating RSS feed:", error);
 
 		// Return an empty feed on error
-		const errorRss = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
-  <channel>
-    <title>Steve Dylan - Updates</title>
-    <description>Small updates from my life that don't quite fit into a blog</description>
-    <link>https://stevedylan.dev/now</link>
-    <language>en</language>
-  </channel>
-</rss>`;
-
-		return new Response(errorRss, {
-			status: 200,
-			headers: {
-				"Content-Type": "application/xml",
-			},
+		return rss({
+			title: "Steve Dylan - Updates",
+			description:
+				"Small updates from my life that don't quite fit into a blog",
+			site: process.env.SITE_URL || "https://stevedylan.dev",
+			items: [],
 		});
 	}
-};
+}
