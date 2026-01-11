@@ -1,9 +1,8 @@
 ---
 import type { SiteMeta } from "@/data/siteMeta";
-import BaseHead from "@/components/BaseHead";
+import BaseHead from "@/components/layout/BaseHead";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import SkipLink from "@/components/SkipLink";
 import siteConfig from "@/site-config";
 
 interface Props {
@@ -31,7 +30,6 @@ const {
 		<script defer src="https://cloud.umami.is/script.js" data-website-id="6951e531-a667-495e-b045-4f7dbe062446"></script>
 	</head>
 	<body>
-		<SkipLink />
 		<Header />
 		<main id="main" class="flex-1">
 			<slot />
