@@ -10,6 +10,7 @@ export interface StoredSession {
 	dpopNonce: string;
 	did: string;
 	handle?: string;
+	pdsUrl?: string; // User's PDS URL (for guest sessions)
 	expiresAt: number; // Unix timestamp
 	createdAt: number;
 }
@@ -106,6 +107,7 @@ export async function createSession(
 	did: string,
 	expiresIn: number,
 	handle?: string,
+	pdsUrl?: string,
 ): Promise<string> {
 	const sessionId = generateSessionId();
 	const exported = await exportDPoPKeyPair(dpopKeyPair);
@@ -118,6 +120,7 @@ export async function createSession(
 		dpopNonce,
 		did,
 		handle,
+		pdsUrl,
 		expiresAt: Date.now() + expiresIn * 1000,
 		createdAt: Date.now(),
 	};

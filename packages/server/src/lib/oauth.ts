@@ -36,13 +36,39 @@ interface OAuthErrorResponse {
 	error_description?: string;
 }
 
+interface ProtectedResourceMetadata {
+	resource: string;
+	authorization_servers: string[];
+}
+
 /**
  * Fetch OAuth server metadata from PDS
+ * First checks for protected resource metadata to find the authorization server,
+ * then fetches OAuth metadata from there.
  */
 export async function fetchOAuthMetadata(
 	pdsUrl: string,
 ): Promise<OAuthServerMetadata> {
-	const metadataUrl = `${pdsUrl}/.well-known/oauth-authorization-server`;
+	// First, try to get the authorization server from protected resource metadata
+	let authServerUrl = pdsUrl;
+
+	try {
+		const protectedResourceUrl = `${pdsUrl}/.well-known/oauth-protected-resource`;
+		const prResponse = await fetch(protectedResourceUrl);
+		if (prResponse.ok) {
+			const prData = (await prResponse.json()) as ProtectedResourceMetadata;
+			if (
+				prData.authorization_servers &&
+				prData.authorization_servers.length > 0
+			) {
+				authServerUrl = prData.authorization_servers[0];
+			}
+		}
+	} catch {
+		// If protected resource metadata fails, fall back to PDS URL
+	}
+
+	const metadataUrl = `${authServerUrl}/.well-known/oauth-authorization-server`;
 	const response = await fetch(metadataUrl);
 
 	if (!response.ok) {

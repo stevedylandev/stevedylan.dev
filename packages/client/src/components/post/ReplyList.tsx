@@ -9,17 +9,27 @@ interface Author {
 	avatar?: string;
 }
 
+interface CommentReference {
+	createdAt: string;
+	did: string;
+	uri: string;
+}
+
 interface Reply {
 	uri: string;
 	cid: string;
 	author: Author;
-	record: {
-		text: string;
-		createdAt: string;
+	root: {
+		cid: string;
+		uri: string;
 	};
-	indexedAt: string;
-	replyCount: number;
-	likeCount: number;
+	parent: {
+		cid: string;
+		uri: string;
+	};
+	content: string;
+	createdAt: string;
+	$type: string;
 }
 
 interface ReplyListProps {
@@ -41,10 +51,10 @@ export function ReplyList({ atUri }: ReplyListProps) {
 			setError(null);
 
 			const encodedUri = encodeURIComponent(atUri);
-			const response = await fetch(`${API_URL}/now/replies/${encodedUri}`);
+			const response = await fetch(`${API_URL}/now/comments/${encodedUri}`);
 
 			if (!response.ok) {
-				throw new Error("Failed to fetch replies");
+				throw new Error("Failed to fetch comments");
 			}
 
 			const data = await response.json();
@@ -144,21 +154,13 @@ export function ReplyList({ atUri }: ReplyListProps) {
 										href={`https://pdsls.dev/${reply.uri}`}
 										className="text-xs text-gray-400 hover:text-gray-300"
 									>
-										{formatDate(reply.record.createdAt)}
+										{formatDate(reply.createdAt)}
 									</a>
 								</div>
 
 								<p className="mt-2 text-sm whitespace-pre-wrap break-words">
-									{reply.record.text}
+									{reply.content}
 								</p>
-
-								{reply.replyCount > 0 && (
-									<div className="mt-3 flex items-center gap-4 text-xs text-gray-500">
-										{reply.replyCount > 0 && (
-											<span>{reply.replyCount} replies</span>
-										)}
-									</div>
-								)}
 							</div>
 						</div>
 					</div>

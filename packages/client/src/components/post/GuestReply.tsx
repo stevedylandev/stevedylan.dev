@@ -26,6 +26,8 @@ export function GuestReply({
 		loading: true,
 	});
 	const [replyContent, setReplyContent] = useState("");
+	const [handleInput, setHandleInput] = useState("");
+	const [showHandleForm, setShowHandleForm] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const [success, setSuccess] = useState(false);
@@ -53,10 +55,16 @@ export function GuestReply({
 		}
 	};
 
-	const handleLogin = () => {
-		// Pass current URL as returnTo parameter
+	const handleLogin = (e: React.FormEvent) => {
+		e.preventDefault();
+		if (!handleInput.trim()) {
+			setError("Handle is required");
+			return;
+		}
+		// Pass current URL as returnTo parameter and handle
 		const currentPath = window.location.pathname;
-		window.location.href = `${API_URL}/guest-auth/login?returnTo=${encodeURIComponent(currentPath)}`;
+		const handle = handleInput.trim().replace(/^@/, ""); // Remove leading @ if present
+		window.location.href = `${API_URL}/guest-auth/login?handle=${encodeURIComponent(handle)}&returnTo=${encodeURIComponent(currentPath)}`;
 	};
 
 	const handleLogout = async () => {
@@ -133,23 +141,60 @@ export function GuestReply({
 
 			{!authState.authenticated ? (
 				<div className="space-y-4">
-					<p className="text-sm text-gray-400">
-						Sign in with your ATProto account to reply, or send an email.
-					</p>
-					<div className="flex gap-3 flex-wrap">
-						<button
-							onClick={handleLogin}
-							className="px-2 py-0.5 border border-white hover:border-gray-400 hover:text-gray-400 transition-colors text-xs"
-						>
-							Sign in with ATProto
-						</button>
-						<a
-							href={mailtoLink}
-							className="px-4 py-0.5 border border-white hover:border-gray-400 hover:text-gray-400 transition-colors text-xs"
-						>
-							Reply via Email
-						</a>
-					</div>
+					{!showHandleForm ? (
+						<>
+							{/*<p className="text-sm text-gray-400">
+								Sign in with your ATProto account to reply, or send an email.
+							</p>*/}
+							<div className="flex gap-3 flex-wrap">
+								<button
+									onClick={() => setShowHandleForm(true)}
+									className="px-2 py-0.5 border border-white hover:border-gray-400 hover:text-gray-400 transition-colors text-xs"
+								>
+									Sign in with ATProto
+								</button>
+								<a
+									href={mailtoLink}
+									className="px-2 py-0.5 border border-white hover:border-gray-400 hover:text-gray-400 transition-colors text-xs"
+								>
+									Reply via Email
+								</a>
+							</div>
+						</>
+					) : (
+						<form onSubmit={handleLogin} className="space-y-3">
+							<p className="text-sm text-gray-400">
+								Enter your handle to sign in:
+							</p>
+							<div className="flex gap-2">
+								<input
+									type="text"
+									value={handleInput}
+									onChange={(e) => setHandleInput(e.target.value)}
+									placeholder="user.bsky.social"
+									className="flex-1 bg-transparent px-3 py-1 border border-white text-white text-sm"
+								/>
+								<button
+									type="submit"
+									className="px-3 py-1 border border-white hover:border-gray-400 hover:text-gray-400 transition-colors text-xs"
+								>
+									Sign in
+								</button>
+								<button
+									type="button"
+									onClick={() => {
+										setShowHandleForm(false);
+										setHandleInput("");
+										setError(null);
+									}}
+									className="px-3 py-1 text-gray-500 hover:text-gray-300 transition-colors text-xs"
+								>
+									Cancel
+								</button>
+							</div>
+							{error && <p className="text-sm text-red-500">{error}</p>}
+						</form>
+					)}
 				</div>
 			) : (
 				<div className="space-y-4">

@@ -51,17 +51,93 @@ guestAuth.get("/client-metadata.json", (c) => {
 	});
 });
 
+// Resolve handle to PDS URL
+async function resolveHandleToPDS(handle: string): Promise<string> {
+	// First, resolve the handle to a DID
+	let did: string;
+
+	if (handle.startsWith("did:")) {
+		did = handle;
+	} else {
+		// Try to resolve handle via Bluesky API
+		const resolveUrl = `https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${encodeURIComponent(handle)}`;
+		const resolveResponse = await fetch(resolveUrl);
+		if (!resolveResponse.ok) {
+			throw new Error("Could not resolve handle");
+		}
+		const resolveData = (await resolveResponse.json()) as { did: string };
+		did = resolveData.did;
+	}
+
+	// Now resolve the DID to get the PDS URL from the DID document
+	let pdsUrl: string | undefined;
+
+	if (did.startsWith("did:plc:")) {
+		// Fetch DID document from plc.directory
+		const didDocUrl = `https://plc.directory/${did}`;
+		const didDocResponse = await fetch(didDocUrl);
+		if (!didDocResponse.ok) {
+			throw new Error("Could not fetch DID document");
+		}
+		const didDoc = (await didDocResponse.json()) as {
+			service?: Array<{ id: string; type: string; serviceEndpoint: string }>;
+		};
+
+		// Find the PDS service endpoint
+		const pdsService = didDoc.service?.find(
+			(s) => s.id === "#atproto_pds" || s.type === "AtprotoPersonalDataServer",
+		);
+		pdsUrl = pdsService?.serviceEndpoint;
+	} else if (did.startsWith("did:web:")) {
+		// For did:web, fetch the DID document from the domain
+		const domain = did.replace("did:web:", "");
+		const didDocUrl = `https://${domain}/.well-known/did.json`;
+		const didDocResponse = await fetch(didDocUrl);
+		if (!didDocResponse.ok) {
+			throw new Error("Could not fetch DID document");
+		}
+		const didDoc = (await didDocResponse.json()) as {
+			service?: Array<{ id: string; type: string; serviceEndpoint: string }>;
+		};
+
+		const pdsService = didDoc.service?.find(
+			(s) => s.id === "#atproto_pds" || s.type === "AtprotoPersonalDataServer",
+		);
+		pdsUrl = pdsService?.serviceEndpoint;
+	}
+
+	if (!pdsUrl) {
+		throw new Error("Could not find PDS URL for user");
+	}
+
+	return pdsUrl;
+}
+
 // Start OAuth login flow for guests
 guestAuth.get("/login", async (c) => {
 	try {
 		const clientId = `${c.env.API_URL}/guest-auth/client-metadata.json`;
 		const redirectUri = `${c.env.API_URL}/guest-auth/callback`;
 
-		// Get optional return URL from query params
+		// Get handle from query params (required for guests)
+		const handle = c.req.query("handle");
 		const returnTo = c.req.query("returnTo") || "/now";
 
-		// Fetch OAuth metadata from PDS
-		const metadata = await fetchOAuthMetadata(c.env.PDS_URL);
+		if (!handle) {
+			return c.redirect(`${c.env.CLIENT_URL}/now?error=handle_required`);
+		}
+
+		// Resolve handle to their PDS
+		let pdsUrl: string;
+		try {
+			pdsUrl = await resolveHandleToPDS(handle);
+		} catch (err) {
+			console.error("Failed to resolve handle:", err);
+			return c.redirect(`${c.env.CLIENT_URL}/now?error=invalid_handle`);
+		}
+
+		// Fetch OAuth metadata from user's PDS
+		const metadata = await fetchOAuthMetadata(pdsUrl);
 
 		// Generate PKCE and state
 		const pkce = await generatePKCE();
@@ -81,7 +157,7 @@ guestAuth.get("/login", async (c) => {
 			"atproto repo:site.standard.document.comment?action=create",
 		);
 
-		// Store auth state in KV with returnTo URL
+		// Store auth state in KV with returnTo URL and PDS URL
 		await storeAuthState(
 			c.env.SESSIONS,
 			state,
@@ -90,10 +166,15 @@ guestAuth.get("/login", async (c) => {
 			dpopNonce,
 		);
 
-		// Store returnTo separately to retrieve after callback
+		// Store returnTo and pdsUrl separately to retrieve after callback
 		await c.env.SESSIONS.put(
 			`guest_return:${state}`,
 			returnTo,
+			{ expirationTtl: 600 }, // 10 minutes
+		);
+		await c.env.SESSIONS.put(
+			`guest_pds:${state}`,
+			pdsUrl,
 			{ expirationTtl: 600 }, // 10 minutes
 		);
 
@@ -136,16 +217,22 @@ guestAuth.get("/callback", async (c) => {
 			return c.redirect(`${c.env.CLIENT_URL}/now?error=invalid_state`);
 		}
 
-		// Get return URL
+		// Get return URL and PDS URL
 		const returnTo =
 			(await c.env.SESSIONS.get(`guest_return:${state}`)) || "/now";
+		const pdsUrl = await c.env.SESSIONS.get(`guest_pds:${state}`);
 		await c.env.SESSIONS.delete(`guest_return:${state}`);
+		await c.env.SESSIONS.delete(`guest_pds:${state}`);
+
+		if (!pdsUrl) {
+			return c.redirect(`${c.env.CLIENT_URL}/now?error=missing_pds`);
+		}
 
 		const clientId = `${c.env.API_URL}/guest-auth/client-metadata.json`;
 		const redirectUri = `${c.env.API_URL}/guest-auth/callback`;
 
-		// Fetch OAuth metadata
-		const metadata = await fetchOAuthMetadata(c.env.PDS_URL);
+		// Fetch OAuth metadata from user's PDS
+		const metadata = await fetchOAuthMetadata(pdsUrl);
 
 		// Exchange code for tokens
 		const { tokenResponse, dpopNonce } = await exchangeCodeForTokens(
@@ -168,6 +255,8 @@ guestAuth.get("/callback", async (c) => {
 			dpopNonce,
 			tokenResponse.sub,
 			tokenResponse.expires_in,
+			undefined, // handle
+			pdsUrl, // user's PDS URL
 		);
 
 		// Prefix session ID to mark as guest
@@ -237,7 +326,15 @@ guestAuth.get("/status", async (c) => {
 	// Check if token needs refresh
 	if (isTokenExpired(session.expiresAt) && session.refreshToken) {
 		try {
-			const metadata = await fetchOAuthMetadata(c.env.PDS_URL);
+			// Use the user's PDS URL stored in session
+			if (!session.pdsUrl) {
+				console.error("No PDS URL in session for token refresh");
+				await deleteSession(c.env.SESSIONS, originalSessionId);
+				await c.env.SESSIONS.delete(`guest_session:${sessionId}`);
+				clearSessionCookie(c, c.env.CLIENT_URL);
+				return c.json({ authenticated: false });
+			}
+			const metadata = await fetchOAuthMetadata(session.pdsUrl);
 			const clientId = `${c.env.API_URL}/guest-auth/client-metadata.json`;
 
 			const { tokenResponse, dpopNonce } = await refreshAccessToken(

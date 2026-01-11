@@ -331,10 +331,14 @@ now.post("/reply", async (c) => {
 
 		let { session, dpopKeyPair } = sessionData;
 
+		// Determine which PDS to use (user's PDS for guests, env PDS for admin)
+		const isGuest = sessionId.startsWith("guest_");
+		const pdsUrl = isGuest && session.pdsUrl ? session.pdsUrl : c.env.PDS_URL;
+
 		// Refresh token if expired
 		if (isTokenExpired(session.expiresAt) && session.refreshToken) {
-			const metadata = await fetchOAuthMetadata(c.env.PDS_URL);
-			const clientId = sessionId.startsWith("guest_")
+			const metadata = await fetchOAuthMetadata(pdsUrl);
+			const clientId = isGuest
 				? `${c.env.API_URL}/guest-auth/client-metadata.json`
 				: `${c.env.API_URL}/auth/client-metadata.json`;
 
@@ -347,7 +351,7 @@ now.post("/reply", async (c) => {
 			);
 
 			// Get the actual session ID for update
-			const actualSessionId = sessionId.startsWith("guest_")
+			const actualSessionId = isGuest
 				? (await c.env.SESSIONS.get(`guest_session:${sessionId}`)) || ""
 				: sessionId;
 
@@ -380,7 +384,7 @@ now.post("/reply", async (c) => {
 			return c.json({ error: "Content is required" }, 400);
 		}
 
-		// Fetch the parent post to get its CID
+		// Fetch the parent post to get its CID (use owner's PDS since that's where the post lives)
 		const getRecordUrl =
 			`${c.env.PDS_URL}/xrpc/com.atproto.repo.getRecord?` +
 			new URLSearchParams({
@@ -421,7 +425,8 @@ now.post("/reply", async (c) => {
 		}
 
 		// Create the comment record using site.standard.document.comment lexicon
-		const createRecordUrl = `${c.env.PDS_URL}/xrpc/com.atproto.repo.createRecord`;
+		// Use the user's PDS URL since the record is stored in THEIR repo
+		const createRecordUrl = `${pdsUrl}/xrpc/com.atproto.repo.createRecord`;
 
 		const commentRecord = {
 			repo: session.did,
@@ -477,7 +482,7 @@ now.post("/reply", async (c) => {
 				response = await makeRequest(newNonce);
 
 				// Get the actual session ID for update
-				const actualSessionId = sessionId.startsWith("guest_")
+				const actualSessionId = isGuest
 					? (await c.env.SESSIONS.get(`guest_session:${sessionId}`)) || ""
 					: sessionId;
 
@@ -510,7 +515,95 @@ now.post("/reply", async (c) => {
 	}
 });
 
-// Get comments for a post
+// Get comments for a post via TAP API
+now.get("/comments/:uri", async (c) => {
+	try {
+		const encodedUri = c.req.param("uri");
+		const uri = decodeURIComponent(encodedUri);
+
+		// First, get the list of comment URIs from TAP API
+		const tapUrl = `https://tap.stevedylan.dev/comments?document=${encodeURIComponent(uri)}`;
+		const response = await fetch(tapUrl);
+
+		if (!response.ok) {
+			console.error("Failed to fetch comment list from TAP:", response.status);
+			return c.json({ replies: [] });
+		}
+
+		interface CommentReference {
+			createdAt: string;
+			did: string;
+			uri: string;
+		}
+
+		const commentRefs: CommentReference[] = await response.json();
+
+		// Fetch each individual comment using ATProto getRecord
+		const commentPromises = commentRefs.map(async (ref) => {
+			try {
+				// Parse the AT URI: at://did:plc:.../collection/rkey
+				const parts = ref.uri.split("/");
+				const did = parts[2];
+				const collection = parts[3];
+				const rkey = parts[4];
+
+				// Resolve the DID to find the PDS endpoint
+				const didDoc = await fetch(`https://plc.directory/${did}`).then((r) =>
+					r.json(),
+				);
+
+				// Find the PDS service endpoint
+				const pdsService = didDoc.service?.find(
+					(s: any) => s.type === "AtprotoPersonalDataServer",
+				);
+
+				if (!pdsService?.serviceEndpoint) {
+					console.error(`No PDS found for DID: ${did}`);
+					return null;
+				}
+
+				const pdsUrl = pdsService.serviceEndpoint;
+
+				// Fetch the record from the user's PDS
+				const getRecordUrl =
+					`${pdsUrl}/xrpc/com.atproto.repo.getRecord?` +
+					new URLSearchParams({
+						repo: did,
+						collection: collection,
+						rkey: rkey,
+					});
+
+				const recordResponse = await fetch(getRecordUrl);
+				if (!recordResponse.ok) {
+					console.error(
+						`Failed to fetch comment from PDS ${pdsUrl}: ${ref.uri}`,
+					);
+					return null;
+				}
+
+				const data = await recordResponse.json();
+				return {
+					...data.value,
+					uri: ref.uri,
+					cid: data.cid,
+				};
+			} catch (err) {
+				console.error(`Error fetching comment ${ref.uri}:`, err);
+				return null;
+			}
+		});
+
+		const comments = await Promise.all(commentPromises);
+		const validComments = comments.filter((comment) => comment !== null);
+
+		return c.json({ replies: validComments });
+	} catch (error) {
+		console.error("Error fetching comments:", error);
+		return c.json({ replies: [] });
+	}
+});
+
+// Get comments for a post (legacy endpoint)
 now.get("/replies/:uri", async (c) => {
 	try {
 		const encodedUri = c.req.param("uri");
