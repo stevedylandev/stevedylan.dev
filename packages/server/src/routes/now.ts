@@ -20,7 +20,6 @@ interface Env {
 
 const now = new Hono<{ Bindings: Env }>();
 
-const DID = "did:plc:ia2zdnhjaokf5lazhxrmj6eu";
 const PDS_URL = "https://polybius.social";
 
 // Helper function to get session for both admin and guest users
@@ -220,7 +219,7 @@ now.get("/rss", async (c) => {
 		const response = await fetch(
 			`${PDS_URL}/xrpc/com.atproto.repo.listRecords?` +
 				new URLSearchParams({
-					repo: DID,
+					repo: c.env.ALLOWED_DID,
 					collection: "site.standard.document",
 					limit: "50",
 				}),
@@ -548,13 +547,15 @@ now.get("/comments/:uri", async (c) => {
 				const rkey = parts[4];
 
 				// Resolve the DID to find the PDS endpoint
-				const didDoc = await fetch(`https://plc.directory/${did}`).then((r) =>
+				const didDoc = (await fetch(`https://plc.directory/${did}`).then((r) =>
 					r.json(),
-				);
+				)) as {
+					service?: Array<{ type: string; serviceEndpoint: string }>;
+				};
 
 				// Find the PDS service endpoint
 				const pdsService = didDoc.service?.find(
-					(s: any) => s.type === "AtprotoPersonalDataServer",
+					(s) => s.type === "AtprotoPersonalDataServer",
 				);
 
 				if (!pdsService?.serviceEndpoint) {
@@ -581,7 +582,10 @@ now.get("/comments/:uri", async (c) => {
 					return null;
 				}
 
-				const data = await recordResponse.json();
+				const data = (await recordResponse.json()) as {
+					value: Record<string, unknown>;
+					cid: string;
+				};
 				return {
 					...data.value,
 					uri: ref.uri,
@@ -597,103 +601,6 @@ now.get("/comments/:uri", async (c) => {
 		const validComments = comments.filter((comment) => comment !== null);
 
 		return c.json({ replies: validComments });
-	} catch (error) {
-		console.error("Error fetching comments:", error);
-		return c.json({ replies: [] });
-	}
-});
-
-// Get comments for a post (legacy endpoint)
-now.get("/replies/:uri", async (c) => {
-	try {
-		const encodedUri = c.req.param("uri");
-		const uri = decodeURIComponent(encodedUri);
-
-		// Get the parent post to find its CID for matching
-		const getRecordUrl =
-			`${PDS_URL}/xrpc/com.atproto.repo.getRecord?` +
-			new URLSearchParams({
-				repo: uri.split("/")[2], // Extract DID from URI
-				collection: uri.split("/")[3], // Extract collection
-				rkey: uri.split("/")[4], // Extract rkey
-			});
-
-		const parentResponse = await fetch(getRecordUrl);
-		if (!parentResponse.ok) {
-			console.error("Failed to fetch parent post:", parentResponse.status);
-			return c.json({ replies: [] });
-		}
-
-		const parentData = (await parentResponse.json()) as { cid: string };
-		const parentCid = parentData.cid;
-
-		// Fetch all site.standard.document.comment records
-		// Note: This is a simple implementation that fetches all comments
-		// In production, you'd want to filter by parent URI server-side if possible
-		const listUrl =
-			`${PDS_URL}/xrpc/com.atproto.repo.listRecords?` +
-			new URLSearchParams({
-				repo: DID,
-				collection: "site.standard.document.comment",
-				limit: "100",
-			});
-
-		const response = await fetch(listUrl);
-
-		if (!response.ok) {
-			console.error("Failed to fetch comments:", response.status);
-			return c.json({ replies: [] });
-		}
-
-		interface CommentRecord {
-			uri: string;
-			cid: string;
-			value: {
-				parent?: { uri?: string; cid?: string };
-				content: string;
-				createdAt: string;
-				author?: { handle?: string; displayName?: string; avatar?: string };
-			};
-			indexedAt?: string;
-		}
-
-		const data = (await response.json()) as { records: CommentRecord[] };
-
-		// Filter comments that match the parent URI
-		const replies: any[] = [];
-
-		for (const record of data.records) {
-			const comment = record.value;
-			// Check if this comment's parent matches our URI
-			if (comment.parent?.uri === uri || comment.parent?.cid === parentCid) {
-				replies.push({
-					uri: record.uri,
-					cid: record.cid,
-					author: {
-						did: record.uri.split("/")[2],
-						handle: comment.author?.handle || record.uri.split("/")[2],
-						displayName: comment.author?.displayName,
-						avatar: comment.author?.avatar,
-					},
-					record: {
-						text: comment.content,
-						createdAt: comment.createdAt,
-					},
-					indexedAt: record.indexedAt || comment.createdAt,
-					replyCount: 0,
-					likeCount: 0,
-				});
-			}
-		}
-
-		// Sort by creation date
-		replies.sort(
-			(a, b) =>
-				new Date(a.record.createdAt).getTime() -
-				new Date(b.record.createdAt).getTime(),
-		);
-
-		return c.json({ replies });
 	} catch (error) {
 		console.error("Error fetching comments:", error);
 		return c.json({ replies: [] });

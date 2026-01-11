@@ -1,17 +1,11 @@
 import { Hono } from "hono";
-import { generateDPoPKeyPair } from "../lib/dpop";
 import {
 	fetchOAuthMetadata,
-	generatePKCE,
-	generateState,
-	sendPAR,
-	buildAuthorizationUrl,
-	exchangeCodeForTokens,
 	refreshAccessToken,
+	initiateOAuthFlow,
+	completeOAuthFlow,
 } from "../lib/oauth";
 import {
-	storeAuthState,
-	getAndDeleteAuthState,
 	createSession,
 	getSession,
 	deleteSession,
@@ -136,35 +130,12 @@ guestAuth.get("/login", async (c) => {
 			return c.redirect(`${c.env.CLIENT_URL}/now?error=invalid_handle`);
 		}
 
-		// Fetch OAuth metadata from user's PDS
-		const metadata = await fetchOAuthMetadata(pdsUrl);
-
-		// Generate PKCE and state
-		const pkce = await generatePKCE();
-		const state = generateState();
-
-		// Generate DPoP keypair
-		const dpopKeyPair = await generateDPoPKeyPair();
-
-		// Send PAR request
-		const { parResponse, dpopNonce } = await sendPAR(
-			metadata,
+		const { authUrl, state } = await initiateOAuthFlow(c.env.SESSIONS, {
+			pdsUrl,
 			clientId,
 			redirectUri,
-			state,
-			pkce,
-			dpopKeyPair,
-			"atproto repo:site.standard.document.comment?action=create",
-		);
-
-		// Store auth state in KV with returnTo URL and PDS URL
-		await storeAuthState(
-			c.env.SESSIONS,
-			state,
-			pkce.codeVerifier,
-			dpopKeyPair,
-			dpopNonce,
-		);
+			scope: "atproto repo:site.standard.document.comment?action=create",
+		});
 
 		// Store returnTo and pdsUrl separately to retrieve after callback
 		await c.env.SESSIONS.put(
@@ -178,12 +149,6 @@ guestAuth.get("/login", async (c) => {
 			{ expirationTtl: 600 }, // 10 minutes
 		);
 
-		// Build authorization URL and redirect
-		const authUrl = buildAuthorizationUrl(
-			metadata,
-			parResponse.request_uri,
-			clientId,
-		);
 		return c.redirect(authUrl);
 	} catch (error) {
 		console.error("Guest login error:", error);
@@ -211,12 +176,6 @@ guestAuth.get("/callback", async (c) => {
 			return c.redirect(`${c.env.CLIENT_URL}/now?error=missing_params`);
 		}
 
-		// Retrieve and validate auth state
-		const authState = await getAndDeleteAuthState(c.env.SESSIONS, state);
-		if (!authState) {
-			return c.redirect(`${c.env.CLIENT_URL}/now?error=invalid_state`);
-		}
-
 		// Get return URL and PDS URL
 		const returnTo =
 			(await c.env.SESSIONS.get(`guest_return:${state}`)) || "/now";
@@ -231,19 +190,20 @@ guestAuth.get("/callback", async (c) => {
 		const clientId = `${c.env.API_URL}/guest-auth/client-metadata.json`;
 		const redirectUri = `${c.env.API_URL}/guest-auth/callback`;
 
-		// Fetch OAuth metadata from user's PDS
-		const metadata = await fetchOAuthMetadata(pdsUrl);
-
-		// Exchange code for tokens
-		const { tokenResponse, dpopNonce } = await exchangeCodeForTokens(
-			metadata,
+		const oauthResult = await completeOAuthFlow(
+			c.env.SESSIONS,
+			pdsUrl,
 			code,
-			authState.codeVerifier,
+			state,
 			clientId,
 			redirectUri,
-			authState.dpopKeyPair,
-			authState.dpopNonce,
 		);
+
+		if (!oauthResult) {
+			return c.redirect(`${c.env.CLIENT_URL}/now?error=invalid_state`);
+		}
+
+		const { tokenResponse, dpopKeyPair, dpopNonce } = oauthResult;
 
 		// For guests, allow any ATProto account (no DID check)
 		// Create session with a "guest_" prefix to differentiate from admin sessions
@@ -251,7 +211,7 @@ guestAuth.get("/callback", async (c) => {
 			c.env.SESSIONS,
 			tokenResponse.access_token,
 			tokenResponse.refresh_token || "",
-			authState.dpopKeyPair,
+			dpopKeyPair,
 			dpopNonce,
 			tokenResponse.sub,
 			tokenResponse.expires_in,

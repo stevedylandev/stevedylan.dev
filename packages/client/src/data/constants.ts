@@ -1,3 +1,7 @@
+// ATProto configuration
+export const OWNER_DID = "did:plc:ia2zdnhjaokf5lazhxrmj6eu";
+export const PDS_URL = "https://polybius.social";
+
 export const MENU_LINKS = [
 	{
 		title: "Home",
@@ -37,7 +41,7 @@ export const MENU_LINKS = [
 export const SOCIAL_LINKS = {
 	github: "https://github.com/stevedylandev",
 	telegram: "https://telegram.me/stevedylandev",
-	atproto: "https://pdsls.dev/at://did:plc:ia2zdnhjaokf5lazhxrmj6eu",
+	atproto: `https://pdsls.dev/at://${OWNER_DID}`,
 	linkedin: "https://www.linkedin.com/in/steve-simkins/",
 	photos: "https://steve.photo",
 	website: "/",

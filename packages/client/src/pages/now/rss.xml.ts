@@ -1,11 +1,9 @@
 import rss from "@astrojs/rss";
 import sanitizeHtml from "sanitize-html";
 import MarkdownIt from "markdown-it";
+import { OWNER_DID, PDS_URL } from "@/data/constants";
 
 export const prerender = false;
-
-const DID = "did:plc:ia2zdnhjaokf5lazhxrmj6eu";
-const PDS_URL = "https://polybius.social";
 
 const md = new MarkdownIt({
 	html: true,
@@ -40,7 +38,7 @@ export async function GET() {
 		const response = await fetch(
 			`${PDS_URL}/xrpc/com.atproto.repo.listRecords?` +
 				new URLSearchParams({
-					repo: DID,
+					repo: OWNER_DID,
 					collection: "site.standard.document",
 					limit: "50",
 				}),

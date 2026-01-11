@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 import MarkdownIt from "markdown-it";
+import { OWNER_DID, PDS_URL } from "@/data/constants";
 
 const md = new MarkdownIt({
 	html: false,
 	linkify: true,
 	typographer: true,
 });
-
-const DID = "did:plc:ia2zdnhjaokf5lazhxrmj6eu";
-const PDS_URL = "https://polybius.social";
 
 interface Document {
 	uri: string;
@@ -34,7 +32,7 @@ export default function NowUpdates() {
 				const documentsData = await fetch(
 					`${PDS_URL}/xrpc/com.atproto.repo.listRecords?` +
 						new URLSearchParams({
-							repo: DID,
+							repo: OWNER_DID,
 							collection: "site.standard.document",
 							limit: "20",
 						}),

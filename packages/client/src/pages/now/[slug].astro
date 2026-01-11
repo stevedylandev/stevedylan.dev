@@ -2,6 +2,7 @@
 import PageLayout from "@/layouts/Base";
 import MarkdownIt from "markdown-it";
 import { ReplyContainer } from "@/components/now/ReplyContainer";
+import { OWNER_DID, PDS_URL } from "@/data/constants";
 
 export const prerender = false;
 
@@ -10,9 +11,6 @@ const md = new MarkdownIt({
 	linkify: true,
 	typographer: true,
 });
-
-const DID = "did:plc:ia2zdnhjaokf5lazhxrmj6eu";
-const PDS_URL = "https://polybius.social";
 
 const { slug } = Astro.params;
 
@@ -35,7 +33,7 @@ try {
 	const listResponse = await fetch(
 		`${PDS_URL}/xrpc/com.atproto.repo.listRecords?` +
 			new URLSearchParams({
-				repo: DID,
+				repo: OWNER_DID,
 				collection: "site.standard.document",
 				limit: "100",
 			}),
@@ -77,7 +75,7 @@ try {
 		const documentResponse = await fetch(
 			`${PDS_URL}/xrpc/com.atproto.repo.getRecord?` +
 				new URLSearchParams({
-					repo: DID,
+					repo: OWNER_DID,
 					collection: "site.standard.document",
 					rkey: slug,
 				}),
@@ -89,7 +87,7 @@ try {
 			title = doc.title || "Post";
 			description = doc.content?.markdown?.slice(0, 160) || description;
 			publishedAt = new Date(doc.publishedAt).toLocaleDateString();
-			atUri = `at://${DID}/site.standard.document/${slug}`;
+			atUri = `at://${OWNER_DID}/site.standard.document/${slug}`;
 
 			if (doc.content && doc.content.markdown) {
 				contentHTML = md.render(doc.content.markdown);

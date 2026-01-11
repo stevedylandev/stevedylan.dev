@@ -1,5 +1,11 @@
 import * as jose from "jose";
-import { type DPoPKeyPair, createDPoPProof, extractDPoPNonce } from "./dpop";
+import {
+	type DPoPKeyPair,
+	createDPoPProof,
+	extractDPoPNonce,
+	generateDPoPKeyPair,
+} from "./dpop";
+import { storeAuthState, getAndDeleteAuthState } from "./session";
 
 export interface OAuthServerMetadata {
 	issuer: string;
@@ -264,6 +270,92 @@ export async function exchangeCodeForTokens(
 	return {
 		tokenResponse,
 		dpopNonce: newNonce || dpopNonce || "",
+	};
+}
+
+export interface OAuthFlowConfig {
+	pdsUrl: string;
+	clientId: string;
+	redirectUri: string;
+	scope: string;
+}
+
+export interface InitiateOAuthResult {
+	authUrl: string;
+	state: string;
+}
+
+/**
+ * Initiates an OAuth login flow - generates PKCE, DPoP keypair, sends PAR, and stores auth state
+ */
+export async function initiateOAuthFlow(
+	kv: KVNamespace,
+	config: OAuthFlowConfig,
+): Promise<InitiateOAuthResult> {
+	const metadata = await fetchOAuthMetadata(config.pdsUrl);
+	const pkce = await generatePKCE();
+	const state = generateState();
+	const dpopKeyPair = await generateDPoPKeyPair();
+
+	const { parResponse, dpopNonce } = await sendPAR(
+		metadata,
+		config.clientId,
+		config.redirectUri,
+		state,
+		pkce,
+		dpopKeyPair,
+		config.scope,
+	);
+
+	await storeAuthState(kv, state, pkce.codeVerifier, dpopKeyPair, dpopNonce);
+
+	const authUrl = buildAuthorizationUrl(
+		metadata,
+		parResponse.request_uri,
+		config.clientId,
+	);
+
+	return { authUrl, state };
+}
+
+export interface CompleteOAuthResult {
+	tokenResponse: TokenResponse;
+	dpopKeyPair: DPoPKeyPair;
+	dpopNonce: string;
+}
+
+/**
+ * Completes an OAuth callback - validates state, exchanges code for tokens
+ */
+export async function completeOAuthFlow(
+	kv: KVNamespace,
+	pdsUrl: string,
+	code: string,
+	state: string,
+	clientId: string,
+	redirectUri: string,
+): Promise<CompleteOAuthResult | null> {
+	const authState = await getAndDeleteAuthState(kv, state);
+	if (!authState) {
+		return null;
+	}
+
+	const metadata = await fetchOAuthMetadata(pdsUrl);
+
+	const { tokenResponse, dpopNonce } = await exchangeCodeForTokens(
+		metadata,
+		code,
+		authState.codeVerifier,
+		clientId,
+		redirectUri,
+		authState.dpopKeyPair,
+		authState.dpopNonce,
+	);
+
+	return {
+		tokenResponse,
+		dpopKeyPair: authState.dpopKeyPair,
+		dpopNonce,
 	};
 }
 

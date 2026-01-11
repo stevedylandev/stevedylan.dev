@@ -1,16 +1,11 @@
 import { Hono } from "hono";
-import { generateDPoPKeyPair } from "../lib/dpop";
 import {
 	fetchOAuthMetadata,
-	generatePKCE,
-	generateState,
-	sendPAR,
-	buildAuthorizationUrl,
-	exchangeCodeForTokens,
+	refreshAccessToken,
+	initiateOAuthFlow,
+	completeOAuthFlow,
 } from "../lib/oauth";
 import {
-	storeAuthState,
-	getAndDeleteAuthState,
 	createSession,
 	getSession,
 	deleteSession,
@@ -20,7 +15,6 @@ import {
 	isTokenExpired,
 	updateSession,
 } from "../lib/session";
-import { refreshAccessToken } from "../lib/oauth";
 
 interface Env {
 	SESSIONS: KVNamespace;
@@ -57,42 +51,13 @@ auth.get("/login", async (c) => {
 		const clientId = `${c.env.API_URL}/auth/client-metadata.json`;
 		const redirectUri = `${c.env.API_URL}/auth/callback`;
 
-		// Fetch OAuth metadata from PDS
-		const metadata = await fetchOAuthMetadata(c.env.PDS_URL);
-
-		// Generate PKCE and state
-		const pkce = await generatePKCE();
-		const state = generateState();
-
-		// Generate DPoP keypair
-		const dpopKeyPair = await generateDPoPKeyPair();
-
-		// Send PAR request
-		const { parResponse, dpopNonce } = await sendPAR(
-			metadata,
+		const { authUrl } = await initiateOAuthFlow(c.env.SESSIONS, {
+			pdsUrl: c.env.PDS_URL,
 			clientId,
 			redirectUri,
-			state,
-			pkce,
-			dpopKeyPair,
-			"atproto transition:generic",
-		);
+			scope: "atproto transition:generic",
+		});
 
-		// Store auth state in KV
-		await storeAuthState(
-			c.env.SESSIONS,
-			state,
-			pkce.codeVerifier,
-			dpopKeyPair,
-			dpopNonce,
-		);
-
-		// Build authorization URL and redirect
-		const authUrl = buildAuthorizationUrl(
-			metadata,
-			parResponse.request_uri,
-			clientId,
-		);
 		return c.redirect(authUrl);
 	} catch (error) {
 		console.error("Login error:", error);
@@ -120,28 +85,23 @@ auth.get("/callback", async (c) => {
 			return c.redirect(`${c.env.CLIENT_URL}/now?error=missing_params`);
 		}
 
-		// Retrieve and validate auth state
-		const authState = await getAndDeleteAuthState(c.env.SESSIONS, state);
-		if (!authState) {
-			return c.redirect(`${c.env.CLIENT_URL}/now?error=invalid_state`);
-		}
-
 		const clientId = `${c.env.API_URL}/auth/client-metadata.json`;
 		const redirectUri = `${c.env.API_URL}/auth/callback`;
 
-		// Fetch OAuth metadata
-		const metadata = await fetchOAuthMetadata(c.env.PDS_URL);
-
-		// Exchange code for tokens
-		const { tokenResponse, dpopNonce } = await exchangeCodeForTokens(
-			metadata,
+		const oauthResult = await completeOAuthFlow(
+			c.env.SESSIONS,
+			c.env.PDS_URL,
 			code,
-			authState.codeVerifier,
+			state,
 			clientId,
 			redirectUri,
-			authState.dpopKeyPair,
-			authState.dpopNonce,
 		);
+
+		if (!oauthResult) {
+			return c.redirect(`${c.env.CLIENT_URL}/now?error=invalid_state`);
+		}
+
+		const { tokenResponse, dpopKeyPair, dpopNonce } = oauthResult;
 
 		// CRITICAL: Only allow the site owner
 		if (tokenResponse.sub !== c.env.ALLOWED_DID) {
@@ -154,7 +114,7 @@ auth.get("/callback", async (c) => {
 			c.env.SESSIONS,
 			tokenResponse.access_token,
 			tokenResponse.refresh_token || "",
-			authState.dpopKeyPair,
+			dpopKeyPair,
 			dpopNonce,
 			tokenResponse.sub,
 			tokenResponse.expires_in,
