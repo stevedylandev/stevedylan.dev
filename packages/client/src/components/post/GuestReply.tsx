@@ -116,7 +116,9 @@ export function GuestReply({
 			setTimeout(() => setSuccess(false), 5000);
 
 			// Notify parent to refresh replies list
-			onReplyPosted?.();
+			setTimeout(() => {
+				onReplyPosted?.();
+			}, 2000);
 		} catch (err) {
 			setError(err instanceof Error ? err.message : "Failed to post reply");
 		} finally {
@@ -171,7 +173,7 @@ export function GuestReply({
 									type="text"
 									value={handleInput}
 									onChange={(e) => setHandleInput(e.target.value)}
-									placeholder="user.bsky.social"
+									placeholder="user.bsky.social or mydomain.com"
 									className="flex-1 bg-transparent px-3 py-1 border border-white text-white text-sm"
 								/>
 								<button

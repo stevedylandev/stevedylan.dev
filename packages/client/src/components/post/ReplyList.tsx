@@ -152,6 +152,8 @@ export function ReplyList({ atUri }: ReplyListProps) {
 									)}
 									<a
 										href={`https://pdsls.dev/${reply.uri}`}
+										target="_blank"
+										rel="noopener noreferrer"
 										className="text-xs text-gray-400 hover:text-gray-300"
 									>
 										{formatDate(reply.createdAt)}
