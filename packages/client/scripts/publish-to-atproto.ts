@@ -86,7 +86,7 @@ function getSlugFromFilename(filename: string): string {
 		.replace(/\s+/g, "-");
 }
 
-async function getRecentPosts(limit: number = 5): Promise<BlogPost[]> {
+async function getRecentPosts(limit: number = 1): Promise<BlogPost[]> {
 	const files = fs.readdirSync(CONTENT_DIR);
 	const posts: BlogPost[] = [];
 
@@ -184,6 +184,51 @@ async function createAtProtoDocument(
 	return response.data.uri;
 }
 
+async function updateAtProtoDocument(
+	agent: AtpAgent,
+	post: BlogPost,
+	atUri: string,
+): Promise<void> {
+	// Parse the atUri to get the repo, collection, and rkey
+	// Format: at://did:plc:xxx/collection/rkey
+	const uriMatch = atUri.match(/^at:\/\/([^/]+)\/([^/]+)\/(.+)$/);
+	if (!uriMatch) {
+		throw new Error(`Invalid atUri format: ${atUri}`);
+	}
+
+	const [, repo, collection, rkey] = uriMatch;
+
+	const postPath = `/posts/${post.slug}`;
+	const markdownContent = {
+		$type: "site.standard.content.markdown",
+		markdown: post.content.trim(),
+	};
+
+	const textContent = stripMarkdownForText(post.content);
+
+	// Parse the publish date
+	const publishDate = new Date(post.frontmatter.publishDate);
+
+	const record = {
+		$type: "site.standard.document",
+		title: post.frontmatter.title,
+		site: PUBLICATION_URI,
+		path: postPath,
+		content: markdownContent,
+		textContent: textContent.slice(0, 10000), // Limit text content length
+		publishedAt: publishDate.toISOString(),
+		canonicalUrl: `${SITE_URL}${postPath}`,
+		location: "main-blog",
+	};
+
+	await agent.com.atproto.repo.putRecord({
+		repo: agent.session!.did,
+		collection,
+		rkey,
+		record,
+	});
+}
+
 async function main() {
 	// Check for required environment variables
 	const identifier = process.env.ATP_IDENTIFIER;
@@ -214,21 +259,16 @@ async function main() {
 	}
 
 	console.log("\nFetching recent posts...");
-	const posts = await getRecentPosts(5);
+	const posts = await getRecentPosts(1);
 
 	console.log(`Found ${posts.length} recent posts\n`);
 
 	let publishedCount = 0;
+	let updatedCount = 0;
 	let skippedCount = 0;
 
 	for (const post of posts) {
 		console.log(`Processing: ${post.frontmatter.title}`);
-
-		if (post.frontmatter.atUri) {
-			console.log(`  - Already has atUri, skipping\n`);
-			skippedCount++;
-			continue;
-		}
 
 		if (post.frontmatter.hidden) {
 			console.log(`  - Post is hidden, skipping\n`);
@@ -237,18 +277,28 @@ async function main() {
 		}
 
 		try {
-			console.log(`  - Creating ATProto document...`);
-			const atUri = await createAtProtoDocument(agent, post);
-			console.log(`  - Created: ${atUri}`);
+			if (post.frontmatter.atUri) {
+				console.log(`  - Found existing atUri, updating document...`);
+				await updateAtProtoDocument(agent, post, post.frontmatter.atUri);
+				console.log(`  - Updated: ${post.frontmatter.atUri}\n`);
+				updatedCount++;
+			} else {
+				console.log(`  - Creating ATProto document...`);
+				const atUri = await createAtProtoDocument(agent, post);
+				console.log(`  - Created: ${atUri}`);
 
-			// Update the file with the new atUri
-			const updatedContent = updateFrontmatterWithAtUri(post.rawContent, atUri);
-			fs.writeFileSync(post.filePath, updatedContent);
-			console.log(
-				`  - Updated frontmatter in ${path.basename(post.filePath)}\n`,
-			);
+				// Update the file with the new atUri
+				const updatedContent = updateFrontmatterWithAtUri(
+					post.rawContent,
+					atUri,
+				);
+				fs.writeFileSync(post.filePath, updatedContent);
+				console.log(
+					`  - Updated frontmatter in ${path.basename(post.filePath)}\n`,
+				);
 
-			publishedCount++;
+				publishedCount++;
+			}
 		} catch (error) {
 			console.error(`  - Error publishing: ${error}\n`);
 		}
@@ -256,6 +306,7 @@ async function main() {
 
 	console.log("---");
 	console.log(`Published: ${publishedCount}`);
+	console.log(`Updated: ${updatedCount}`);
 	console.log(`Skipped: ${skippedCount}`);
 }
 
