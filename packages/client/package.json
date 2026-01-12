@@ -10,7 +10,7 @@
 		"preview": "astro preview",
 		"format": "biome format --write src package.json",
 		"deploy:orbiter": "orbiter deploy",
-		"deploy": "bun run build && wrangler pages deploy dist",
+		"deploy": "bun run build && bun run publish:atproto && wrangler pages deploy dist",
 		"publish:atproto": "bun run scripts/publish-to-atproto.ts"
 	},
 	"devDependencies": {
