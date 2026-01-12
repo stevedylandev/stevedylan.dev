@@ -1,0 +1,106 @@
+---
+title: "Standard.site: the Publishing Gateway"
+publishDate: "11 Jan 2026"
+description: "Another deep exploration into ATProto and implementing lexicons"
+tags: ["atproto", "open web", "bluesky"]
+ogImage: "/blog-images/other/standard-site.png"
+---
+
+![cover](https://files.stevedylan.dev/standard-site.png)
+
+In my [last post](/posts/using-atproto-for-posse/) I discussed how I was moving my micro blogging practice to my personal website. I was previously using [Bear Blog](https://bearblog.dev) (highly recommend btw) for small life updates that didn't fit into full blog posts. I decided to use [ATProto](https://atproto.org) as the means to make this happen, and ended up with a pretty good workflow that let me post through a ATProto client (Bluesky in this case) and the posts would end up on my [/now page](/now) as a feed. While this setup was decent, it still had some major flaws. 
+
+For one, the post size cap for Bluesky feed posts. It worked for the most part, but there were many times I would want to make slightly longer posts or updates. I didn't like not having this freedom. Another issue was using the Bluesky app itself. I made so many of these [life changes](/posts/resurrect-the-old-web/) to remove social media from my life, not add it back in. There was also the fact that these posts would be Bluesky posts, showing up in feeds and pointing back to the Bluesky origin. This was my biggest issue as it prevented me from truly adopting [POSSE](https://indieweb.org/POSSE). 
+
+This is when I discovered [Standard.site](https://standard.site), a new set of [lexicons](https://atproto.com/guides/lexicon) designed especially for publishing. The schema had exactly what I was looking for: canonical URLs that point to my site. At the time I knew nothing about lexicons on ATProto or how they worked, but it sounded like the Standard.site lexicon for publishing could be a huge step towards aggregating original publishing platforms in a totally new way. I had to find out. What followed was a journey that significantly boosted my knowledge of ATProto and how Standard.site could be a new gateway for publishing content on the web. 
+
+Before we go any further, I want to make it crystal clear that I'm not an expert at ATProto. I started digging into this stuff maybe a week or two ago. I'm sharing this story in hopes that others who are interested in a similar integration but are having a hard time finding the answers will get some here. If there are better ways to do some of this stuff, [let me know](mailto:contact@stevedylan.dev)!
+
+From the very little I knew, it was clear that I would need to make these posts happen through my own client implementation. Since ATProto / PDS' had OAuth support I thought this would be a great way to post from my own website. When using Bear Blog I loved the ability to post from any browser, and doing the same thing with ATProto on my site was attractive. Overall implementing OAuth took a fair bit of code, but was relatively seamless. My website uses Astro so I added a few React components to handle login, logout, and making a post. For the backend I used a Cloudflare Worker running Hono, as well as a KV instance for saving sessions. Signing into my PDS through my website was an exciting experience, and even more so when making a post worked like a charm! 
+
+
+The only problem was that I was still posting to Bluesky, so now it was time to dig into Standard.site and lexicons. People kept talking about lexicons but I was pretty clueless to how they worked exactly. Once I looked closer at the code I was using for posts and what was dictated by Standard.site, it ended up being a lot simpler than I thought. Take this payload for example: 
+
+```ts
+const documentRecord = {
+	repo: session.did,
+	collection: "site.standard.document",
+	record: {
+		$type: "site.standard.document",
+		title: body.title.trim(),
+		site:  `at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.publication/3mbykzswhqc2x`,
+		...(normalizedPath && { path: normalizedPath.trim() }),
+		content: markdownContent,
+		textContent: textContent,
+		publishedAt: new Date().toISOString(),
+	},
+};
+```
+
+The key for using a lexicon is just designating the `collection` and the `$type`. That's it. In order to be valid you just have to follow the schema dictated by the lexicon. Standard.site has two primary lexicons: `document` for the actual content, and `publication` for the source of the document. This made a lot more sense when I started using [pdsls.dev](https://pdsls.dev/at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mc4myqaca22x) to examine the posts I was making.
+
+![pdsexample](https://files.stevedylan.dev/pdsls-example.png)
+
+The presentation is brilliant. There is a clear order and hierarchy to how ATProto and data works: 
+
+- `polybius.social` - This is my PDS, the core where my data is stored
+- `stevedylan.dev (did:plc:ia2zdnhjaokf5lazhxrmj6eu)` - My "account" or "DID" that is hosted on my PDS
+- `site.standard.document` - The collection where my post is, kinda like a folder
+- `3mc4myqaca22x` - The record itself that has all the data
+
+These pieces make up the AT URI:
+
+```
+at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mc4myqaca22x
+```
+
+Seeing lexicons as folders clicked for me. Not just folders, but standards that follow a schema. In order for my posts to follow the standard I simply needed to create an initial `publication` record with my website info and then reference it in each `document`. Once you have that setup you can actually click on the "Info" tab in pdsls.dev and validate the info to make sure it's correct. You can also add other fields if you want to as long as the original and required fields are met, making it very flexible.
+
+With the lexicons in place I finally had what I wanted: posts that aren't attached to Bluesky, stored on my PDS, and could be indexed and aggregated due to using Standard.site. The final piece I wanted to add was comments. It felt like the logical conclusion, and also would be weird to use ATProto for this concept yet only include "reply via email" at the bottom. The big decision was which lexicon to use. Since I was avoiding using Bluesky lexicons, a simple "reply" wouldn't really work. Eventually I decided to build a lexicon on top of Standard.site: `site.standard.document.comment`. It's not technically a valid schema, but I figured it would work for now. 
+
+```ts
+const commentRecord = {
+	repo: session.did,
+	collection: "site.standard.document.comment",
+	record: {
+		$type: "site.standard.document.comment",
+		parent: {
+			uri: body.parentUri,
+			cid: parentCid,
+		},
+		root: {
+			uri: body.parentUri,
+			cid: parentCid,
+		},
+		content: body.content.trim(),
+		author: {
+			did: session.did,
+			handle: authorHandle,
+			...(authorDisplayName && { displayName: authorDisplayName }),
+			...(authorAvatar && { avatar: authorAvatar }),
+		},
+		createdAt: new Date().toISOString(),
+	},
+};
+```
+
+In no time at all I had an OAuth flow for posting and creating comments for my update documents. On my site I had a component that would request the comments for a given document, but I quickly faced an issue. When I replied to a post from another account, it didn't show up. I soon realized this was due to the other account being on the `bsky.social` PDS, not my self hosted instance. This would be a problem because there might be loads of people who have their own PDS; I can't limit it to just one. How do I get these lexicons across thousands of hosted instances? 
+
+This was quite a wakeup call. How would Standard.site promise a future where you could aggregate any content that follows the standard? Thankfully there is an answer, and `huwcampbell.com` [helped me out](https://bsky.app/profile/huwcampbell.com/post/3mc2z6rbmv22d). It turns out that [ATProto Relays](https://atproto.com/guides/glossary#relay) help gather data from any PDS that makes a request to be scraped, and most PDS implementations make this request by default to `bsky.network`. Then you can use a indexing tool called [Tap](https://github.com/bluesky-social/indigo/tree/main/cmd/tap) to not only listen but backfill data for any given collection. 
+
+We got a step closer to making comments happen. The one small issue I faced was the fact that Tap would only store minimal metadata in its DB regarding the records, primarily the URI. While I could fetch the URI and discover which post the comment belonged to, I didn't like that data flow. Instead I just forked Tap, made some minimal changes, and made it also record the document URI that the comment was tied to. Then I added a simple API endpoint that could be used to fetch this data from the DB. Took a while to hook it all up, but with my site's API and my tap instance running, we had comments working. 
+
+![comments example](https://files.stevedylan.dev/comments-example.png)
+
+At this point I started to question the value of all of this given the amount of work it took to get what I wanted, but in the end we had something special. Within a week, my site had actually turned ATProto into a CMS. I could make posts, update them, or delete them, and all the while these updates are broadcasted to a network that anyone could index. It was like an RSS feed that because it met a standard could be aggregated with a single tool. When I sign into my site using my own PDS and make posts, it's totally independent. I have total control over everything. The hype of Standard.site was starting to click. 
+
+Of course this idea does face its own special challenges. Standard.site lexicons will only work if they truly become the standard (clever domain by the way). If there are other competing standards that start to also gain traction then you will have issues getting everyone on the same page. With that said I think Standard.site stands a good chance: it's well thought out, simple, and people already love it. Even if more competition arises, people will generally go with whatever is the most popular and give them the most distribution. Even still, there's nothing stopping anyone from taking the same piece of content and creating multiple records to meet multiple standards to get as much attention as possible. 
+
+The other challenge I can see is the Bluesky relay. You can run other relays and have your PDS make a request to them for scraping, but the reality is `bluesky.network` is the most popular and comes predefined if you run the main PDS implementation. With that said I think it's still early and not a huge concern right now. In truth we have a lot to thank from Bluesky with their work on ATProto and the promises it brings. I do plan to eventually get these blog posts on Standard.site lexicons as well, just a bit trickier since these are markdown posts that I would like to keep locally. If you're interested in any of the code mentioned in this post, it's all open source: 
+
+- [Personal Site](https://github.com/stevedylandev/stevedylan.dev)
+- [Tap Fork](https://github.com/stevedylandev/indigo/tree/main/cmd/tap)
+
+I also plan to include a link to this post as an update on my [/now](/now) page if you want to check out the implementation and leave a comment!
+
+Wrapping up, this experience has been a great culmination of everything I've been prioritizing with the web, that being content publishing and sharing that content through open channels like RSS. Standard.site opens up a whole new world of possibilities for that this could look like in the near future, and takes us a step closer to a truly open web that I long to see.
