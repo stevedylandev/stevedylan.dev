@@ -143,11 +143,8 @@ now.post("/post", async (c) => {
 			collection: "site.standard.document",
 			record: {
 				$type: "site.standard.document",
-				publication: {
-					uri: `at://${session.did}/site.standard.publication/self`,
-				},
 				title: body.title.trim(),
-				site: "https://stevedylan.dev",
+				site: "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.publication/3mbykzswhqc2x",
 				...(normalizedPath && { path: normalizedPath.trim() }),
 				content: markdownContent,
 				textContent: textContent,
