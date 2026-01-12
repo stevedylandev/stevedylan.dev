@@ -2,7 +2,7 @@ import { OWNER_DID } from "@/data/constants";
 
 export const prerender = true;
 
-const PUBLICATION_RKEY = "self";
+const PUBLICATION_RKEY = "3mbykzswhqc2x";
 
 export async function GET() {
 	const atUri = `at://${OWNER_DID}/site.standard.publication/${PUBLICATION_RKEY}`;
