@@ -107,6 +107,10 @@ now.post("/post", async (c) => {
 			if (!normalizedPath.startsWith("/")) {
 				normalizedPath = `/${normalizedPath}`;
 			}
+			// Ensure path starts with /now/
+			if (!normalizedPath.startsWith("/now/")) {
+				normalizedPath = `/now${normalizedPath}`;
+			}
 			// Basic validation: no spaces, no special chars except dashes and underscores
 			if (!/^\/[a-zA-Z0-9\-_\/]*$/.test(normalizedPath)) {
 				return c.json(

@@ -99,7 +99,7 @@ export default function NowUpdates() {
 						className="border-b pb-6 mb-6 last:border-b-0"
 					>
 						<a
-							href={`/now/${path}`}
+							href={`/${path}`}
 							className="block hover:opacity-80 transition-opacity"
 						>
 							<h3 className="text-lg font-semibold mb-3">{value.title}</h3>
