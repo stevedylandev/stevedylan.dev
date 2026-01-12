@@ -172,6 +172,7 @@ async function createAtProtoDocument(
 		textContent: textContent.slice(0, 10000), // Limit text content length
 		publishedAt: publishDate.toISOString(),
 		canonicalUrl: `${SITE_URL}${postPath}`,
+		location: "main-blog",
 	};
 
 	const response = await agent.com.atproto.repo.createRecord({
