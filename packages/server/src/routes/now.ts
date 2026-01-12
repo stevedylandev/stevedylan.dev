@@ -227,7 +227,11 @@ now.get("/rss", async (c) => {
 		}
 
 		const data = (await response.json()) as ListRecordsResponse;
-		const documents = data.records;
+
+		// Filter out main-blog posts
+		const documents = data.records.filter(
+			(doc) => doc.value.location !== "main-blog",
+		);
 
 		// Create the feed
 		const feed = new Feed({

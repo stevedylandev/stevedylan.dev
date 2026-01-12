@@ -31,6 +31,7 @@ export interface StandardSiteDocument {
 	tags?: string[]; // Max 50 graphemes per tag
 	publishedAt: string; // ISO datetime string
 	updatedAt?: string; // ISO datetime string
+	location?: string; // Custom field for filtering posts by location
 }
 
 export interface StandardSiteDocumentRecord {

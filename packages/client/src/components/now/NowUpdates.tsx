@@ -18,6 +18,7 @@ interface Document {
 			markdown?: string;
 		};
 		textContent?: string;
+		location?: string;
 	};
 }
 
@@ -40,7 +41,11 @@ export default function NowUpdates() {
 					.then((res) => (res.ok ? res.json() : { records: [] }))
 					.catch(() => ({ records: [] }));
 
-				const sortedDocuments: Document[] = (documentsData.records || []).sort(
+				const filteredDocuments = (documentsData.records || []).filter(
+					(doc: Document) => doc.value.location !== "main-blog",
+				);
+
+				const sortedDocuments: Document[] = filteredDocuments.sort(
 					(a: Document, b: Document) => {
 						const dateA = new Date(a.value.publishedAt);
 						const dateB = new Date(b.value.publishedAt);

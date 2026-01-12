@@ -25,6 +25,7 @@ interface DocumentRecord {
 		};
 		textContent?: string;
 		publishedAt: string;
+		location?: string;
 	};
 }
 
@@ -49,16 +50,20 @@ export async function GET() {
 		}
 
 		const data = (await response.json()) as ListRecordsResponse;
-		const documents = data.records;
+
+		// Filter out main-blog posts
+		const filteredDocuments = data.records.filter(
+			(doc) => doc.value.location !== "main-blog",
+		);
 
 		// Sort by publishedAt descending
-		documents.sort((a, b) => {
+		filteredDocuments.sort((a, b) => {
 			const dateA = new Date(a.value.publishedAt);
 			const dateB = new Date(b.value.publishedAt);
 			return dateB.getTime() - dateA.getTime();
 		});
 
-		const items = documents.map((record) => {
+		const items = filteredDocuments.map((record) => {
 			const doc = record.value;
 			const rkey = record.uri.split("/").pop();
 
