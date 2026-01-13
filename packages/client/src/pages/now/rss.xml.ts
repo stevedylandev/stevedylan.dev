@@ -79,7 +79,7 @@ export async function GET() {
 				title: doc.title,
 				description: description,
 				pubDate: new Date(doc.publishedAt),
-				link: `/now${urlPath}`,
+				link: urlPath,
 				content: sanitizeHtml(htmlContent, {
 					allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
 				}),

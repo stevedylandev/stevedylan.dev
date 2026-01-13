@@ -264,7 +264,7 @@ now.get("/rss", async (c) => {
 
 			// Use custom path if available, otherwise use rkey
 			const urlPath = doc.path || `/${rkey}`;
-			const fullUrl = `https://stevedylan.dev/now${urlPath}`;
+			const fullUrl = `https://stevedylan.dev${urlPath}`;
 
 			// Extract content - prefer markdown content, fallback to textContent
 			let content = doc.title;
