@@ -169,6 +169,7 @@ async function createAtProtoDocument(
 		site: PUBLICATION_URI,
 		path: postPath,
 		content: markdownContent,
+		coverImage: post.frontmatter.ogImage,
 		textContent: textContent.slice(0, 10000), // Limit text content length
 		publishedAt: publishDate.toISOString(),
 		canonicalUrl: `${SITE_URL}${postPath}`,
@@ -215,6 +216,7 @@ async function updateAtProtoDocument(
 		site: PUBLICATION_URI,
 		path: postPath,
 		content: markdownContent,
+		coverImage: post.frontmatter.ogImage,
 		textContent: textContent.slice(0, 10000), // Limit text content length
 		publishedAt: publishDate.toISOString(),
 		canonicalUrl: `${SITE_URL}${postPath}`,
