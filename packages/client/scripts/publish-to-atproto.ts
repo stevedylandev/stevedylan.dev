@@ -20,6 +20,17 @@ interface PostFrontmatter {
 	atUri?: string;
 }
 
+interface BlobRef {
+	$link: string;
+}
+
+interface BlobObject {
+	$type: "blob";
+	ref: BlobRef;
+	mimeType: string;
+	size: number;
+}
+
 interface BlogPost {
 	filePath: string;
 	slug: string;
@@ -148,6 +159,57 @@ function updateFrontmatterWithAtUri(rawContent: string, atUri: string): string {
 	return `${beforeEnd}atUri: "${atUri}"\n${afterEnd}`;
 }
 
+async function uploadImageToPDS(
+	agent: AtpAgent,
+	imagePath: string,
+): Promise<BlobObject | undefined> {
+	if (!imagePath || !fs.existsSync(imagePath)) {
+		return undefined;
+	}
+
+	try {
+		// Use Bun's built-in file type detection
+		const file = Bun.file(imagePath);
+		const imageBuffer = await file.arrayBuffer();
+		const mimeType = file.type || "application/octet-stream";
+
+		const response = await agent.com.atproto.repo.uploadBlob(
+			new Uint8Array(imageBuffer),
+			{
+				encoding: mimeType,
+			},
+		);
+
+		console.log(response);
+
+		return {
+			$type: "blob",
+			ref: {
+				$link: response.data.blob.ref.toString(),
+			},
+			mimeType,
+			size: imageBuffer.byteLength,
+		};
+	} catch (error) {
+		console.error(`Error uploading image ${imagePath}:`, error);
+		return undefined;
+	}
+}
+
+function resolveImagePath(ogImage: string): string {
+	// Extract just the filename from the ogImage path
+	const filename = path.basename(ogImage);
+
+	// All blog images are stored in packages/client/public/blog-images/other
+	const imagePath = path.join(import.meta.dir, "../public/blog-images/other", filename);
+
+	if (!fs.existsSync(imagePath)) {
+		throw new Error(`Image not found: ${imagePath}`);
+	}
+
+	return imagePath;
+}
+
 async function createAtProtoDocument(
 	agent: AtpAgent,
 	post: BlogPost,
@@ -163,13 +225,24 @@ async function createAtProtoDocument(
 	// Parse the publish date
 	const publishDate = new Date(post.frontmatter.publishDate);
 
+	// Handle cover image upload
+	let coverImage: BlobObject | undefined;
+	if (post.frontmatter.ogImage) {
+		const imagePath = resolveImagePath(post.frontmatter.ogImage);
+		console.log(`  - Uploading cover image: ${imagePath}`);
+		coverImage = await uploadImageToPDS(agent, imagePath);
+		if (coverImage) {
+			console.log(`  - Uploaded image blob: ${coverImage.ref.$link}`);
+		}
+	}
+
 	const record = {
 		$type: "site.standard.document",
 		title: post.frontmatter.title,
 		site: PUBLICATION_URI,
 		path: postPath,
 		content: markdownContent,
-		coverImage: post.frontmatter.ogImage,
+		coverImage,
 		textContent: textContent.slice(0, 10000), // Limit text content length
 		publishedAt: publishDate.toISOString(),
 		canonicalUrl: `${SITE_URL}${postPath}`,
@@ -190,14 +263,14 @@ async function updateAtProtoDocument(
 	post: BlogPost,
 	atUri: string,
 ): Promise<void> {
-	// Parse the atUri to get the repo, collection, and rkey
+	// Parse the atUri to get the collection and rkey
 	// Format: at://did:plc:xxx/collection/rkey
 	const uriMatch = atUri.match(/^at:\/\/([^/]+)\/([^/]+)\/(.+)$/);
 	if (!uriMatch) {
 		throw new Error(`Invalid atUri format: ${atUri}`);
 	}
 
-	const [, repo, collection, rkey] = uriMatch;
+	const [, , collection, rkey] = uriMatch;
 
 	const postPath = `/posts/${post.slug}`;
 	const markdownContent = {
@@ -210,13 +283,24 @@ async function updateAtProtoDocument(
 	// Parse the publish date
 	const publishDate = new Date(post.frontmatter.publishDate);
 
+	// Handle cover image upload
+	let coverImage: BlobObject | undefined;
+	if (post.frontmatter.ogImage) {
+		const imagePath = resolveImagePath(post.frontmatter.ogImage);
+		console.log(`  - Uploading cover image: ${imagePath}`);
+		coverImage = await uploadImageToPDS(agent, imagePath);
+		if (coverImage) {
+			console.log(`  - Uploaded image blob: ${coverImage.ref.$link}`);
+		}
+	}
+
 	const record = {
 		$type: "site.standard.document",
 		title: post.frontmatter.title,
 		site: PUBLICATION_URI,
 		path: postPath,
 		content: markdownContent,
-		coverImage: post.frontmatter.ogImage,
+		coverImage,
 		textContent: textContent.slice(0, 10000), // Limit text content length
 		publishedAt: publishDate.toISOString(),
 		canonicalUrl: `${SITE_URL}${postPath}`,
