@@ -8,6 +8,14 @@ export type ProjectItem = {
 
 export const projects: ProjectItem[] = [
 	{
+		title: "Docs.surf",
+		description:
+			"I've slowly been falling into ATProto and what it can enable for publishing content on the web, and building a more open web in general. With ATProto you can create records on your server (PDS) that have specific structures known as lexicons. One in particular that is taking of is standard.site. There are two lexicons, Publications and Documents. Both are designed for building interoperable blog posts that can be aggregated. That's exactly what Docs.surf does, using a mixture of Tap (ATProtos indexer), Cloudflare workers, queues, and D1 databases.",
+		image: "https://docs.surf/og.png",
+		link: "https://docs.surf",
+		tags: ["blogging", "atproto", "social networking"],
+	},
+	{
 		title: "Alcove",
 		description:
 			"RSS and blogs pose to be a solution for freedom speech, however RSS readers with sync capabilities often result in a 'wont be evil' promise in regards to privacy of what you read. Alcove brings a 'cant be evil' tech stack to the table. This app uses Evolu to enable end to end encrption for reading RSS feeds while giving people the ability to sync their reader across multiple devices.",
