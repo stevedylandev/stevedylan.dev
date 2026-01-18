@@ -152,9 +152,9 @@ now.post("/post", async (c) => {
 				...(normalizedPath && { path: normalizedPath.trim() }),
 				content: markdownContent,
 				coverImage: {
-					type: "blob",
+					$type: "blob",
 					ref: {
-						link: "bafkreibuxyp2gth3igqik7fxu4cm4nducetgp67hhlx36bwahgnuw4xmoa",
+						$link: "bafkreibuxyp2gth3igqik7fxu4cm4nducetgp67hhlx36bwahgnuw4xmoa",
 					},
 					mimeType: "image/png",
 					size: 2522,
