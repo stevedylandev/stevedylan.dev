@@ -20,7 +20,7 @@ interface Env {
 
 const now = new Hono<{ Bindings: Env }>();
 
-const PDS_URL = "https://polybius.social";
+const PDS_URL = "https://andromeda.social";
 
 // Helper function to get session for both admin and guest users
 async function getAnySession(c: any, sessionId: string) {
@@ -154,7 +154,8 @@ now.post("/post", async (c) => {
 				coverImage: {
 					$type: "blob",
 					ref: {
-						$link: "bafkreibuxyp2gth3igqik7fxu4cm4nducetgp67hhlx36bwahgnuw4xmoa",
+						$link:
+							"bafkreibuxyp2gth3igqik7fxu4cm4nducetgp67hhlx36bwahgnuw4xmoa",
 					},
 					mimeType: "image/png",
 					size: 2522,

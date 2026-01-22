@@ -1,6 +1,6 @@
 // ATProto configuration
 export const OWNER_DID = "did:plc:ia2zdnhjaokf5lazhxrmj6eu";
-export const PDS_URL = "https://polybius.social";
+export const PDS_URL = "https://andromeda.social";
 
 export const MENU_LINKS = [
 	{

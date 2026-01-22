@@ -1,0 +1,67 @@
+---
+title: "AT Protocol Primer"
+publishDate: "21 Jan 2026"
+description: "What is the AT Protocol and why does it matter in the grand scheme of the web"
+tags: ["atproto", "open web"]
+ogImage: "/blog-images/other/atprotocol.png"
+atUri: "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mcxxqjgspk26"
+---
+
+![cover](https://files.stevedylan.dev/atprotocol.png)
+
+If you've been on the internet for the last 10-20 years then you probably have a good sense of how bad the internet has become. We experience it every day when we pick up our phones and scroll through apps that used to mean something to us. Take Instagram for example. About 10-12 years ago it was a refreshing way to create and share moments in our lives. Resurrecting the square 1:1 aspect ratio that resembled a medium format camera viewfinder, filters that gave a "I mustache you a question" while wearing a short brimmed fedora, and a new wave of photographers making their mark. I even met my wife on Instagram. It was fun. Fast forward to the present and it's a mindless feed of videos from people you don't know, making you emotionally angry or trying to convince you to buy something. We lost control over our data, what massive companies did with it, and what actually mattered to us in the end. I don't think that era of the web is coming back, but I do think there is hope for a better web that is more open. 
+
+## The Problem With the Web
+
+There's a lot that could fill in the blank here in regards to what is wrong with the web right now, but I personally think there are two major pain points. 
+
+### Fragmented Data
+
+Right now the majority of the data you create on the internet is stored on servers owned by platforms. If you make a post on Facebook, it lives on Meta's servers. If you make a post on X, it's stored on their servers, and so on and so forth.
+
+![old data model](https://files.stevedylan.dev/old-data-model.png)
+
+What you end up with is a fragmented spread of data across multiple platforms that you have no control over. If X decides to nuke your account or if LinkedIn goes out of business, that data is probably gone. Perhaps you can do what my wife and I did when we deleted all our Meta accounts and download archives of that data, but it ends up being pretty useless. Trying to resurrect it and use it on a new platform would be next to impossible. It's dead. 
+
+### Fragmented Identity
+
+Another problem with the current web model is that your online identity is composed of a bunch of small profiles spread across multiple platforms. We all love that existential dread that comes over us when we have to sign up for yet another service and we have to pick a username that may or may not be available, and then somehow keep up with the 15 different usernames across all of our stuff. 
+
+![fragmented identity](https://files.stevedylan.dev/fragmented-identity.png)
+
+What an absolute mess. Our identity situation is so bad that we end up creating a link tree page with our huge list of fragmented platforms to help push people in the right direction. Who is Steve online? Hard to say, you have to visit maybe five different sites to figure that out. Perhaps even more frustrating is that we have a solution for this that no platform uses: domains. You're reading from `stevedylan.dev`, a domain I've used for years now that I have control over. What if you could use a single domain for everything? 
+
+## The AT Protocol 
+
+Thus enters the [AT Protocol](https://atproto.com) (aka ATProto for short), a new model of how our data and our identity can live on the internet. Imagine this: you pick one username, `stevedylan.dev` for example, you can use it for any app, and your data travels with it.
+
+![pds model](https://files.stevedylan.dev/pds-model.png)
+
+With the AT Protocol model for data, everything lives on a single server called a PDS (personal data server). Your content is organized into neat folders that are used by each app. Let's imagine that we were rebuilding Instagram with this model and we called it `at-gram.com` (horrible I know but stay with me). You login to this website, the app will ask for permission to write files to your server, and once you've approved it then you can start posting. You post an image of a cat, and in that moment the app will create a new "folder" for this post called `com.at-gram.post.image`. When you look inside your personal data server you can look at that data, see how it's put together, and where it comes from: `at-gram.com`. That content you just created doesn't get stored on some server owned by `at-gram.com`; it's owned by __you__. 
+
+Everything is tied to your identity that can also be moved from server to server. Let's say you created an account on a PDS owned by an organization and you want to move it somewhere else. The tools exist where you can make that happen, all your data sticks with your identity, and everything keeps working as normal. My ATProto identity lives on my own PDS called `andromeda.social`, but I could just as easily move it to an organization like `selfhosted.social`. That is the true beauty and freedom of the AT Protocol: unified identity, unified data, both portable and interoperable. 
+
+I'm glazing over a lot of technical pieces that make up the AT Protocol, so if you're a nerd like me and want to dive deeper, I would highly recommend [this video](https://www.youtube.com/watch?v=F1sJW6nTP6E) and check out the official [website](https://atproto.com).
+
+## How to Get Started
+
+There's a few ways you could start using ATProto. Probably the easiest one is to sign up through [Blue Sky](https://bsky.app). It's a social media platform that allows you to create custom feeds and have way more control over your experience than other platforms. You can also check out [some other servers out there](https://blog.vicwalker.dev.br/3lz4g6zxeic2p) or join mine if you [ask nicely](mailto:contact@stevedylan.dev?subject=Request%20to%20Join%20andromeda.social) :). When you sign up you'll generally get an alias like `steve.andromeda.social` which is your handle that you can use everywhere, but if you have a custom domain like `stevedylan.dev` that you want to use you can follow [this guide](https://www.bskyinfo.com/guides/advanced-features/custom-domains/). 
+
+Once you have an ATProto account here are a few things you can check out!
+
+- [Leaflet](https://leaflet.pub) - Tiny interconnected social documents
+- [pckt.blog](https://pckt.blog) - Blogging made easy
+- [offprint](https://offprint.app/) - Publishing for the open web
+- [Smoke Signal](https://smokesignal.events/) - Events built on ATProto
+- [Flashes](https://apps.apple.com/us/app/flashes-for-bluesky/id6741443033) - Instagram alternative
+- [Margin](https://margin.at/) - Write on the margins of the internet
+- [Blento](https://blento.app/) - Create your own website stored on your PDS
+- [Semble](https://semble.so/) - A social knowledge network for researchers
+- [Skyreader](https://skyreader.app/) - RSS Reader built on ATProto
+- [Tangled](https://tangled.org/) - Tightly knit social coding
+
+There's a lot out there and I'll try to update this list over time as I find more apps that use ATProto, so save this post and revisit if that sounds interesting to you. If you're trying to get started with ATProto and get stuck, [my inbox is always open](mailto:contact@stevedylan.dev)!
+
+## Wrapping Up
+
+The web is in a rough place, but what encourages me is the number of people trying to fight for a more open web through technology like ATProto. Plenty of talented developers are trying to improve the protocol as well as build apps that people can use, but the ultimate deciding factor is us and our time. We can choose to keep using walled garden platforms and sending our data to massive companies, or we can choose a smaller web that actually puts the power back in our hands. With enough people making the same decisions to support protocols like this, we can change the course of the web for good.

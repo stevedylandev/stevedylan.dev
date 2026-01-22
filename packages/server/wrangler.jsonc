@@ -6,7 +6,7 @@
 	"compatibility_flags": ["nodejs_compat"],
 	"vars": {
 		"ALLOWED_DID": "did:plc:ia2zdnhjaokf5lazhxrmj6eu",
-		"PDS_URL": "https://polybius.social",
+		"PDS_URL": "https://andromeda.social",
 		"CLIENT_URL": "https://stevedylan.dev",
 		"API_URL": "https://api.stevedylan.dev"
 	},

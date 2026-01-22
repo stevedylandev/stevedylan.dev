@@ -5,7 +5,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 const CONTENT_DIR = path.join(import.meta.dir, "../src/content/post");
-const PDS_URL = process.env.PDS_URL || "https://polybius.social";
+const PDS_URL = process.env.PDS_URL || "https://andromeda.social";
 const PUBLICATION_URI =
 	"at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.publication/3mbykzswhqc2x";
 const SITE_URL = "https://stevedylan.dev";
@@ -201,7 +201,11 @@ function resolveImagePath(ogImage: string): string {
 	const filename = path.basename(ogImage);
 
 	// All blog images are stored in packages/client/public/blog-images/other
-	const imagePath = path.join(import.meta.dir, "../public/blog-images/other", filename);
+	const imagePath = path.join(
+		import.meta.dir,
+		"../public/blog-images/other",
+		filename,
+	);
 
 	if (!fs.existsSync(imagePath)) {
 		throw new Error(`Image not found: ${imagePath}`);
