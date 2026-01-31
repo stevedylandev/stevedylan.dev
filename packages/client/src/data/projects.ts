@@ -8,6 +8,14 @@ export type ProjectItem = {
 
 export const projects: ProjectItem[] = [
 	{
+		title: "Sequoia",
+		description:
+			"While there are several blogging platform options for publishing standard.stie lexicons, there wasn't much out there for self-hosted blogs. This prompted me to build Sequoia: a CLI that helps take existing blogs and publish them to ATProto. It features an interactive setup, flexible config to meet any SSG or framework, and even the necessary pieces for verification of standard.site lexicons.",
+		image: "https://sequoia.pub/og.png",
+		link: "https://sequoia.pub",
+		tags: ["blogging", "atproto", "standard site", "cli"],
+	},
+	{
 		title: "Docs.surf",
 		description:
 			"I've slowly been falling into ATProto and what it can enable for publishing content on the web, and building a more open web in general. With ATProto you can create records on your server (PDS) that have specific structures known as lexicons. One in particular that is taking of is standard.site. There are two lexicons, Publications and Documents. Both are designed for building interoperable blog posts that can be aggregated. That's exactly what Docs.surf does, using a mixture of Tap (ATProtos indexer), Cloudflare workers, queues, and D1 databases.",

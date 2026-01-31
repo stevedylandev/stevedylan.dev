@@ -1,0 +1,44 @@
+---
+title: "Introducing Sequoia: Publishing for the Open Web"
+publishDate: "30 Jan 2026"
+description: "A new CLI tool for publishing existing blogs to the AT Protocol"
+tags: ["atproto", "open web", "bluesky"]
+ogImage: "/blog-images/other/sequoia-hero.png"
+---
+
+![cover](https://files.stevedylan.dev/sequoia-hero.png)
+
+Today I'm excited to release a new tool for the [AT Protocol](https://atproto.com): Sequoia. This is a CLI tool that can take your existing self-hosted blog and publish it to the ATmosphere using [Standard.site](https://standard.site) lexicons. 
+
+If you haven't explored ATProto you can find a primer [here](https://stevedylan.dev/posts/atproto-starter/), but in short, it's a new way to publish content to the web that puts ownership and control back in the hands of users. Blogs in some ways have already been doing this, but they've been missing a key piece: distribution. One of the unique features of ATProto is [lexicons](), which are schemas that apps build to create folders of content on a user's personal data server. The domain verified nature lets them be indexed and aggregated with ease. Outside of apps, lexicons can be extended by community members to build a common standard. That's exactly how [Standard.site](https://standard.site) was brought about, pushing a new way for standardizing publications and documents on ATProto. 
+
+The founders and platforms behind the standard, [leaflet.pub](https://leaflet.pub), [pckt.blog](https://pckt.blog), and [offprint.app](https://offprint.app), all serve to make creating and sharing blogs easy. If you are not a technical person and don't have a blog already, I would highly recommend checking all of them out! However, for those of us who already have blogs, there was a need for a tool that could make it easy to publish existing and new content with this new standard. Thus Sequoia was born.
+
+Sequoia is a relatively simple CLI that can do the following:
+- Authenticate with your ATProto handle 
+- Configure your blog through an interactive setup process
+- Create publication and document records on your PDS
+- Add necessary verification pieces to your site
+- Sync with existing records on your PDS
+
+It's designed to be run inside your existing repo, build a one-time config, and then be part of your regular workflow by publishing content or updating existing content, all following the Standard.site lexicons. The best part? It's designed to be fully interoperable. Doesn't matter if you're using Astro, 11ty, Hugo, Svelte, Next, Gatsby, Zola, you name it. If it's a static blog with markdown, Sequoia will work (and if for some reason it doesn't, [open an issue!](https://tangled.org/stevedylan.dev/sequoia/issues/new)). Here's a quick demo of Sequoia in action: 
+
+<div class="relative w-full" style="padding-bottom: 73.17%;">
+<iframe
+  class="absolute left-0 top-0 h-full w-full"
+  src="https://www.youtube.com/embed/sxursUHq5kw"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;  web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen
+></iframe>
+</div>
+
+ATProto has proven to be one of the more exciting pieces of technology that has surfaced in the past few years, and it gives some of us hope for a web that is open once ore. No more walled gardens, full control of our data, and connected through lexicons.
+
+Install Sequoia today and check out the [quickstart guide](https://sequoia.pub/quickstart) to publish your content into the ATmosphere 🌳 
+
+```bash
+bun i -g sequoia-cli
+```
