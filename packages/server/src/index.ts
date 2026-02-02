@@ -1,6 +1,8 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { home, now, auth, guestAuth } from "./routes";
+// COMMENTS FUNCTIONALITY DISABLED
+// import { home, now, auth, guestAuth } from "./routes";
+import { home, now, auth } from "./routes";
 
 interface Env {
 	SESSIONS: KVNamespace;
@@ -32,6 +34,7 @@ app.use(
 app.route("/", home);
 app.route("/now", now);
 app.route("/auth", auth);
-app.route("/guest-auth", guestAuth);
+// COMMENTS FUNCTIONALITY DISABLED
+// app.route("/guest-auth", guestAuth);
 
 export default app;

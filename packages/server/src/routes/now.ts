@@ -22,20 +22,21 @@ const now = new Hono<{ Bindings: Env }>();
 
 const PDS_URL = "https://andromeda.social";
 
-// Helper function to get session for both admin and guest users
-async function getAnySession(c: any, sessionId: string) {
-	if (sessionId.startsWith("guest_")) {
-		// Guest session
-		const originalSessionId = await c.env.SESSIONS.get(
-			`guest_session:${sessionId}`,
-		);
-		if (!originalSessionId) return null;
-		return await getSession(c.env.SESSIONS, originalSessionId);
-	} else {
-		// Admin session
-		return await getSession(c.env.SESSIONS, sessionId);
-	}
-}
+// COMMENTS FUNCTIONALITY DISABLED
+// // Helper function to get session for both admin and guest users
+// async function getAnySession(c: any, sessionId: string) {
+// 	if (sessionId.startsWith("guest_")) {
+// 		// Guest session
+// 		const originalSessionId = await c.env.SESSIONS.get(
+// 			`guest_session:${sessionId}`,
+// 		);
+// 		if (!originalSessionId) return null;
+// 		return await getSession(c.env.SESSIONS, originalSessionId);
+// 	} else {
+// 		// Admin session
+// 		return await getSession(c.env.SESSIONS, sessionId);
+// 	}
+// }
 
 // Create a new post
 now.post("/post", async (c) => {
@@ -328,297 +329,298 @@ now.get("/rss", async (c) => {
 	}
 });
 
-// Create a reply to a post (for guests)
-now.post("/reply", async (c) => {
-	try {
-		// Get session from cookie
-		const sessionId = getSessionIdFromCookie(c);
-		if (!sessionId) {
-			return c.json({ error: "Not authenticated" }, 401);
-		}
+// COMMENTS FUNCTIONALITY DISABLED
+// // Create a reply to a post (for guests)
+// now.post("/reply", async (c) => {
+// 	try {
+// 		// Get session from cookie
+// 		const sessionId = getSessionIdFromCookie(c);
+// 		if (!sessionId) {
+// 			return c.json({ error: "Not authenticated" }, 401);
+// 		}
 
-		const sessionData = await getAnySession(c, sessionId);
-		if (!sessionData) {
-			return c.json({ error: "Session not found" }, 401);
-		}
+// 		const sessionData = await getAnySession(c, sessionId);
+// 		if (!sessionData) {
+// 			return c.json({ error: "Session not found" }, 401);
+// 		}
 
-		let { session, dpopKeyPair } = sessionData;
+// 		let { session, dpopKeyPair } = sessionData;
 
-		// Determine which PDS to use (user's PDS for guests, env PDS for admin)
-		const isGuest = sessionId.startsWith("guest_");
-		const pdsUrl = isGuest && session.pdsUrl ? session.pdsUrl : c.env.PDS_URL;
+// 		// Determine which PDS to use (user's PDS for guests, env PDS for admin)
+// 		const isGuest = sessionId.startsWith("guest_");
+// 		const pdsUrl = isGuest && session.pdsUrl ? session.pdsUrl : c.env.PDS_URL;
 
-		// Refresh token if expired
-		if (isTokenExpired(session.expiresAt) && session.refreshToken) {
-			const metadata = await fetchOAuthMetadata(pdsUrl);
-			const clientId = isGuest
-				? `${c.env.API_URL}/guest-auth/client-metadata.json`
-				: `${c.env.API_URL}/auth/client-metadata.json`;
+// 		// Refresh token if expired
+// 		if (isTokenExpired(session.expiresAt) && session.refreshToken) {
+// 			const metadata = await fetchOAuthMetadata(pdsUrl);
+// 			const clientId = isGuest
+// 				? `${c.env.API_URL}/guest-auth/client-metadata.json`
+// 				: `${c.env.API_URL}/auth/client-metadata.json`;
 
-			const { tokenResponse, dpopNonce } = await refreshAccessToken(
-				metadata,
-				session.refreshToken,
-				clientId,
-				dpopKeyPair,
-				session.dpopNonce,
-			);
+// 			const { tokenResponse, dpopNonce } = await refreshAccessToken(
+// 				metadata,
+// 				session.refreshToken,
+// 				clientId,
+// 				dpopKeyPair,
+// 				session.dpopNonce,
+// 			);
 
-			// Get the actual session ID for update
-			const actualSessionId = isGuest
-				? (await c.env.SESSIONS.get(`guest_session:${sessionId}`)) || ""
-				: sessionId;
+// 			// Get the actual session ID for update
+// 			const actualSessionId = isGuest
+// 				? (await c.env.SESSIONS.get(`guest_session:${sessionId}`)) || ""
+// 				: sessionId;
 
-			// Update session with new tokens
-			await updateSession(
-				c.env.SESSIONS,
-				actualSessionId,
-				tokenResponse.access_token,
-				tokenResponse.refresh_token || session.refreshToken,
-				dpopNonce,
-				tokenResponse.expires_in,
-			);
+// 			// Update session with new tokens
+// 			await updateSession(
+// 				c.env.SESSIONS,
+// 				actualSessionId,
+// 				tokenResponse.access_token,
+// 				tokenResponse.refresh_token || session.refreshToken,
+// 				dpopNonce,
+// 				tokenResponse.expires_in,
+// 			);
 
-			// Update local session object
-			session.accessToken = tokenResponse.access_token;
-			session.dpopNonce = dpopNonce;
-		}
+// 			// Update local session object
+// 			session.accessToken = tokenResponse.access_token;
+// 			session.dpopNonce = dpopNonce;
+// 		}
 
-		// Parse request body
-		const body = await c.req.json<{
-			parentUri: string;
-			content: string;
-		}>();
+// 		// Parse request body
+// 		const body = await c.req.json<{
+// 			parentUri: string;
+// 			content: string;
+// 		}>();
 
-		if (!body.parentUri || body.parentUri.trim().length === 0) {
-			return c.json({ error: "Parent URI is required" }, 400);
-		}
+// 		if (!body.parentUri || body.parentUri.trim().length === 0) {
+// 			return c.json({ error: "Parent URI is required" }, 400);
+// 		}
 
-		if (!body.content || body.content.trim().length === 0) {
-			return c.json({ error: "Content is required" }, 400);
-		}
+// 		if (!body.content || body.content.trim().length === 0) {
+// 			return c.json({ error: "Content is required" }, 400);
+// 		}
 
-		// Fetch the parent post to get its CID (use owner's PDS since that's where the post lives)
-		const getRecordUrl =
-			`${c.env.PDS_URL}/xrpc/com.atproto.repo.getRecord?` +
-			new URLSearchParams({
-				repo: body.parentUri.split("/")[2], // Extract DID from URI
-				collection: body.parentUri.split("/")[3], // Extract collection
-				rkey: body.parentUri.split("/")[4], // Extract rkey
-			});
+// 		// Fetch the parent post to get its CID (use owner's PDS since that's where the post lives)
+// 		const getRecordUrl =
+// 			`${c.env.PDS_URL}/xrpc/com.atproto.repo.getRecord?` +
+// 			new URLSearchParams({
+// 				repo: body.parentUri.split("/")[2], // Extract DID from URI
+// 				collection: body.parentUri.split("/")[3], // Extract collection
+// 				rkey: body.parentUri.split("/")[4], // Extract rkey
+// 			});
 
-		const parentResponse = await fetch(getRecordUrl);
-		if (!parentResponse.ok) {
-			console.error("Failed to fetch parent post");
-			return c.json({ error: "Failed to fetch parent post" }, 400);
-		}
+// 		const parentResponse = await fetch(getRecordUrl);
+// 		if (!parentResponse.ok) {
+// 			console.error("Failed to fetch parent post");
+// 			return c.json({ error: "Failed to fetch parent post" }, 400);
+// 		}
 
-		const parentData = (await parentResponse.json()) as { cid: string };
-		const parentCid = parentData.cid;
+// 		const parentData = (await parentResponse.json()) as { cid: string };
+// 		const parentCid = parentData.cid;
 
-		// Fetch author profile to get handle, displayName, and avatar from Bluesky public API
-		let authorHandle = session.did;
-		let authorDisplayName: string | undefined;
-		let authorAvatar: string | undefined;
+// 		// Fetch author profile to get handle, displayName, and avatar from Bluesky public API
+// 		let authorHandle = session.did;
+// 		let authorDisplayName: string | undefined;
+// 		let authorAvatar: string | undefined;
 
-		try {
-			const profileUrl = `https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${session.did}`;
-			const profileResponse = await fetch(profileUrl);
-			if (profileResponse.ok) {
-				const profileData = (await profileResponse.json()) as {
-					handle?: string;
-					displayName?: string;
-					avatar?: string;
-				};
-				authorHandle = profileData.handle || session.did;
-				authorDisplayName = profileData.displayName;
-				authorAvatar = profileData.avatar;
-			}
-		} catch (err) {
-			console.error("Failed to fetch author profile:", err);
-		}
+// 		try {
+// 			const profileUrl = `https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${session.did}`;
+// 			const profileResponse = await fetch(profileUrl);
+// 			if (profileResponse.ok) {
+// 				const profileData = (await profileResponse.json()) as {
+// 					handle?: string;
+// 					displayName?: string;
+// 					avatar?: string;
+// 				};
+// 				authorHandle = profileData.handle || session.did;
+// 				authorDisplayName = profileData.displayName;
+// 				authorAvatar = profileData.avatar;
+// 			}
+// 		} catch (err) {
+// 			console.error("Failed to fetch author profile:", err);
+// 		}
 
-		// Create the comment record using site.standard.document.comment lexicon
-		// Use the user's PDS URL since the record is stored in THEIR repo
-		const createRecordUrl = `${pdsUrl}/xrpc/com.atproto.repo.createRecord`;
+// 		// Create the comment record using site.standard.document.comment lexicon
+// 		// Use the user's PDS URL since the record is stored in THEIR repo
+// 		const createRecordUrl = `${pdsUrl}/xrpc/com.atproto.repo.createRecord`;
 
-		const commentRecord = {
-			repo: session.did,
-			collection: "site.standard.document.comment",
-			record: {
-				$type: "site.standard.document.comment",
-				parent: {
-					uri: body.parentUri,
-					cid: parentCid,
-				},
-				root: {
-					uri: body.parentUri,
-					cid: parentCid,
-				},
-				content: body.content.trim(),
-				author: {
-					did: session.did,
-					handle: authorHandle,
-					...(authorDisplayName && { displayName: authorDisplayName }),
-					...(authorAvatar && { avatar: authorAvatar }),
-				},
-				createdAt: new Date().toISOString(),
-			},
-		};
+// 		const commentRecord = {
+// 			repo: session.did,
+// 			collection: "site.standard.document.comment",
+// 			record: {
+// 				$type: "site.standard.document.comment",
+// 				parent: {
+// 					uri: body.parentUri,
+// 					cid: parentCid,
+// 				},
+// 				root: {
+// 					uri: body.parentUri,
+// 					cid: parentCid,
+// 				},
+// 				content: body.content.trim(),
+// 				author: {
+// 					did: session.did,
+// 					handle: authorHandle,
+// 					...(authorDisplayName && { displayName: authorDisplayName }),
+// 					...(authorAvatar && { avatar: authorAvatar }),
+// 				},
+// 				createdAt: new Date().toISOString(),
+// 			},
+// 		};
 
-		// Make request with DPoP
-		const makeRequest = async (nonce?: string): Promise<Response> => {
-			const dpopProof = await createDPoPProof(dpopKeyPair, {
-				method: "POST",
-				url: createRecordUrl,
-				nonce: nonce || session.dpopNonce,
-				accessToken: session.accessToken,
-			});
+// 		// Make request with DPoP
+// 		const makeRequest = async (nonce?: string): Promise<Response> => {
+// 			const dpopProof = await createDPoPProof(dpopKeyPair, {
+// 				method: "POST",
+// 				url: createRecordUrl,
+// 				nonce: nonce || session.dpopNonce,
+// 				accessToken: session.accessToken,
+// 			});
 
-			return fetch(createRecordUrl, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `DPoP ${session.accessToken}`,
-					DPoP: dpopProof,
-				},
-				body: JSON.stringify(commentRecord),
-			});
-		};
+// 			return fetch(createRecordUrl, {
+// 				method: "POST",
+// 				headers: {
+// 					"Content-Type": "application/json",
+// 					Authorization: `DPoP ${session.accessToken}`,
+// 					DPoP: dpopProof,
+// 				},
+// 				body: JSON.stringify(commentRecord),
+// 			});
+// 		};
 
-		let response = await makeRequest();
+// 		let response = await makeRequest();
 
-		// Handle DPoP nonce requirement
-		if (response.status === 401) {
-			const newNonce = extractDPoPNonce(response);
-			if (newNonce) {
-				// Retry with new nonce
-				response = await makeRequest(newNonce);
+// 		// Handle DPoP nonce requirement
+// 		if (response.status === 401) {
+// 			const newNonce = extractDPoPNonce(response);
+// 			if (newNonce) {
+// 				// Retry with new nonce
+// 				response = await makeRequest(newNonce);
 
-				// Get the actual session ID for update
-				const actualSessionId = isGuest
-					? (await c.env.SESSIONS.get(`guest_session:${sessionId}`)) || ""
-					: sessionId;
+// 				// Get the actual session ID for update
+// 				const actualSessionId = isGuest
+// 					? (await c.env.SESSIONS.get(`guest_session:${sessionId}`)) || ""
+// 					: sessionId;
 
-				// Update session with new nonce
-				await updateSession(
-					c.env.SESSIONS,
-					actualSessionId,
-					session.accessToken,
-					session.refreshToken,
-					newNonce,
-					Math.floor((session.expiresAt - Date.now()) / 1000),
-				);
-			}
-		}
+// 				// Update session with new nonce
+// 				await updateSession(
+// 					c.env.SESSIONS,
+// 					actualSessionId,
+// 					session.accessToken,
+// 					session.refreshToken,
+// 					newNonce,
+// 					Math.floor((session.expiresAt - Date.now()) / 1000),
+// 				);
+// 			}
+// 		}
 
-		if (!response.ok) {
-			const errorData = await response.json();
-			console.error("Failed to create reply:", errorData);
-			return c.json(
-				{ error: "Failed to create reply", details: errorData },
-				response.status as 400 | 401 | 403 | 500,
-			);
-		}
+// 		if (!response.ok) {
+// 			const errorData = await response.json();
+// 			console.error("Failed to create reply:", errorData);
+// 			return c.json(
+// 				{ error: "Failed to create reply", details: errorData },
+// 				response.status as 400 | 401 | 403 | 500,
+// 			);
+// 		}
 
-		const result = (await response.json()) as { uri: string; cid: string };
-		return c.json({ success: true, uri: result.uri, cid: result.cid });
-	} catch (error) {
-		console.error("Error creating reply:", error);
-		return c.json({ error: "Internal server error" }, 500);
-	}
-});
+// 		const result = (await response.json()) as { uri: string; cid: string };
+// 		return c.json({ success: true, uri: result.uri, cid: result.cid });
+// 	} catch (error) {
+// 		console.error("Error creating reply:", error);
+// 		return c.json({ error: "Internal server error" }, 500);
+// 	}
+// });
 
-// Get comments for a post via TAP API
-now.get("/comments/:uri", async (c) => {
-	try {
-		const encodedUri = c.req.param("uri");
-		const uri = decodeURIComponent(encodedUri);
+// // Get comments for a post via TAP API
+// now.get("/comments/:uri", async (c) => {
+// 	try {
+// 		const encodedUri = c.req.param("uri");
+// 		const uri = decodeURIComponent(encodedUri);
 
-		// First, get the list of comment URIs from TAP API
-		const tapUrl = `https://tap.stevedylan.dev/comments?document=${encodeURIComponent(uri)}`;
-		const response = await fetch(tapUrl);
+// 		// First, get the list of comment URIs from TAP API
+// 		const tapUrl = `https://tap.stevedylan.dev/comments?document=${encodeURIComponent(uri)}`;
+// 		const response = await fetch(tapUrl);
 
-		if (!response.ok) {
-			console.error("Failed to fetch comment list from TAP:", response.status);
-			return c.json({ replies: [] });
-		}
+// 		if (!response.ok) {
+// 			console.error("Failed to fetch comment list from TAP:", response.status);
+// 			return c.json({ replies: [] });
+// 		}
 
-		interface CommentReference {
-			createdAt: string;
-			did: string;
-			uri: string;
-		}
+// 		interface CommentReference {
+// 			createdAt: string;
+// 			did: string;
+// 			uri: string;
+// 		}
 
-		const commentRefs: CommentReference[] = await response.json();
+// 		const commentRefs: CommentReference[] = await response.json();
 
-		// Fetch each individual comment using ATProto getRecord
-		const commentPromises = commentRefs.map(async (ref) => {
-			try {
-				// Parse the AT URI: at://did:plc:.../collection/rkey
-				const parts = ref.uri.split("/");
-				const did = parts[2];
-				const collection = parts[3];
-				const rkey = parts[4];
+// 		// Fetch each individual comment using ATProto getRecord
+// 		const commentPromises = commentRefs.map(async (ref) => {
+// 			try {
+// 				// Parse the AT URI: at://did:plc:.../collection/rkey
+// 				const parts = ref.uri.split("/");
+// 				const did = parts[2];
+// 				const collection = parts[3];
+// 				const rkey = parts[4];
 
-				// Resolve the DID to find the PDS endpoint
-				const didDoc = (await fetch(`https://plc.directory/${did}`).then((r) =>
-					r.json(),
-				)) as {
-					service?: Array<{ type: string; serviceEndpoint: string }>;
-				};
+// 				// Resolve the DID to find the PDS endpoint
+// 				const didDoc = (await fetch(`https://plc.directory/${did}`).then((r) =>
+// 					r.json(),
+// 				)) as {
+// 					service?: Array<{ type: string; serviceEndpoint: string }>;
+// 				};
 
-				// Find the PDS service endpoint
-				const pdsService = didDoc.service?.find(
-					(s) => s.type === "AtprotoPersonalDataServer",
-				);
+// 				// Find the PDS service endpoint
+// 				const pdsService = didDoc.service?.find(
+// 					(s) => s.type === "AtprotoPersonalDataServer",
+// 				);
 
-				if (!pdsService?.serviceEndpoint) {
-					console.error(`No PDS found for DID: ${did}`);
-					return null;
-				}
+// 				if (!pdsService?.serviceEndpoint) {
+// 					console.error(`No PDS found for DID: ${did}`);
+// 					return null;
+// 				}
 
-				const pdsUrl = pdsService.serviceEndpoint;
+// 				const pdsUrl = pdsService.serviceEndpoint;
 
-				// Fetch the record from the user's PDS
-				const getRecordUrl =
-					`${pdsUrl}/xrpc/com.atproto.repo.getRecord?` +
-					new URLSearchParams({
-						repo: did,
-						collection: collection,
-						rkey: rkey,
-					});
+// 				// Fetch the record from the user's PDS
+// 				const getRecordUrl =
+// 					`${pdsUrl}/xrpc/com.atproto.repo.getRecord?` +
+// 					new URLSearchParams({
+// 						repo: did,
+// 						collection: collection,
+// 						rkey: rkey,
+// 					});
 
-				const recordResponse = await fetch(getRecordUrl);
-				if (!recordResponse.ok) {
-					console.error(
-						`Failed to fetch comment from PDS ${pdsUrl}: ${ref.uri}`,
-					);
-					return null;
-				}
+// 				const recordResponse = await fetch(getRecordUrl);
+// 				if (!recordResponse.ok) {
+// 					console.error(
+// 						`Failed to fetch comment from PDS ${pdsUrl}: ${ref.uri}`,
+// 					);
+// 					return null;
+// 				}
 
-				const data = (await recordResponse.json()) as {
-					value: Record<string, unknown>;
-					cid: string;
-				};
-				return {
-					...data.value,
-					uri: ref.uri,
-					cid: data.cid,
-				};
-			} catch (err) {
-				console.error(`Error fetching comment ${ref.uri}:`, err);
-				return null;
-			}
-		});
+// 				const data = (await recordResponse.json()) as {
+// 					value: Record<string, unknown>;
+// 					cid: string;
+// 				};
+// 				return {
+// 					...data.value,
+// 					uri: ref.uri,
+// 					cid: data.cid,
+// 				};
+// 			} catch (err) {
+// 				console.error(`Error fetching comment ${ref.uri}:`, err);
+// 				return null;
+// 			}
+// 		});
 
-		const comments = await Promise.all(commentPromises);
-		const validComments = comments.filter((comment) => comment !== null);
+// 		const comments = await Promise.all(commentPromises);
+// 		const validComments = comments.filter((comment) => comment !== null);
 
-		return c.json({ replies: validComments });
-	} catch (error) {
-		console.error("Error fetching comments:", error);
-		return c.json({ replies: [] });
-	}
-});
+// 		return c.json({ replies: validComments });
+// 	} catch (error) {
+// 		console.error("Error fetching comments:", error);
+// 		return c.json({ replies: [] });
+// 	}
+// });
 
 export default now;
