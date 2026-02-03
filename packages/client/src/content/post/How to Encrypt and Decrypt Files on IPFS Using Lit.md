@@ -2,7 +2,7 @@
 title: "How to Encrypt and Decrypt Files on IPFS Using Lit Protocol"
 publishDate: "04 Nov 2023"
 description: "Experience the power of decentralized storage, encryption, and token gating with this tutorial"
-tags: ["ipfs", "lit-protocol", "encryption", "token-gating"]
+tags: ["ipfs", "web3", "tutorials"]
 ogImage: "/blog-images/other/6545bfa112815d6340466066_20231103_How-to-Encrypt-and-Decrypt-Files-on-IPFS-Using-Lit-Protocol-and-Pinata.jpeg"
 ---
 
