@@ -35,14 +35,14 @@ export default function NowUpdates() {
 						new URLSearchParams({
 							repo: OWNER_DID,
 							collection: "site.standard.document",
-							limit: "20",
+							//limit: "20",
 						}),
 				)
 					.then((res) => (res.ok ? res.json() : { records: [] }))
 					.catch(() => ({ records: [] }));
 
 				const filteredDocuments = (documentsData.records || []).filter(
-					(doc: Document) => doc.value.location !== "main-blog",
+					(doc: Document) => doc.value.path.includes("/now/"),
 				);
 
 				const sortedDocuments: Document[] = filteredDocuments.sort(

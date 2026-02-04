@@ -1,0 +1,10 @@
+{
+  "siteUrl": "https://stevedylan.dev",
+  "contentDir": "src/content/post",
+  "imagesDir": "public/blog-images",
+  "outputDir": "dist",
+  "publicationUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.publication/3mbykzswhqc2x",
+  "frontmatter": {
+    "draft": "hidden"
+  }
+}
