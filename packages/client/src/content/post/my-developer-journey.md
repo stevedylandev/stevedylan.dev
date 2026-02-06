@@ -2,7 +2,7 @@
 title: "My Developer Journey"
 publishDate: "28 Feb 2023"
 description: "How I learned web development and transitioned into the tech and Web3 space"
-tags: ["web development", "personal", "web3"]
+tags: ["web development", "personal", "blockchain"]
 atUri: "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvusmkjn2v"
 ---
 
