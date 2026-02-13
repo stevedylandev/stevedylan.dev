@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useAuth } from "../auth/AuthStatus";
 
 const API_URL = import.meta.env.PUBLIC_API_URL || "https://api.stevedylan.dev";
@@ -9,6 +9,16 @@ interface PostComposerProps {
 	onPostCreated?: () => void;
 }
 
+interface UploadedImage {
+	blob: {
+		$type: string;
+		ref: { $link: string };
+		mimeType: string;
+		size: number;
+	};
+	blobUrl: string;
+}
+
 export function PostComposer({ onPostCreated }: PostComposerProps) {
 	const { authenticated } = useAuth();
 	const [title, setTitle] = useState("");
@@ -17,10 +27,68 @@ export function PostComposer({ onPostCreated }: PostComposerProps) {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const [success, setSuccess] = useState(false);
+	const [isUploading, setIsUploading] = useState(false);
+	const [uploadedImage, setUploadedImage] = useState<UploadedImage | null>(
+		null,
+	);
+	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	if (!authenticated) {
 		return null;
 	}
+
+	const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (!file) return;
+
+		const allowedTypes = ["image/png", "image/jpeg", "image/webp", "image/gif"];
+		if (!allowedTypes.includes(file.type)) {
+			setError("Invalid file type. Allowed: png, jpeg, webp, gif");
+			return;
+		}
+
+		const maxSize = 100 * 1024 * 1024;
+		if (file.size > maxSize) {
+			setError("File too large. Maximum size is 100MB");
+			return;
+		}
+
+		setIsUploading(true);
+		setError(null);
+
+		try {
+			const formData = new FormData();
+			formData.append("file", file);
+
+			const response = await fetch(`${API_URL}/now/upload`, {
+				method: "POST",
+				credentials: "include",
+				body: formData,
+			});
+
+			const data = await response.json();
+
+			if (!response.ok) {
+				throw new Error(data.error || "Failed to upload image");
+			}
+
+			setUploadedImage({ blob: data.blob, blobUrl: data.blobUrl });
+			setContent((prev) =>
+				prev
+					? `${prev}\n\n![image](${data.blobUrl})`
+					: `![image](${data.blobUrl})`,
+			);
+		} catch (err) {
+			setError(
+				err instanceof Error ? err.message : "Failed to upload image",
+			);
+		} finally {
+			setIsUploading(false);
+			if (fileInputRef.current) {
+				fileInputRef.current.value = "";
+			}
+		}
+	};
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -59,6 +127,7 @@ export function PostComposer({ onPostCreated }: PostComposerProps) {
 							: `/${path.trim()}`
 						: undefined,
 					content: content.trim(),
+					coverImage: uploadedImage?.blob,
 				}),
 			});
 
@@ -71,6 +140,7 @@ export function PostComposer({ onPostCreated }: PostComposerProps) {
 			setTitle("");
 			setPath("");
 			setContent("");
+			setUploadedImage(null);
 			setSuccess(true);
 			setTimeout(() => setSuccess(false), 3000);
 
@@ -152,6 +222,28 @@ export function PostComposer({ onPostCreated }: PostComposerProps) {
 				/>
 			</div>
 
+			{/* Image Upload */}
+			<div className="mb-4 flex items-center gap-3">
+				<input
+					ref={fileInputRef}
+					type="file"
+					accept="image/png,image/jpeg,image/webp,image/gif"
+					onChange={handleImageUpload}
+					className="hidden"
+				/>
+				<button
+					type="button"
+					onClick={() => fileInputRef.current?.click()}
+					disabled={isSubmitting || isUploading}
+					className="px-3 py-1.5 border border-white text-white text-sm disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+				>
+					{isUploading ? "Uploading..." : "Add Image"}
+				</button>
+				{uploadedImage && (
+					<span className="text-xs text-green-400">Image uploaded</span>
+				)}
+			</div>
+
 			<div className="flex items-center justify-between mt-3">
 				<div className="flex items-center gap-3">
 					{error && <span className="text-sm text-red-500">{error}</span>}
@@ -164,7 +256,11 @@ export function PostComposer({ onPostCreated }: PostComposerProps) {
 				<button
 					type="submit"
 					disabled={
-						isSubmitting || isTitleOverLimit || !title.trim() || !content.trim()
+						isSubmitting ||
+						isUploading ||
+						isTitleOverLimit ||
+						!title.trim() ||
+						!content.trim()
 					}
 					className="px-4 py-2 border-white border text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
 				>

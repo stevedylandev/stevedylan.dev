@@ -38,6 +38,139 @@ const PDS_URL = "https://andromeda.social";
 // 	}
 // }
 
+// Upload an image blob to the PDS
+now.post("/upload", async (c) => {
+	try {
+		const sessionId = getSessionIdFromCookie(c);
+		if (!sessionId) {
+			return c.json({ error: "Not authenticated" }, 401);
+		}
+
+		const sessionData = await getSession(c.env.SESSIONS, sessionId);
+		if (!sessionData) {
+			return c.json({ error: "Session not found" }, 401);
+		}
+
+		let { session, dpopKeyPair } = sessionData;
+
+		// Refresh token if expired
+		if (isTokenExpired(session.expiresAt) && session.refreshToken) {
+			const metadata = await fetchOAuthMetadata(c.env.PDS_URL);
+			const clientId = `${c.env.API_URL}/auth/client-metadata.json`;
+
+			const { tokenResponse, dpopNonce } = await refreshAccessToken(
+				metadata,
+				session.refreshToken,
+				clientId,
+				dpopKeyPair,
+				session.dpopNonce,
+			);
+
+			await updateSession(
+				c.env.SESSIONS,
+				sessionId,
+				tokenResponse.access_token,
+				tokenResponse.refresh_token || session.refreshToken,
+				dpopNonce,
+				tokenResponse.expires_in,
+			);
+
+			session.accessToken = tokenResponse.access_token;
+			session.dpopNonce = dpopNonce;
+		}
+
+		// Parse multipart form data
+		const body = await c.req.parseBody();
+		const file = body["file"];
+
+		if (!file || !(file instanceof File)) {
+			return c.json({ error: "No file provided" }, 400);
+		}
+
+		// Validate file type
+		const allowedTypes = ["image/png", "image/jpeg", "image/webp", "image/gif"];
+		if (!allowedTypes.includes(file.type)) {
+			return c.json(
+				{ error: "Invalid file type. Allowed: png, jpeg, webp, gif" },
+				400,
+			);
+		}
+
+		// Validate file size (max 100MB - matches PDS_BLOB_UPLOAD_LIMIT)
+		const maxSize = 100 * 1024 * 1024;
+		if (file.size > maxSize) {
+			return c.json({ error: "File too large. Maximum size is 100MB" }, 400);
+		}
+
+		const fileBytes = new Uint8Array(await file.arrayBuffer());
+		const uploadUrl = `${c.env.PDS_URL}/xrpc/com.atproto.repo.uploadBlob`;
+
+		const makeUploadRequest = async (nonce?: string): Promise<Response> => {
+			const dpopProof = await createDPoPProof(dpopKeyPair, {
+				method: "POST",
+				url: uploadUrl,
+				nonce: nonce || session.dpopNonce,
+				accessToken: session.accessToken,
+			});
+
+			return fetch(uploadUrl, {
+				method: "POST",
+				headers: {
+					"Content-Type": file.type,
+					Authorization: `DPoP ${session.accessToken}`,
+					DPoP: dpopProof,
+				},
+				body: fileBytes,
+			});
+		};
+
+		let response = await makeUploadRequest();
+
+		// Handle DPoP nonce requirement
+		if (response.status === 401) {
+			const newNonce = extractDPoPNonce(response);
+			if (newNonce) {
+				response = await makeUploadRequest(newNonce);
+
+				await updateSession(
+					c.env.SESSIONS,
+					sessionId,
+					session.accessToken,
+					session.refreshToken,
+					newNonce,
+					Math.floor((session.expiresAt - Date.now()) / 1000),
+				);
+			}
+		}
+
+		if (!response.ok) {
+			const errorData = await response.json();
+			console.error("Failed to upload blob:", errorData);
+			return c.json(
+				{ error: "Failed to upload image", details: errorData },
+				response.status as 400 | 401 | 403 | 500,
+			);
+		}
+
+		const result = (await response.json()) as {
+			blob: {
+				$type: string;
+				ref: { $link: string };
+				mimeType: string;
+				size: number;
+			};
+		};
+
+		// Build public blob URL
+		const blobUrl = `https://andromeda.social/xrpc/com.atproto.sync.getBlob?did=${session.did}&cid=${result.blob.ref.$link}`;
+
+		return c.json({ blob: result.blob, blobUrl });
+	} catch (error) {
+		console.error("Error uploading blob:", error);
+		return c.json({ error: "Internal server error" }, 500);
+	}
+});
+
 // Create a new post
 now.post("/post", async (c) => {
 	try {
@@ -87,6 +220,12 @@ now.post("/post", async (c) => {
 			title: string;
 			path?: string;
 			content: string;
+			coverImage?: {
+				$type: string;
+				ref: { $link: string };
+				mimeType: string;
+				size: number;
+			};
 		}>();
 
 		if (!body.title || body.title.trim().length === 0) {
@@ -143,6 +282,16 @@ now.post("/post", async (c) => {
 			.replace(/`([^`]+)`/g, "$1") // Remove code formatting
 			.trim();
 
+		const defaultCoverImage = {
+			$type: "blob",
+			ref: {
+				$link:
+					"bafkreibuxyp2gth3igqik7fxu4cm4nducetgp67hhlx36bwahgnuw4xmoa",
+			},
+			mimeType: "image/png",
+			size: 2522,
+		};
+
 		const documentRecord = {
 			repo: session.did,
 			collection: "site.standard.document",
@@ -152,15 +301,7 @@ now.post("/post", async (c) => {
 				site: "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.publication/3mbykzswhqc2x",
 				...(normalizedPath && { path: normalizedPath.trim() }),
 				content: markdownContent,
-				coverImage: {
-					$type: "blob",
-					ref: {
-						$link:
-							"bafkreibuxyp2gth3igqik7fxu4cm4nducetgp67hhlx36bwahgnuw4xmoa",
-					},
-					mimeType: "image/png",
-					size: 2522,
-				},
+				coverImage: body.coverImage || defaultCoverImage,
 				textContent: textContent,
 				publishedAt: new Date().toISOString(),
 			},
