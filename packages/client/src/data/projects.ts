@@ -106,14 +106,6 @@ export const projects: ProjectItem[] = [
 		tags: ["blockchain", "ipfs", "developer tools"],
 	},
 	{
-		title: "GitCast",
-		description:
-			"A Farcaster Mini App that merges the GitHub event feed into the Farcaster social graph. Warpcast created an API that exposed the GitHub verifications made by all users and I thought it would be fun to see a feed GitHub events for all the people I follow that have the verification. Only problem was the number was in the 40K+ range which was too many to filter through. To solve this I built a fairly complex backend that indexes for each user that wants to see their feed and stores the users who have the verifications as well as their events. This was a great exercise in optimizing data pipelines and uses a mix of Cloudflare workers, KVs, D1 database, and queues.",
-		image: "https://gitcast.dev/og.png",
-		link: "https://github.com/stevedylandev/gitcast-server",
-		tags: ["farcaster", "social"],
-	},
-	{
 		title: "Mast",
 		description:
 			"A simple TUI used for sending casts on Farcaster written in Go. I wanted a project to try out the Bubbletea TUI framework from Charm.sh and this fit the bill perfectly. It's authorized using your own custody signers (can be created through castkeys.xyz) and allows the user to set their own Farcaster hub.",
