@@ -8,6 +8,14 @@ export type ProjectItem = {
 
 export const projects: ProjectItem[] = [
 	{
+		title: "Sipp",
+		description:
+			"Minimal code sharing app for the web and the terminal, written in Rust. A single ~13MB binary contains a web server, TUI, and CLI. Easy to self host and access through your browser or your terminal. Loads of features such as syntax highlighting, config to authenticated selected endpoints, and CLI actions to quickly create snippets from files.",
+		image: "https://sipp.so/assets/og.png",
+		link: "https://sipp.so",
+		tags: ["developer tools", "productivity"],
+	},
+	{
 		title: "Sequoia",
 		description:
 			"While there are several blogging platform options for publishing standard.stie lexicons, there wasn't much out there for self-hosted blogs. This prompted me to build Sequoia: a CLI that helps take existing blogs and publish them to ATProto. It features an interactive setup, flexible config to meet any SSG or framework, and even the necessary pieces for verification of standard.site lexicons.",
@@ -46,14 +54,6 @@ export const projects: ProjectItem[] = [
 		image: "https://feeds.software/assets/og.png",
 		link: "https://feeds.software",
 		tags: ["blogging", "rss"],
-	},
-	{
-		title: "Sipp",
-		description:
-			"A minimal code sharing app that runs purely on Bun with native html css js and sqlite. It's designed to be self hosted by developers so they have a space under their own domain where they can have snippets created and shared under their control, with the ability to customize the experience thanks to the simplicity of the structure.",
-		image: "https://sipp.so/assets/og.png",
-		link: "https://sipp.so",
-		tags: ["developer tools", "productivity"],
 	},
 	{
 		title: "norns",
