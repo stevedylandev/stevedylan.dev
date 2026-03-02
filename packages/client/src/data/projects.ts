@@ -8,14 +8,6 @@ export type ProjectItem = {
 
 export const projects: ProjectItem[] = [
 	{
-		title: "Sipp",
-		description:
-			"Minimal code sharing app for the web and the terminal, written in Rust. A single ~13MB binary contains a web server, TUI, and CLI. Easy to self host and access through your browser or your terminal. Loads of features such as syntax highlighting, config to authenticated selected endpoints, and CLI actions to quickly create snippets from files.",
-		image: "https://sipp.so/assets/og.png",
-		link: "https://sipp.so",
-		tags: ["developer tools", "productivity"],
-	},
-	{
 		title: "Sequoia",
 		description:
 			"While there are several blogging platform options for publishing standard.stie lexicons, there wasn't much out there for self-hosted blogs. This prompted me to build Sequoia: a CLI that helps take existing blogs and publish them to ATProto. It features an interactive setup, flexible config to meet any SSG or framework, and even the necessary pieces for verification of standard.site lexicons.",
@@ -38,6 +30,14 @@ export const projects: ProjectItem[] = [
 		image: "https://alcove.tools/og.png",
 		link: "https://stevedylan.dev/posts/introducing-alcove/",
 		tags: ["blogging", "privacy", "rss"],
+	},
+	{
+		title: "Sipp",
+		description:
+			"Minimal code sharing app for the web and the terminal, written in Rust. A single ~13MB binary contains a web server, TUI, and CLI. Easy to self host and access through your browser or your terminal. Loads of features such as syntax highlighting, config to authenticated selected endpoints, and CLI actions to quickly create snippets from files.",
+		image: "https://sipp.so/assets/og.png",
+		link: "https://sipp.so",
+		tags: ["developer tools", "productivity"],
 	},
 	{
 		title: "BlogFeeds.net",
@@ -146,7 +146,7 @@ export const projects: ProjectItem[] = [
 			"I was tired of poor code sharing experiences like Pastebin that were littered with ads, and I really loved the experience of Ray.so for images. This led to the creation of Snippets.so, an open sourced and extensible code sharing solution that’s minimal and clean.",
 		image:
 			"https://raw.githubusercontent.com/stevedylandev/snippets/refs/heads/main/public/og.png",
-		link: "https://github.com/stevedylandev/snippets",
+		link: "https://snippets.so",
 		tags: ["developer tools", "ipfs", "productivity"],
 	},
 	{
@@ -155,7 +155,7 @@ export const projects: ProjectItem[] = [
 			"The original Pinata SDK was written for Node.js years ago, and as the developer ecosystem evolved a more flexible SDK was necessary. This project was a full typescript rewrite from scratch that includes a whole new developer experience that intuitive, with far more methods and capabilities than before.",
 		image:
 			"https://files.stevedylan.dev/bafkreidv5iptnieh6eijei7enqc4mdhxpte3ries23heqf7s2hu3gdu6ru.jpg",
-		link: "https://docs.pinata.cloud/pinata",
+		link: "https://docs.pinata.cloud/sdk",
 		tags: ["developer tools", "ipfs"],
 	},
 	{
