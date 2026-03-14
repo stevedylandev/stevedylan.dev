@@ -9,5 +9,17 @@ const year = new Date().getFullYear();
 		Copyright &copy; {year}
 		Steve Simkins
 	</div>
+	<div class="googleballs-trigger flex items-center gap-1" role="button" tabindex="0" aria-label="Easter egg">
+		<span style="background:#4285F4;width:6px;height:6px;border-radius:50%;display:inline-block;"></span>
+		<span style="background:#EA4335;width:6px;height:6px;border-radius:50%;display:inline-block;"></span>
+		<span style="background:#FBBC05;width:6px;height:6px;border-radius:50%;display:inline-block;"></span>
+		<span style="background:#34A853;width:6px;height:6px;border-radius:50%;display:inline-block;"></span>
+	</div>
 	<a href="https://github.com/stevedylandev/stevedylan.dev">Source Code</a>
 </footer>
+
+<script>
+	document.querySelector('.googleballs-trigger')?.addEventListener('click', function() {
+		document.dispatchEvent(new CustomEvent('googleballs:open'));
+	});
+</script>

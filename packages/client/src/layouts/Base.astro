@@ -3,6 +3,7 @@ import type { SiteMeta } from "@/data/siteMeta";
 import BaseHead from "@/components/layout/BaseHead";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import GoogleBalls from "@/components/page/GoogleBalls.astro";
 import siteConfig from "@/site-config";
 
 interface Props {
@@ -35,5 +36,33 @@ const {
 			<slot />
 		</main>
 		<Footer />
+		<div id="googleballs-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:#121113;">
+      <a href="https://googleballs.com" target="_blank" rel="noreferrer" style="position:absolute;top:16px;left:16px;color:#fff;font-size:16px;cursor:pointer;z-index:10000;text-decoration:underline;">Google Balls</a>
+			<button id="googleballs-close" style="position:absolute;top:16px;right:16px;z-index:10000;background:none;border:none;color:#fff;font-size:32px;cursor:pointer;line-height:1;" aria-label="Close">&times;</button>
+			<GoogleBalls />
+		</div>
+		<script>
+			(function() {
+				var modal = document.getElementById('googleballs-modal');
+				var closeBtn = document.getElementById('googleballs-close');
+
+				document.addEventListener('googleballs:open', function() {
+					modal.style.display = 'block';
+					if (window.__googleballs) window.__googleballs.init();
+				});
+
+				closeBtn.addEventListener('click', function() {
+					modal.style.display = 'none';
+					if (window.__googleballs) window.__googleballs.stop();
+				});
+
+				document.addEventListener('keydown', function(e) {
+					if (e.key === 'Escape' && modal.style.display === 'block') {
+						modal.style.display = 'none';
+						if (window.__googleballs) window.__googleballs.stop();
+					}
+				});
+			})();
+		</script>
 	</body>
 </html>
