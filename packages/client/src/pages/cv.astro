@@ -1,0 +1,64 @@
+---
+import PageLayout from "@/layouts/Base.astro";
+
+const meta = {
+	title: "CV",
+	description: "History of work",
+};
+
+const experience = [
+	{
+		company: "Stablecore",
+		roles: [{ title: "Senior Solutions Engineer", period: "Jan 2026 – Present" }],
+	},
+	{
+		company: "Orbiter",
+		roles: [{ title: "Co-Founder", period: "Jan 2025 – Jan 2026" }],
+	},
+	{
+		company: "OpenZeppelin",
+		roles: [{ title: "Developer Relations", period: "Jun 2025 – Dec 2025" }],
+	},
+	{
+		company: "Pinata",
+		roles: [
+			{ title: "Head of Developer Relations", period: "Aug 2023 – Jun 2025" },
+			{ title: "Head of Community", period: "Aug 2022 – Aug 2023" },
+			{ title: "Community Manager", period: "Jan 2022 – Aug 2022" },
+		],
+	},
+	{
+		company: "Old Point National Bank",
+		roles: [{ title: "Customer Inquiry Specialist", period: "Dec 2017 – Jan 2022" }],
+	},
+	{
+		company: "Bass Pro Shops",
+		roles: [{ title: "Hunting & Archery Dept. Team Lead", period: "Jul 2014 – Dec 2017" }],
+	},
+];
+---
+
+<PageLayout meta={meta}>
+	<div class="space-y-6">
+		<h1 class="title">CV</h1>
+		<div class="relative ml-3 border-l border-solid border-accent pl-6 space-y-10">
+			{experience.map((job, i) => (
+				<div class:list={["relative", i > 0 && "opacity-50"]}>
+					<span class:list={[
+						"absolute -left-[29px] top-1.5 h-2.5 w-2.5 rounded-full border border-accent",
+						i === 0 ? "bg-accent" : "bg-[#121113]",
+					]} />
+					<h3 class="text-base font-semibold">{job.company}</h3>
+					<ul class="mt-1 space-y-2">
+						{job.roles.map((role) => (
+							<li>
+								<p class="text-sm">{role.title}</p>
+								<p class="text-xs text-gray-500">{role.period}</p>
+							</li>
+						))}
+					</ul>
+				</div>
+			))}
+		</div>
+	</div>
+</PageLayout>
