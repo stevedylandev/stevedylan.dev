@@ -6,6 +6,7 @@ import sitemap from "@astrojs/sitemap";
 import react from "@astrojs/react";
 import { fileURLToPath } from "url";
 import path from "path";
+import darkmatter from "./darkmatter.json";
 
 // https://astro.build/config
 export default defineConfig({
@@ -14,7 +15,7 @@ export default defineConfig({
 	compressHTML: true,
 	markdown: {
 		shikiConfig: {
-			theme: "vesper",
+			theme: darkmatter,
 			wrap: false,
 		},
 	},
