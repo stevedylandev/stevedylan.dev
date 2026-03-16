@@ -1,0 +1,328 @@
+---
+title: "Returning to Neovim"
+publishDate: "14 Mar 2026"
+description: "Once again coming back to the editor I can't shake"
+tags: []
+ogImage: ""
+---
+
+// Cover
+
+One of my more popular blog posts was how and why I switched to [Zed from Neovim](https://stevedylan.dev/posts/leaving-neovim-for-zed/). That was almost two years ago, and in that period Zed was my daily driver for programming. Every now and then I would still use Neovim to edit a config or make a quick edit, but outside of that, Zed was where I lived. Since then the Zed team has naturally had to keep up with all the AI hype. Thankfully most of the editing experience has remained in-tact, and with the right settings you may not even notice it's there. However there certainly have been instances where Zed felt buggy, and not as lean as it used to be. 
+
+## What Happened
+
+The real shift happened about a week ago when Zed updated its terms and policies. It was at this time when the dev community realized that there was a new age restriction of 18+. The Zed team clarified that this was in regards to their online services and platform used for AI assisted coding, but it was still a bit unnerving. A few people had already made forks of Zed through the open source licenses that the editor is under, and I did try them, but it was clear that the Zed experience was not the same. Some stuff didn't work, extensions had to be installed manually, just overall proved to be something else entirely.
+
+That was the wake up call. I realized I couldn't really trust Zed moving forward, not while its under the control of a VC backed company. I really think the team is awesome and what they're building is perhaps the best editor alternative to VSCode, but I also understood that they have to make money somehow. When it comes to writing code, that is the last place I want to be stuck in. I have to be able to write code productively without my flow being interrupted by the decisions of higher managemnet. Neovim isn't a perfect drop in replacement in this regard either, but I trust it way more as a community backed and managed project. 
+
+Since switching back to Neovim full time, I've honestly had no regrets. I updated my config last year, and having the opportunity to daily drive it has proven how capable it truly is. There was a mental plan to adjust pieces to meet what I might have missed in Zed, but I haven't had to make any changes yet. Naturally, since I'm back on Neovim, I gotta go over the config.
+
+## The Config
+
+There's generally two ways people end up configuring Neovim. One path is using a distro like [LazyVim](https://www.lazyvim.org/), the other is writing it from scratch. I've taken the distro path before and I think it's great if you have no idea what you want, but eventually you might find yourself wanting to slim things down. If doing a config from scratch feels intimidating, I would highly recommend [this series](https://www.youtube.com/playlist?list=PLsz00TDipIffreIaUNk64KxTIkQaGguqn) which goes over all the different aspects of a config. Below is a quick overview of my config structure:
+
+```
+nvim
+└── lazy-lock.json
+└── lua
+    └── plugins
+        └── ai-vim.lua
+        └── treesitter.lua
+        └── mini.lua
+        └── tmux-navigator.lua
+        └── colorschemes.lua
+    └── config
+        └── options.lua
+        └── keymaps.lua
+        └── autocmds.lua
+    └── core
+        └── lazy.lua
+        └── lsp.lua
+└── lsp
+    └── gopls.lua
+    └── solc.lua
+    └── asm-lsp.lua
+    └── rust-analyzer.lua
+    └── astro.lua
+    └── html.lua
+    └── json.lua
+    └── lua_ls.lua
+    └── tsserver.lua
+└── init.lua
+```
+
+I'll do my best to go over all of the different pieces I have here. 
+
+### Plugin Manager
+
+I've been using [lazy.nvim](https://github.com/folke/lazy.nvim) for years (not to be confused with LazyVim, a distro that uses lazy.nvim), and it's just solid. Always works, zero issues, and boy it can go _fast_ (will go over that later). There's not much else to say due to how much of an industry standard it is. I might give the new native plugin manager coming in Neovim 12, but I've already seen some people say it's not as fast as lazy.nvim, so I'll be keeping an eye on it for future development.
+
+### LSP
+
+The Language Server Protocol (LSP) provides a standard for different languages to provide feedback in dev workflows. Common example would be writing an incorrect type in Typescript which would cause the compiler to fail. Instead of having to run it, the editor shows some red lines saying something is wrong. Many editors set this up behind the scenes, but that's not the case for Neovim, and it can be one of the big things people struggle with. In the past I've used a few plugin combinations which were always a mess, but I was so excited that native LSP support came to Neovim last year! [This video](https://youtu.be/IZnhl121yo0) does a fantastic job walking you through how to set it all up, but its really as simple as creating a dedicated `lsp` folder with the different languages, then making a `lsp.lua` config file. Here's an example for Rust:
+
+```lua
+return {
+	cmd = {
+		"rust-analyzer",
+	},
+	filetypes = {
+		"rust",
+	},
+	root_markers = {
+		"Cargo.toml",
+		"Cargo.lock",
+		".git",
+	},
+	settings = {
+		["rust-analyzer"] = {
+			cargo = {
+				allFeatures = true,
+				loadOutDirsFromCheck = true,
+				runBuildScripts = true,
+			},
+			-- Add other rust-analyzer specific settings here
+			checkOnSave = true,
+			procMacro = {
+				enable = true,
+				ignored = {
+					leptos_macro = {
+						-- "component",
+						"server",
+					},
+				},
+			},
+		},
+	},
+	single_file_support = true,
+	log_level = vim.lsp.protocol.MessageType.Warning,
+}
+```
+
+This simply tells Neovim what files to use the rust-analyzer LSP for, what files might indicate a project, and any other options we may want to add. We follow the same structure for all languages or frameworks that have an LSP. Then inside `lsp.lua` we just add the following configuration:
+
+```lua
+vim.lsp.enable({
+  "astro",
+  "gopls",
+  "lua_ls",
+  "tsserver",
+  "rust-analyzer",
+  "asm-lsp",
+  "solc",
+  "html",
+  "json"
+})
+
+vim.diagnostic.config({
+  virtual_lines = false,
+  -- virtual_text = true,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
+  float = {
+    border = "rounded",
+    source = true,
+  },
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "󰅚 ",
+      [vim.diagnostic.severity.WARN] = "󰀪 ",
+      [vim.diagnostic.severity.INFO] = "󰋽 ",
+      [vim.diagnostic.severity.HINT] = "󰌶 ",
+    },
+    numhl = {
+      [vim.diagnostic.severity.ERROR] = "ErrorMsg",
+      [vim.diagnostic.severity.WARN] = "WarningMsg",
+    },
+  },
+})
+```
+
+The key is `vim.lsp.enable()` where we pass in the names of all our files that have configs. Everything else is just some nicer configuration for looking at diagnostics.
+
+![nvim diagnostics icons](/blog-images/other/nvim-diagnostics-icons.png) 
+
+It's that simple, and I absolutely love how minimal the experience is. Does require understanding what your LSPs are, where they live, and how to run them, but totally worth it. 
+
+### Plugins
+
+You might have noticed that I don't have that many plugins, but it's actually a bit decieving. 
+
+- `ai-vim.lua` - Small inline AI editing plugin which I don't actually use much, will probably cut it.
+- `treesitter.lua` - Syntax highlighting, pretty standard.
+- `tmux-navigator.lua` - Lets me use `ctrl+h/j/k/l` to switch between a Neovim session and another tmux pane.
+- `colorschemes.lua` - Themes baby, currently on my own called [Darkmatter](https://github.com/stevedylandev/darkmatter-nvim)
+The one I didn't list here is [mini.nvim](https://github.com/nvim-mini/mini.nvim), which is the true star of this config. mini.nvim is a collection of minimal plugins that are installed and setup through a single config. They're all simple, functional, and they really helps lighten up your config. Here's a quick run down of some of my favorites.
+
+**mini.completion**
+
+<video
+  autoPlay
+  muted
+  loop
+  playsinline
+  className="w-full aspect-video"
+  src="/blog-images/other/mini-completion.mp4"
+></video>
+
+This would normally be handled through something heavier like coc.nvim, but it's truly awesome to have a simple and lightweight option inside mini.nvim.
+
+**mini.files**
+
+<video
+  autoPlay
+  muted
+  loop
+  playsinline
+  className="w-full aspect-video"
+  src="/blog-images/other/mini-files.mp4"
+></video>
+
+A minimal file explorer thats a fun mix between oil and netrw.
+
+**mini.pick**
+
+<video
+  autoPlay
+  muted
+  loop
+  playsinline
+  className="w-full aspect-video"
+  src="/blog-images/other/mini-pick-files.mp4"
+></video>
+
+Pick anything. Actually though. In a lot of ways this replaces telescope and lets me fuzzy find files, buffers, you name it!
+
+### Other Bits
+
+There are some smaller quality of life pieces I have that don't really fit into any specific category, so here's a few my favorites.
+
+**VimEnter**
+
+I got this one from [Adib Hanna](https://www.youtube.com/@adibhanna) a long time ago. Instead of showing a start screen when I open Neovim, instead I use `mini.pick` to fuzzy find all files within the current directory.
+
+```lua
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    if vim.fn.argv(0) == "" then
+      vim.defer_fn(function()
+        require("mini.pick").builtin.files()
+      end, 100) -- Wait 100ms
+    end
+  end,
+})
+```
+
+**Buffer Management**
+
+<video
+  autoPlay
+  muted
+  loop
+  playsinline
+  className="w-full aspect-video"
+  src="/blog-images/other/buffers.mp4"
+></video>
+
+I don't have tabs setup in Neovim as I started to realized I don't really need them. I can use my keyboard shortcuts to move between buffers horizontally, 
+
+```lua
+-- Navigate buffers
+map("n", "<S-l>", ":bnext<CR>", opts)
+map("n", "<S-h>", ":bprevious<CR>", opts)
+```
+
+or filter through them with `mini.pick`: 
+
+```lua
+map("n", "<leader>o", "<cmd>Pick buffers<CR>", opts)
+```
+
+Then I can just close them with the following keymap:
+
+```lua
+map("n", "<leader>c", ":bd<cr>", opts)
+```
+
+**Diagnostics**
+
+<video
+  autoPlay
+  muted
+  loop
+  playsinline
+  className="w-full aspect-video"
+  src="/blog-images/other/nvim-diagnostics.mp4"
+></video>
+
+Nothing too fancy here but it is nice how versatile the experience can be. I can either use this keymap to do a hover diagnostic:
+
+```lua
+map("gl", vim.diagnostic.open_float, "Open Diagnostic Float")
+```
+
+Or I can view all diagnostics for the project with mini.pick:
+
+```lua
+map("n", "<leader>d", "<cmd>Pick diagnostic<CR>", opts)
+```
+
+**Finding Stuff**
+
+<video
+  autoPlay
+  muted
+  loop
+  playsinline
+  className="w-full aspect-video"
+  src="/blog-images/other/nvim-find.mp4"
+></video>
+
+One of the most important things an editor needs is an easy way to find anything, and I'm quite pleased with what I have setup here. To start, if I wanted to search the entire codebase for a given string, I can use mini.pick with `live_grep`. 
+
+```lua
+map("n", "<leader>/", "<cmd>Pick grep_live<CR>", opts)
+```
+
+Same goes for buffers.
+
+```lua
+map("n", "<leader>o", "<cmd>Pick buffers<CR>", opts)
+```
+
+For files, I can either do a fuzzy find like so:
+
+```lua
+map("n", "<leader>f", "<cmd>Pick files<CR>", opts)
+```
+
+Or I can use the file browser with mini.files. 
+
+```lua
+map("n", "<leader>e", "<cmd>lua MiniFiles.open()<CR>", opts)
+```
+
+
+Last but not least, you can also use Pick to get all the help manuals for Neovim or the plugins installed. 
+
+```lua
+map("n", "<leader>hh", "<cmd>Pick help<CR>", opts)
+  ```
+
+### Speed
+
+```
+025.359  000.037: BufEnter autocommands
+025.363  000.004: editing files in windows
+025.381  000.019: --- NVIM STARTED ---
+```
+
+This configuration is incredibly fast. Startup times averages around ~25ms. A more detailed report can be found below. 
+
+[`.nvim-startup.txt`](https://sipp.stevedylan.dev/s/dJfiLGUx9u)
+
+## Wrapping Up
+
+I really do appreciate the time I had with Zed and it is a solid editor; I don't fault anyone who uses it. Personally I've just been through this kind of thing too many times, where I thoroughly enjoy and depend on a tool, just for it to go sideways and absolutely cripple my productivity. The Arc Browser was a great example of this. I would much rather jump ship early, figure out a new workflow that is dependable, and stick with it. That's exactly what I've done with Neovim, and it's good to be back.
