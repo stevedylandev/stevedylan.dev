@@ -1,22 +1,22 @@
 ---
 title: "Returning to Neovim"
-publishDate: "14 Mar 2026"
+publishDate: "16 Mar 2026"
 description: "Once again coming back to the editor I can't shake"
-tags: []
-ogImage: ""
+ogImage: "/blog-images/other/return-to-neovim.png"
+tags: ["programming", "neovim", "developer"]
 ---
 
-// Cover
+![cover](/blog-images/other/return-to-neovim.png)
 
-One of my more popular blog posts was how and why I switched to [Zed from Neovim](https://stevedylan.dev/posts/leaving-neovim-for-zed/). That was almost two years ago, and in that period Zed was my daily driver for programming. Every now and then I would still use Neovim to edit a config or make a quick edit, but outside of that, Zed was where I lived. Since then the Zed team has naturally had to keep up with all the AI hype. Thankfully most of the editing experience has remained in-tact, and with the right settings you may not even notice it's there. However there certainly have been instances where Zed felt buggy, and not as lean as it used to be. 
+One of my more popular blog posts was how and why I switched to [Zed from Neovim](https://stevedylan.dev/posts/leaving-neovim-for-zed/). That was almost two years ago, and in that period Zed was my daily driver for programming. Every now and then I would still use Neovim to edit a config or make a quick edit, but outside of that, Zed was where I lived. It performed admirably, with minimal bugs that only irked me from time to time that would eventually be fixed. AI was still relatively minimal and I enjoyed using it. So why go back to Neovim?
 
 ## What Happened
 
-The real shift happened about a week ago when Zed updated its terms and policies. It was at this time when the dev community realized that there was a new age restriction of 18+. The Zed team clarified that this was in regards to their online services and platform used for AI assisted coding, but it was still a bit unnerving. A few people had already made forks of Zed through the open source licenses that the editor is under, and I did try them, but it was clear that the Zed experience was not the same. Some stuff didn't work, extensions had to be installed manually, just overall proved to be something else entirely.
+The real shift happened about a week ago when Zed updated its terms and policies, including a new age restriction of 18+. The Zed team clarified that this was in regards to their online services and platform used for AI assisted coding, but at least for me, it was still a bit unnerving. A few people had already made forks of Zed through the open source licenses that the editor is under, and I did try them, but it was clear that the Zed experience was not the same. Some stuff didn't work, extensions had to be installed manually, just overall a horrible experience.
 
-That was the wake up call. I realized I couldn't really trust Zed moving forward, not while its under the control of a VC backed company. I really think the team is awesome and what they're building is perhaps the best editor alternative to VSCode, but I also understood that they have to make money somehow. When it comes to writing code, that is the last place I want to be stuck in. I have to be able to write code productively without my flow being interrupted by the decisions of higher managemnet. Neovim isn't a perfect drop in replacement in this regard either, but I trust it way more as a community backed and managed project. 
+That was the wake up call. I realized I couldn't really trust Zed moving forward. I really think the team is awesome and what they're building is perhaps the best editor alternative to VSCode, but I also understood that they have to make money somehow. When it comes to writing code, the last place I want to find myself in is being held hostage or being forced off the platform. I have to be able to write code productively without my flow being interrupted by the decisions of higher management. Neovim isn't a perfect drop in replacement in this regard either, but I trust it way more as a community backed and managed project. 
 
-Since switching back to Neovim full time, I've honestly had no regrets. I updated my config last year, and having the opportunity to daily drive it has proven how capable it truly is. There was a mental plan to adjust pieces to meet what I might have missed in Zed, but I haven't had to make any changes yet. Naturally, since I'm back on Neovim, I gotta go over the config.
+Since switching back to Neovim full time, I've honestly had no regrets. I updated my config last year, and having the opportunity to daily drive it has proven how capable it truly is. There was a mental plan to adjust pieces to meet what I might have missed in Zed, but I haven't had to make any changes yet. With that said I figured it would be a good time to share what my config looks like and how effective it is.
 
 ## The Config
 
@@ -56,7 +56,7 @@ I'll do my best to go over all of the different pieces I have here.
 
 ### Plugin Manager
 
-I've been using [lazy.nvim](https://github.com/folke/lazy.nvim) for years (not to be confused with LazyVim, a distro that uses lazy.nvim), and it's just solid. Always works, zero issues, and boy it can go _fast_ (will go over that later). There's not much else to say due to how much of an industry standard it is. I might give the new native plugin manager coming in Neovim 12, but I've already seen some people say it's not as fast as lazy.nvim, so I'll be keeping an eye on it for future development.
+I've been using [lazy.nvim](https://github.com/folke/lazy.nvim) for years (not to be confused with LazyVim, a distro that uses lazy.nvim), and it's just solid. Always works, zero issues, and boy it can go _fast_ (will go over that later). There's not much else to say due to how much of an industry standard it is. I might give the new native plugin manager coming in Neovim 12 a try, but I've already seen some people say it's not as fast as lazy.nvim, so I'll be keeping an eye on it for future development.
 
 ### LSP
 
@@ -100,7 +100,7 @@ return {
 }
 ```
 
-This simply tells Neovim what files to use the rust-analyzer LSP for, what files might indicate a project, and any other options we may want to add. We follow the same structure for all languages or frameworks that have an LSP. Then inside `lsp.lua` we just add the following configuration:
+This tells Neovim what files to use the rust-analyzer LSP for, what files might indicate a project, and any other options we may want to add. We follow the same structure for all languages or frameworks that have an LSP. Then inside `lsp.lua` we just add the following configuration:
 
 ```lua
 vim.lsp.enable({
@@ -148,13 +148,14 @@ It's that simple, and I absolutely love how minimal the experience is. Does requ
 
 ### Plugins
 
-You might have noticed that I don't have that many plugins, but it's actually a bit decieving. 
+You might have noticed that I don't have that many plugins, but it's actually a bit deceiving. 
 
 - `ai-vim.lua` - Small inline AI editing plugin which I don't actually use much, will probably cut it.
 - `treesitter.lua` - Syntax highlighting, pretty standard.
 - `tmux-navigator.lua` - Lets me use `ctrl+h/j/k/l` to switch between a Neovim session and another tmux pane.
 - `colorschemes.lua` - Themes baby, currently on my own called [Darkmatter](https://github.com/stevedylandev/darkmatter-nvim)
-The one I didn't list here is [mini.nvim](https://github.com/nvim-mini/mini.nvim), which is the true star of this config. mini.nvim is a collection of minimal plugins that are installed and setup through a single config. They're all simple, functional, and they really helps lighten up your config. Here's a quick run down of some of my favorites.
+
+The one I didn't list here is [mini.nvim](https://github.com/nvim-mini/mini.nvim), which is the true star of this config. mini.nvim is a collection of minimal plugins that are installed and setup through a single config. They're all simple, functional, and they really help lighten up your config. Here's a quick run down of some of my favorites.
 
 **mini.completion**
 
@@ -226,7 +227,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
   src="/blog-images/other/buffers.mp4"
 ></video>
 
-I don't have tabs setup in Neovim as I started to realized I don't really need them. I can use my keyboard shortcuts to move between buffers horizontally, 
+I don't have tabs setup in Neovim as I started to realize I don't really need them. I can use my keyboard shortcuts to move between buffers horizontally, 
 
 ```lua
 -- Navigate buffers
@@ -322,6 +323,10 @@ map("n", "<leader>hh", "<cmd>Pick help<CR>", opts)
 This configuration is incredibly fast. Startup times averages around ~25ms. A more detailed report can be found below. 
 
 [`.nvim-startup.txt`](https://sipp.stevedylan.dev/s/dJfiLGUx9u)
+
+### Source
+
+By all means feel free to checkout the whole config yourself in my [dotfiles repo](https://github.com/stevedylandev/dotfiles)!
 
 ## Wrapping Up
 
