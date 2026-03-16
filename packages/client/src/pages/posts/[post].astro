@@ -2,7 +2,7 @@
 import type { GetStaticPathsResult } from "astro";
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
-import PostLayout from "@/layouts/BlogPost";
+import PostLayout from "@/layouts/BlogPost.astro";
 
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 	const posts: CollectionEntry<"post">[] = await getCollection("post");

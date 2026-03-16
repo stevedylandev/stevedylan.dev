@@ -4,12 +4,12 @@
 		"strict": true,
 		"baseUrl": ".",
 		"paths": {
-			"@/components/*": ["src/components/*"],
-			"@/layouts/*": ["src/layouts/*"],
-			"@/utils": ["src/utils/index.ts"],
-			"@/stores/*": ["src/stores/*"],
-			"@/data/*": ["src/data/*"],
-			"@/site-config": ["src/site.config.ts"]
+			"@/components/*": ["./src/components/*"],
+			"@/layouts/*": ["./src/layouts/*"],
+			"@/utils": ["./src/utils/index.ts"],
+			"@/stores/*": ["./src/stores/*"],
+			"@/data/*": ["./src/data/*"],
+			"@/site-config": ["./src/site.config.ts"]
 		},
 		"plugins": [
 			{

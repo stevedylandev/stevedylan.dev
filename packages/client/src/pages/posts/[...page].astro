@@ -2,9 +2,9 @@
 import type { Page, GetStaticPathsOptions } from "astro";
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
-import PageLayout from "@/layouts/Base";
-import PostPreview from "@/components/blog/PostPreview";
-import Pagination from "@/components/common/Paginator";
+import PageLayout from "@/layouts/Base.astro";
+import PostPreview from "@/components/blog/PostPreview.astro";
+import Pagination from "@/components/common/Paginator.astro";
 import { getUniqueTags, sortMDByDate } from "@/utils";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
