@@ -53,7 +53,7 @@ export async function GET() {
 
 		// Filter out main-blog posts
 		const filteredDocuments = data.records.filter(
-			(doc) => doc.value.location !== "main-blog",
+			(doc) => !doc.value?.path?.includes("/posts"),
 		);
 
 		// Sort by publishedAt descending

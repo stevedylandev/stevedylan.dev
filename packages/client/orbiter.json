@@ -1,6 +1,0 @@
-{
-  "siteId": "9184591a-9413-4fb3-9b81-a0c01ea4eaa3",
-  "domain": "stevedylandev",
-  "buildCommand": "bun run build",
-  "buildDir": "dist"
-}
