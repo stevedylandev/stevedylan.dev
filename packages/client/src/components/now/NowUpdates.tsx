@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react";
-import MarkdownIt from "markdown-it";
+import { createMarkdownRenderer } from "@/utils";
 import { OWNER_DID, PDS_URL } from "@/data/constants";
 
-const md = new MarkdownIt({
-	html: false,
-	linkify: true,
-	typographer: true,
-});
+const md = await createMarkdownRenderer()
 
 interface Document {
 	uri: string;
