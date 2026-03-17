@@ -39,6 +39,13 @@ export const projects: ProjectItem[] = [
 		link: "https://sipp.so",
 		tags: ["developer tools", "productivity"],
 	},
+  {
+    title: "Titan II",
+    description: "A minimal iOS Gemini Protocol client in SwiftUI. I became really interested in the Gemini Protocol and didn't like the existing options out there for iOS, so I built my own. Was a good learning experience and thoroughly enjoy the final product. Features things like bookmarks, searching, themes, client certificates, you name it. Have not published this one on the App Store due to having so many other ongoing projects.",
+    image: "https://files.stevedylan.dev/titan-ii.png",
+    link: "https://github.com/stevedylandev/Titan",
+    tags: ["privacy", "networking"]
+  },
 	{
 		title: "BlogFeeds.net",
 		description:
