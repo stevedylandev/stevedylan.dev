@@ -385,7 +385,7 @@ now.get("/rss", async (c) => {
 
 		// Filter out main-blog posts
 		const documents = data.records.filter(
-			(doc) => doc.value.location !== "main-blog",
+			(doc) => !doc.value?.path?.includes("/posts"),
 		);
 
 		// Create the feed
