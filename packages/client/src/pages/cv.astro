@@ -41,22 +41,25 @@ const experience = [
 <PageLayout meta={meta}>
 	<div class="space-y-6">
 		<h1 class="title">CV</h1>
-		<div class="relative ml-3 border-l border-solid border-accent pl-6 space-y-10">
+		<div class="relative space-y-10">
+			<span class="absolute left-[4px] top-3 bottom-0 w-px bg-gradient-to-b from-accent to-transparent" aria-hidden="true"></span>
 			{experience.map((job, i) => (
-				<div class:list={["relative", i > 0 && "opacity-50"]}>
+				<div class="relative pl-7">
 					<span class:list={[
-						"absolute -left-[29px] top-1.5 h-2.5 w-2.5 rounded-full border border-accent",
-						i === 0 ? "bg-accent" : "bg-[#121113]",
+						"absolute left-0 top-1.5 h-2.5 w-2.5 rounded-full",
+						i === 0 ? "border border-accent bg-accent" : "border border-accent/50 bg-[#121113]",
 					]} />
-					<h3 class="text-base font-semibold">{job.company}</h3>
-					<ul class="mt-1 space-y-2">
-						{job.roles.map((role) => (
-							<li>
-								<p class="text-sm">{role.title}</p>
-								<p class="text-xs text-gray-500">{role.period}</p>
-							</li>
-						))}
-					</ul>
+					<div class:list={[i > 0 && "opacity-50"]}>
+						<h3 class="text-base font-semibold">{job.company}</h3>
+						<ul class="mt-1 space-y-2">
+							{job.roles.map((role) => (
+								<li>
+									<p class="text-sm">{role.title}</p>
+									<p class="text-xs text-gray-500">{role.period}</p>
+								</li>
+							))}
+						</ul>
+					</div>
 				</div>
 			))}
 		</div>
