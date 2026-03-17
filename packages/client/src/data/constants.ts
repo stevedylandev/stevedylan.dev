@@ -19,6 +19,10 @@ export const MENU_LINKS = [
 		title: "Projects",
 		path: "/projects",
 	},
+  {
+    title: "CV",
+    path: "/cv",
+  },
 	{
 		title: "Now",
 		path: "/now",
@@ -26,10 +30,6 @@ export const MENU_LINKS = [
 	{
 		title: "Feeds",
 		path: "/feeds",
-	},
-	{
-		title: "Videos",
-		path: "/videos",
 	},
 	{
 		title: "Photos",
@@ -50,5 +50,6 @@ export const SOCIAL_LINKS = {
 	ethereum: "https://app.ens.domains/stevedylandev.eth",
 	email: "mailto:contact@stevedylan.dev",
 	rss: "https://stevedylan.dev/rss.xml",
+  cv: "/cv",
 	pgp: "https://stevedylan.dev/public_key.asc",
 };
