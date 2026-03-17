@@ -44,12 +44,16 @@ const experience = [
 		<div class="relative space-y-10">
 			<span class="absolute left-[4px] top-3 bottom-0 w-px bg-gradient-to-b from-accent to-transparent" aria-hidden="true"></span>
 			{experience.map((job, i) => (
-				<div class="relative pl-7">
-					<span class:list={[
-						"absolute left-0 top-1.5 h-2.5 w-2.5 rounded-full",
-						i === 0 ? "border border-accent bg-accent" : "border border-accent/50 bg-[#121113]",
-					]} />
-					<div class:list={[i > 0 && "opacity-50"]}>
+				<div
+					class="cv-item relative pl-7"
+					style={`--item-opacity: ${i === 0 ? 1 : 1 - (i / (experience.length - 1)) * 0.6}`}
+				>
+					<span
+						class:list={["cv-item-child absolute left-0 top-1.5 h-2.5 w-2.5 rounded-full",
+							i === 0 ? "border border-accent bg-accent" : "border border-accent/50 bg-[#121113]",
+						]}
+					/>
+					<div class="cv-item-child">
 						<h3 class="text-base font-semibold">{job.company}</h3>
 						<ul class="mt-1 space-y-2">
 							{job.roles.map((role) => (
@@ -65,3 +69,13 @@ const experience = [
 		</div>
 	</div>
 </PageLayout>
+
+<style>
+	.cv-item-child {
+		opacity: var(--item-opacity);
+		transition: opacity 300ms ease;
+	}
+	.cv-item:hover .cv-item-child {
+		opacity: 1;
+	}
+</style>
