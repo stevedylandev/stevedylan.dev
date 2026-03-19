@@ -11,17 +11,9 @@ export const projects: ProjectItem[] = [
 		title: "Sequoia",
 		description:
 			"While there are several blogging platform options for publishing standard.stie lexicons, there wasn't much out there for self-hosted blogs. This prompted me to build Sequoia: a CLI that helps take existing blogs and publish them to ATProto. It features an interactive setup, flexible config to meet any SSG or framework, and even the necessary pieces for verification of standard.site lexicons.",
-		image: "https://files.stevedylan.dev/sequoia-cli-demo.png",
+		image: "https://files.stevedylan.dev/sequoia-demo.png",
 		link: "https://sequoia.pub",
 		tags: ["blogging", "atproto", "standard site", "cli"],
-	},
-	{
-		title: "Docs.surf",
-		description:
-			"I've slowly been falling into ATProto and what it can enable for publishing content on the web, and building a more open web in general. With ATProto you can create records on your server (PDS) that have specific structures known as lexicons. One in particular that is taking of is standard.site. There are two lexicons, Publications and Documents. Both are designed for building interoperable blog posts that can be aggregated. That's exactly what Docs.surf does, using a mixture of Tap (ATProtos indexer), Cloudflare workers, queues, and D1 databases.",
-		image: "https://docs.surf/og.png",
-		link: "https://docs.surf",
-		tags: ["blogging", "atproto", "social networking"],
 	},
 	{
 		title: "Alcove",
@@ -61,6 +53,14 @@ export const projects: ProjectItem[] = [
       link: "https://github.com/stevedylandev/Titan",
     tags: ["privacy", "networking"]
   },
+	{
+		title: "Docs.surf",
+		description:
+			"I've slowly been falling into ATProto and what it can enable for publishing content on the web, and building a more open web in general. With ATProto you can create records on your server (PDS) that have specific structures known as lexicons. One in particular that is taking of is standard.site. There are two lexicons, Publications and Documents. Both are designed for building interoperable blog posts that can be aggregated. That's exactly what Docs.surf does, using a mixture of Tap (ATProtos indexer), Cloudflare workers, queues, and D1 databases.",
+		image: "https://docs.surf/og.png",
+		link: "https://docs.surf",
+		tags: ["blogging", "atproto", "social networking"],
+	},
 	{
 		title: "BlogFeeds.net",
 		description:
@@ -120,24 +120,6 @@ export const projects: ProjectItem[] = [
 		tags: ["blockchain", "ipfs", "developer tools"],
 	},
 	{
-		title: "Mast",
-		description:
-			"A simple TUI used for sending casts on Farcaster written in Go. I wanted a project to try out the Bubbletea TUI framework from Charm.sh and this fit the bill perfectly. It's authorized using your own custody signers (can be created through castkeys.xyz) and allows the user to set their own Farcaster hub.",
-		image:
-			"https://cdn.stevedylan.dev/files/bafkreicb5ravot4fg6cvjmasp7l4n3c5x26lpejefx5mx6byubcq4oib4y",
-		link: "https://github.com/stevedylandev/mast-cli",
-		tags: ["farcaster", "developer tools"],
-	},
-	{
-		title: "Cast Keys",
-		description:
-			"A tool and example for Farcaster developers that need to create signers for their account. Signers are ED25519 keypair that are signed by the primary wallet of a user, and they operate like API keys that can be revoked down the road. They are crucial to the Farcaster ecosystem as they allow users to 'sign-in' to other Farcaster apps and interact with the protocol. This small web app makes it easy to generate a signer for your account, but the code is also FOSS as an educational tool for new Farcaster devs.",
-		image:
-			"https://raw.githubusercontent.com/stevedylandev/cast-keys/refs/heads/main/public/og.png",
-		link: "https://github.com/stevedylandev/cast-keys",
-		tags: ["farcaster", "developer tools"],
-	},
-	{
 		title: "Pi-Widget",
 		description:
 			"A small server written in Go that you can run on your Raspberry Pi to display vitals in real time. For my particular Pi it displays IPFS repo stats and system stats, with more updates on the way",
@@ -171,15 +153,6 @@ export const projects: ProjectItem[] = [
 			"https://files.stevedylan.dev/bafkreidv5iptnieh6eijei7enqc4mdhxpte3ries23heqf7s2hu3gdu6ru.jpg",
 		link: "https://docs.pinata.cloud/sdk",
 		tags: ["developer tools", "ipfs"],
-	},
-	{
-		title: "Raycaster Extension",
-		description:
-			"The fastest way to send a cast on Farcaster. A Raycast extension that allows you to sign into your Farcaster account and send casts with optional images via IPFS. ",
-		image:
-			"https://files.stevedylan.dev/QmSsY6QnhdwbWunrgzTDkpvRd7oWx5nUp8v7UiMeGRFeZ1.png",
-		link: "https://www.raycast.com/stevedylandev/raycaster",
-		tags: ["raycast", "developer tools", "productivity"],
 	},
 	{
 		title: "Cosmic Cowboys",
