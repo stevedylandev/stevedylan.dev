@@ -11,7 +11,7 @@ export const projects: ProjectItem[] = [
 		title: "Sequoia",
 		description:
 			"While there are several blogging platform options for publishing standard.stie lexicons, there wasn't much out there for self-hosted blogs. This prompted me to build Sequoia: a CLI that helps take existing blogs and publish them to ATProto. It features an interactive setup, flexible config to meet any SSG or framework, and even the necessary pieces for verification of standard.site lexicons.",
-		image: "https://sequoia.pub/og.png",
+		image: "https://files.stevedylan.dev/sequoia-cli-demo.png",
 		link: "https://sequoia.pub",
 		tags: ["blogging", "atproto", "standard site", "cli"],
 	},
@@ -27,7 +27,7 @@ export const projects: ProjectItem[] = [
 		title: "Alcove",
 		description:
 			"RSS and blogs pose to be a solution for freedom speech, however RSS readers with sync capabilities often result in a 'wont be evil' promise in regards to privacy of what you read. Alcove brings a 'cant be evil' tech stack to the table. This app uses Evolu to enable end to end encrption for reading RSS feeds while giving people the ability to sync their reader across multiple devices.",
-		image: "https://alcove.tools/og.png",
+		image: "https://files.stevedylan.dev/alcove.jpg",
 		link: "https://stevedylan.dev/posts/introducing-alcove/",
 		tags: ["blogging", "privacy", "rss"],
 	},
@@ -35,15 +35,30 @@ export const projects: ProjectItem[] = [
 		title: "Sipp",
 		description:
 			"Minimal code sharing app for the web and the terminal, written in Rust. A single ~13MB binary contains a web server, TUI, and CLI. Easy to self host and access through your browser or your terminal. Loads of features such as syntax highlighting, config to authenticated selected endpoints, and CLI actions to quickly create snippets from files.",
-		image: "https://sipp.so/assets/og.png",
+		image: "https://files.stevedylan.dev/sipp-rust.png",
 		link: "https://sipp.so",
-		tags: ["developer tools", "productivity"],
+		tags: ["developer tools", "productivity", "self hosting"],
 	},
+  {
+    title: "Parcels",
+    description: "A minimal package tracking app written in Rust, designed to be self hosted for personal use.",
+    image: "https://files.stevedylan.dev/parcels-demo-2.png",
+    link: "https://github.com/stevedylandev/parcels",
+    tags: ["productivity", "self hosting"]
+  },
+  {
+    title: "Feeds",
+    description:
+      "A minimal take on an RSS reader, Feeds lets you pull from multiple sources of feeds including URL query params, OPML files, and FreshRSS. Instead of rendering the post, Feeds simply gives you a feed link so you can view the content in its original context. Feeds is also designed to be simple and easy to self host for your own use cases.",
+    image: "https://files.stevedylan.dev/feeds-demo.png",
+      link: "https://feeds.software",
+      tags: ["blogging", "rss", "self hosted"],
+  },
   {
     title: "Titan II",
     description: "A minimal iOS Gemini Protocol client in SwiftUI. I became really interested in the Gemini Protocol and didn't like the existing options out there for iOS, so I built my own. Was a good learning experience and thoroughly enjoy the final product. Features things like bookmarks, searching, themes, client certificates, you name it. Have not published this one on the App Store due to having so many other ongoing projects.",
-    image: "https://files.stevedylan.dev/titan-ii.png",
-    link: "https://github.com/stevedylandev/Titan",
+      image: "https://files.stevedylan.dev/titan-ii.png",
+      link: "https://github.com/stevedylandev/Titan",
     tags: ["privacy", "networking"]
   },
 	{
@@ -53,14 +68,6 @@ export const projects: ProjectItem[] = [
 		image: "https://blogfeeds.net/og.png",
 		link: "https://blogfeeds.net",
 		tags: ["social networking", "blogging"],
-	},
-	{
-		title: "Feeds",
-		description:
-			"A minimal take on an RSS reader, Feeds lets you pull from multiple sources of feeds including URL query params, OPML files, and FreshRSS. Instead of rendering the post, Feeds simply gives you a feed link so you can view the content in its original context. Feeds is also designed to be simple and easy to self host for your own use cases.",
-		image: "https://feeds.software/assets/og.png",
-		link: "https://feeds.software",
-		tags: ["blogging", "rss"],
 	},
 	{
 		title: "norns",
