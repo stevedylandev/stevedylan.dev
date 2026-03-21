@@ -1,5 +1,5 @@
 ---
-const { content } = Astro.props;
+const { content, index } = Astro.props;
 import { Image } from "astro:assets";
 ---
 
@@ -8,7 +8,7 @@ import { Image } from "astro:assets";
 	class="flex max-w-[500px] cursor-pointer flex-col items-start justify-start gap-2 overflow-hidden rounded-lg border-accent-2 transition-all ease-in-out hover:border-accent"
 >
 	<a href={content.link} target="_blank">
-		<Image height="800" width="1200" src={content.image} alt="prject image" />
+    <Image height="800" width="1200" src={content.image} alt={content.title} loading={index < 2 ? "eager" : "lazy"} />
 		<div class="flex flex-col gap-2 p-4">
 			<h2 class="text-2xl font-bold">{content.title}</h2>
 			<p class="">
