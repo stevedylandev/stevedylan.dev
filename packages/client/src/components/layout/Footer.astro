@@ -14,16 +14,10 @@ import Image from "astro/components/Image.astro";
   <a href="https://blog.kagi.com/small-web-updates">
     <Image inferSize={true} src="https://kagifeedback.org/assets/files/2025-11-27/1764250950-635837-80x15-2.png" alt="kagi small web"/>
   </a>
-	<div class="googleballs-trigger flex items-center gap-1" role="button" tabindex="0" aria-label="Easter egg">
+	<a href="/googleballs" class="flex items-center gap-1" aria-label="Google Balls">
 		<span style="background:#4285F4;width:6px;height:6px;border-radius:50%;display:inline-block;"></span>
 		<span style="background:#EA4335;width:6px;height:6px;border-radius:50%;display:inline-block;"></span>
 		<span style="background:#FBBC05;width:6px;height:6px;border-radius:50%;display:inline-block;"></span>
 		<span style="background:#34A853;width:6px;height:6px;border-radius:50%;display:inline-block;"></span>
-	</div>
+	</a>
 </footer>
-
-<script>
-	document.querySelector('.googleballs-trigger')?.addEventListener('click', function() {
-		document.dispatchEvent(new CustomEvent('googleballs:open'));
-	});
-</script>

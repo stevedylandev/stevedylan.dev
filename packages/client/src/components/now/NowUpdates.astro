@@ -1,0 +1,91 @@
+---
+import { createMarkdownRenderer } from "@/utils";
+import { OWNER_DID, PDS_URL } from "@/data/constants";
+
+const md = await createMarkdownRenderer();
+
+interface Document {
+	uri: string;
+	value: {
+		title: string;
+		publishedAt: string;
+		path: string;
+		content?: {
+			markdown?: string;
+		};
+		textContent?: string;
+		location?: string;
+	};
+}
+
+let documents: Document[] = [];
+let error = false;
+
+try {
+	const res = await fetch(
+		`${PDS_URL}/xrpc/com.atproto.repo.listRecords?` +
+			new URLSearchParams({
+				repo: OWNER_DID,
+				collection: "site.standard.document",
+			}),
+	);
+
+	if (res.ok) {
+		const data = await res.json();
+		documents = (data.records || [])
+			.filter((doc: Document) => doc.value.path.includes("/now/"))
+			.sort((a: Document, b: Document) => {
+				return new Date(b.value.publishedAt).getTime() - new Date(a.value.publishedAt).getTime();
+			});
+	}
+} catch (err) {
+	console.error("Error fetching updates:", err);
+	error = true;
+}
+---
+
+{error && <p>Error loading recent updates. Make sure your PDS is accessible.</p>}
+
+{!error && documents.length === 0 && <p>No recent updates found.</p>}
+
+{!error && documents.length > 0 && (
+	<div class="space-y-4">
+		{documents.map((record) => {
+			const value = record.value;
+			const path = value.path.slice(1);
+			const publishedAt = new Date(value.publishedAt).toLocaleDateString();
+
+			let contentHTML = "";
+			if (value.content && value.content.markdown) {
+				contentHTML = md.render(value.content.markdown).trim()
+					.replace(/<img\s([^>]*?)>/g, (_, attrs) => {
+						const hasLoading = /loading\s*=/.test(attrs);
+						const hasDecoding = /decoding\s*=/.test(attrs);
+						const hasWidth = /width\s*=/.test(attrs);
+						const extra = `${hasLoading ? "" : ' loading="lazy"'}${hasDecoding ? "" : ' decoding="async"'}${hasWidth ? "" : ' width="800"'}`;
+						return `<img ${attrs}${extra} style="height:auto">`;
+					});
+			} else if (value.textContent) {
+				contentHTML = `<p>${value.textContent}</p>`;
+			}
+
+			return (
+				<article class="border-b pb-6 mb-6 last:border-b-0">
+					<a
+						href={`/${path}`}
+						class="block hover:opacity-80 transition-opacity"
+					>
+						<h3 class="text-lg font-semibold mb-3">{value.title}</h3>
+					</a>
+					<div
+						class="prose prose-invert max-w-none mb-3"
+						set:html={contentHTML}
+					/>
+					<div class="flex items-center gap-2 text-sm text-gray-500">
+						<time>{publishedAt}</time>
+					</div>
+				</article>
+			);
+		})}
+	</div>
+)}
