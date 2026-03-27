@@ -51,9 +51,12 @@ export async function GET() {
 
 		const data = (await response.json()) as ListRecordsResponse;
 
-		// Filter out main-blog posts
+		// Only include documents from the site publication, excluding blog posts
 		const filteredDocuments = data.records.filter(
-			(doc) => !doc.value?.path?.includes("/posts"),
+			(doc) =>
+				doc.value?.site ===
+					"at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.publication/3mbykzswhqc2x" &&
+				!doc.value?.path?.includes("/posts"),
 		);
 
 		// Sort by publishedAt descending
