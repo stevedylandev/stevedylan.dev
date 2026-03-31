@@ -38,7 +38,7 @@ auth.get("/client-metadata.json", (c) => {
 		redirect_uris: [redirectUri],
 		grant_types: ["authorization_code", "refresh_token"],
 		response_types: ["code"],
-		scope: "atproto repo:site.standard.graph.subscription?action=create&action=delete",
+		scope: "atproto blob:*/* repo:site.standard.document",
 		token_endpoint_auth_method: "none",
 		application_type: "web",
 		dpop_bound_access_tokens: true,
@@ -55,7 +55,7 @@ auth.get("/login", async (c) => {
 			pdsUrl: c.env.PDS_URL,
 			clientId,
 			redirectUri,
-			scope: "atproto repo:site.standard.graph.subscription?action=create&action=delete",
+      scope: "atproto blob:*/* repo:site.standard.document",
 		});
 
 		return c.redirect(authUrl);
