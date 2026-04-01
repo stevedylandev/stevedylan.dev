@@ -11,7 +11,7 @@ const titleSeparator = "•";
 const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const socialImageURL = new URL(
-	ogImage ? ogImage : "/social-card.png",
+	ogImage ? ogImage : "/og.png",
 	Astro.url,
 ).href;
 ---
@@ -21,10 +21,10 @@ const socialImageURL = new URL(
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
 <!-- Icons / Favicon -->
-<link rel="icon" href="/favicon.ico" sizes="any" />
-<link rel="icon" href="/icon.svg" type="image/svg+xml" />
-<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-<link rel="manifest" href="/manifest.webmanifest" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
 <link rel="canonical" href={canonicalURL} />
 
 <!-- Primary Meta Tags -->
@@ -34,7 +34,7 @@ const socialImageURL = new URL(
 <meta name="author" content={siteConfig.author} />
 
 <!-- Theme Colour -->
-<meta name="theme-color" content="#000000" />
+<meta name="theme-color" content="#121113" />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={articleDate ? "article" : "website"} />
