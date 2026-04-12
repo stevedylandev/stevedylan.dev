@@ -1,0 +1,361 @@
+---
+interface Props {
+	src: string;
+	alt: string;
+	caption?: string;
+}
+
+const { src, alt, caption } = Astro.props;
+const uniqueId = crypto.randomUUID();
+---
+
+<div class="diagram-container" data-diagram-id={uniqueId}>
+	<div class="diagram-preview">
+		<img src={src} alt={alt} loading="lazy" draggable="false" />
+		<span class="diagram-hint">
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<polyline points="15 3 21 3 21 9"></polyline>
+				<polyline points="9 21 3 21 3 15"></polyline>
+				<line x1="21" y1="3" x2="14" y2="10"></line>
+				<line x1="3" y1="21" x2="10" y2="14"></line>
+			</svg>
+		</span>
+	</div>
+	{caption && <p class="diagram-caption">{caption}</p>}
+
+	<div class="diagram-overlay" data-diagram-overlay={uniqueId}>
+		<div class="diagram-controls">
+			<button data-action="zoom-in" title="Zoom in">+</button>
+			<button data-action="zoom-out" title="Zoom out">&minus;</button>
+      <button data-action="reset" title="Reset view">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 256 256"><path fill="currentColor" d="M222 128a94 94 0 0 1-92.74 94H128a93.43 93.43 0 0 1-64.5-25.65a6 6 0 1 1 8.24-8.72A82 82 0 1 0 70 70l-.19.19L39.44 98H72a6 6 0 0 1 0 12H24a6 6 0 0 1-6-6V56a6 6 0 0 1 12 0v34.34L61.63 61.4A94 94 0 0 1 222 128"/></svg>
+      </button>
+			<button data-action="close" title="Close">&times;</button>
+		</div>
+		<div class="diagram-viewport">
+			<img src={src} alt={alt} draggable="false" />
+		</div>
+	</div>
+</div>
+
+<style>
+	.diagram-container {
+		position: relative;
+		width: 100%;
+		margin: 1.5rem 0;
+	}
+
+	.diagram-preview {
+		position: relative;
+		cursor: zoom-in;
+		border: 1px dashed #333;
+		border-radius: 4px;
+		padding: 1rem;
+		transition: border-color 0.2s ease;
+	}
+
+	.diagram-preview:hover {
+		border-color: #555;
+	}
+
+	.diagram-preview img {
+		width: 100%;
+		height: auto;
+		display: block;
+	}
+
+	.diagram-hint {
+		position: absolute;
+		bottom: 0.5rem;
+		right: 0.5rem;
+		color: #888;
+		opacity: 0;
+		transition: opacity 0.2s ease;
+		line-height: 1;
+	}
+
+	.diagram-preview:hover .diagram-hint {
+		opacity: 0.8;
+	}
+
+	.diagram-caption {
+		margin-top: 0.5rem;
+		font-size: 0.875rem;
+		color: #888;
+		text-align: center;
+	}
+
+	.diagram-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100dvh;
+		background-color: #121113;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		opacity: 0;
+		pointer-events: none;
+		transition: all 0.3s ease;
+		z-index: 9999;
+	}
+
+	.diagram-overlay.active {
+		background-color: #121113;
+		opacity: 1;
+		pointer-events: all;
+	}
+
+	.diagram-controls {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		display: flex;
+		gap: 0.5rem;
+		z-index: 10000;
+	}
+
+	.diagram-controls button {
+		background: rgba(255, 255, 255, 0.1);
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		color: white;
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 4px;
+		cursor: pointer;
+		font-family: 'Commit Mono', monospace;
+		font-size: 1rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: background 0.15s ease;
+	}
+
+	.diagram-controls button:hover:not(:disabled) {
+		background: rgba(255, 255, 255, 0.2);
+	}
+
+	.diagram-controls button:disabled {
+		opacity: 0.3;
+		cursor: default;
+	}
+
+	.diagram-viewport {
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		touch-action: none;
+	}
+
+	.diagram-viewport img {
+		max-width: 90%;
+		max-height: 90vh;
+		object-fit: contain;
+		transform-origin: 0 0;
+		user-select: none;
+		-webkit-user-drag: none;
+	}
+</style>
+
+<script>
+	const MIN_SCALE = 1;
+	const MAX_SCALE = 5;
+	const ZOOM_STEP = 0.15;
+	const WHEEL_FACTOR = 0.001;
+	const DRAG_THRESHOLD = 5;
+
+	document.querySelectorAll<HTMLElement>('[data-diagram-id]').forEach((container) => {
+		const id = container.dataset.diagramId!;
+		const overlay = document.querySelector<HTMLElement>(`[data-diagram-overlay="${id}"]`);
+		if (!overlay) return;
+
+		const preview = container.querySelector<HTMLElement>('.diagram-preview')!;
+		const viewport = overlay.querySelector<HTMLElement>('.diagram-viewport')!;
+		const viewportImg = viewport.querySelector<HTMLImageElement>('img')!;
+		const zoomOutBtn = overlay.querySelector<HTMLButtonElement>('[data-action="zoom-out"]')!;
+
+		const state = {
+			scale: 1,
+			translateX: 0,
+			translateY: 0,
+			isDragging: false,
+			dragMoved: false,
+			startX: 0,
+			startY: 0,
+			initialPinchDistance: 0,
+			initialScale: 1,
+		};
+
+		function applyTransform() {
+			viewportImg.style.transform = `translate(${state.translateX}px, ${state.translateY}px) scale(${state.scale})`;
+			viewport.style.cursor = state.scale >= 1.001
+				? (state.isDragging ? 'grabbing' : 'grab')
+				: 'default';
+			zoomOutBtn.disabled = state.scale <= MIN_SCALE;
+		}
+
+		function reset() {
+			state.scale = 1;
+			state.translateX = 0;
+			state.translateY = 0;
+			applyTransform();
+		}
+
+		function open() {
+			overlay.classList.add('active');
+			document.body.style.overflow = 'hidden';
+		}
+
+		function close() {
+			overlay.classList.remove('active');
+			document.body.style.overflow = '';
+			setTimeout(() => reset(), 300);
+		}
+
+		function zoomAt(x: number, y: number, delta: number) {
+			const newScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, state.scale + delta));
+			const ratio = newScale / state.scale;
+			state.translateX = x - (x - state.translateX) * ratio;
+			state.translateY = y - (y - state.translateY) * ratio;
+			state.scale = newScale;
+			applyTransform();
+		}
+
+		function zoomCenter(delta: number) {
+			const rect = viewport.getBoundingClientRect();
+			zoomAt(rect.width / 2, rect.height / 2, delta);
+		}
+
+		// Store functions on overlay for keyboard handler access
+		(overlay as any)._diagramClose = close;
+		(overlay as any)._diagramZoomCenter = zoomCenter;
+
+		// Open
+		preview.addEventListener('click', open);
+
+		// Close button
+		overlay.querySelector('[data-action="close"]')!.addEventListener('click', close);
+
+		// Click outside to close (but not after dragging)
+		overlay.addEventListener('click', (e) => {
+			if (state.dragMoved) return;
+			if (e.target === overlay || e.target === viewport) close();
+		});
+
+		// Control buttons
+		overlay.querySelector('[data-action="zoom-in"]')!.addEventListener('click', (e) => {
+			e.stopPropagation();
+			zoomCenter(ZOOM_STEP);
+		});
+		overlay.querySelector('[data-action="zoom-out"]')!.addEventListener('click', (e) => {
+			e.stopPropagation();
+			zoomCenter(-ZOOM_STEP);
+		});
+		overlay.querySelector('[data-action="reset"]')!.addEventListener('click', (e) => {
+			e.stopPropagation();
+			reset();
+		});
+
+		// Wheel zoom — scale by actual deltaY magnitude for smooth trackpad/scroll
+		viewport.addEventListener('wheel', (e) => {
+			e.preventDefault();
+			const rect = viewport.getBoundingClientRect();
+			const x = e.clientX - rect.left;
+			const y = e.clientY - rect.top;
+			const delta = -e.deltaY * WHEEL_FACTOR * state.scale;
+			zoomAt(x, y, delta);
+		}, { passive: false });
+
+		// Mouse pan
+		viewport.addEventListener('mousedown', (e) => {
+			if (state.scale < 1.001) return;
+			state.isDragging = true;
+			state.dragMoved = false;
+			state.startX = e.clientX - state.translateX;
+			state.startY = e.clientY - state.translateY;
+			viewport.style.cursor = 'grabbing';
+		});
+
+		window.addEventListener('mousemove', (e) => {
+			if (!state.isDragging) return;
+			const dx = e.clientX - state.startX;
+			const dy = e.clientY - state.startY;
+			if (Math.abs(dx - state.translateX) > DRAG_THRESHOLD || Math.abs(dy - state.translateY) > DRAG_THRESHOLD) {
+				state.dragMoved = true;
+			}
+			state.translateX = dx;
+			state.translateY = dy;
+			applyTransform();
+		});
+
+		window.addEventListener('mouseup', () => {
+			if (!state.isDragging) return;
+			state.isDragging = false;
+			applyTransform();
+			setTimeout(() => { state.dragMoved = false; }, 0);
+		});
+
+		// Touch support
+		function getTouchDistance(t1: Touch, t2: Touch) {
+			return Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+		}
+
+		viewport.addEventListener('touchstart', (e) => {
+			if (e.touches.length === 2) {
+				e.preventDefault();
+				state.initialPinchDistance = getTouchDistance(e.touches[0], e.touches[1]);
+				state.initialScale = state.scale;
+			} else if (e.touches.length === 1 && state.scale >= 1.001) {
+				state.isDragging = true;
+				state.dragMoved = false;
+				state.startX = e.touches[0].clientX - state.translateX;
+				state.startY = e.touches[0].clientY - state.translateY;
+			}
+		}, { passive: false });
+
+		viewport.addEventListener('touchmove', (e) => {
+			if (e.touches.length === 2) {
+				e.preventDefault();
+				const dist = getTouchDistance(e.touches[0], e.touches[1]);
+				const newScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, state.initialScale * (dist / state.initialPinchDistance)));
+				const rect = viewport.getBoundingClientRect();
+				const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left;
+				const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top;
+				const ratio = newScale / state.scale;
+				state.translateX = midX - (midX - state.translateX) * ratio;
+				state.translateY = midY - (midY - state.translateY) * ratio;
+				state.scale = newScale;
+				applyTransform();
+			} else if (e.touches.length === 1 && state.isDragging) {
+				e.preventDefault();
+				state.dragMoved = true;
+				state.translateX = e.touches[0].clientX - state.startX;
+				state.translateY = e.touches[0].clientY - state.startY;
+				applyTransform();
+			}
+		}, { passive: false });
+
+		viewport.addEventListener('touchend', () => {
+			state.isDragging = false;
+			setTimeout(() => { state.dragMoved = false; }, 0);
+		});
+	});
+
+	// Global keyboard handler
+	document.addEventListener('keydown', (e) => {
+		const active = document.querySelector<HTMLElement>('.diagram-overlay.active') as any;
+		if (!active) return;
+
+		if (e.key === 'Escape') {
+			active._diagramClose();
+		} else if (e.key === '+' || e.key === '=') {
+			active._diagramZoomCenter(ZOOM_STEP);
+		} else if (e.key === '-') {
+			active._diagramZoomCenter(-ZOOM_STEP);
+		}
+	});
+</script>
