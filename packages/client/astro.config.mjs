@@ -1,4 +1,5 @@
 import { defineConfig } from "astro/config";
+import rehypeExternalLinks from "rehype-external-links";
 import cloudflare from "@astrojs/cloudflare";
 import mdx from "@astrojs/mdx";
 import tailwind from "@astrojs/tailwind";
@@ -18,6 +19,9 @@ export default defineConfig({
 			theme: darkmatter,
 			wrap: false,
 		},
+		rehypePlugins: [
+			[rehypeExternalLinks, { target: "_blank", rel: ["noopener", "noreferrer"] }],
+		],
 	},
 	prefetch: true,
 	integrations: [
