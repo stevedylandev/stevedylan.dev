@@ -1,128 +1,28 @@
 ---
-import { SOCIAL_LINKS } from "@/data/constants";
+import { getSocial } from "@/data/constants";
 
-// *** SVG icons from https://tablericons.com/ ***
+const items = ["email", "rss", "github", "atproto"].map(
+	(key) => getSocial(key)!,
+);
 ---
 
 <div class="flex flex-wrap items-center gap-x-4 sm:items-center">
 	<p>Find me on</p>
 	<ul class="flex flex-1 items-center gap-x-4 sm:flex-initial">
-	<li>
-        <a
-          class="inline-block p-2 sm:hover:text-link"
-          href={SOCIAL_LINKS.email}
-        >
-          <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          width="44"
-          height="44"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          >
-            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m2.357 7.714l6.98 4.654c.963.641 1.444.962 1.964 1.087c.46.11.939.11 1.398 0c.52-.125 1.001-.446 1.964-1.087l6.98-4.654M7.157 19.5h9.686c1.68 0 2.52 0 3.162-.327a3 3 0 0 0 1.31-1.311c.328-.642.328-1.482.328-3.162V9.3c0-1.68 0-2.52-.327-3.162a3 3 0 0 0-1.311-1.311c-.642-.327-1.482-.327-3.162-.327H7.157c-1.68 0-2.52 0-3.162.327a3 3 0 0 0-1.31 1.311c-.328.642-.328 1.482-.328 3.162v5.4c0 1.68 0 2.52.327 3.162a3 3 0 0 0 1.311 1.311c.642.327 1.482.327 3.162.327"/></svg>
-          <span class="sr-only">Email</span>
-        </a>
-      </li>
-		<li>
-			<a
-				class="inline-block p-2 sm:hover:text-link"
-				href={SOCIAL_LINKS.rss}
-				target="_blank"
-				rel="noopener noreferrer"
-			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					class="h-6 w-6"
-					viewBox="0 0 24 24"
-					stroke-width="1.5"
-					stroke="currentColor"
-					fill="none"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-				>
-				<g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></g>
-				</svg>
-				<span class="sr-only">RSS</span>
-			</a>
-		</li>
-		<li>
-			<a
-				class="inline-block p-2 sm:hover:text-link"
-				href={SOCIAL_LINKS.github}
-				target="_blank"
-				rel="noopener noreferrer"
-			>
-				<svg
-					class="h-6 w-6"
-					aria-hidden="true"
-					focusable="false"
-					xmlns="http://www.w3.org/2000/svg"
-					viewBox="0 0 24 24"
-					stroke-width="1.5"
-					stroke="currentColor"
-					fill="none"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-				>
-					<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-					<path
-						d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"
+		{
+			items.map((link) => (
+				<li>
+					<a
+						class="inline-block p-2 sm:hover:text-link"
+						href={link.href}
+						target={link.external ? "_blank" : undefined}
+						rel={link.external ? "noopener noreferrer" : undefined}
 					>
-					</path>
-				</svg>
-				<span class="sr-only">Github</span>
-			</a>
-		</li>
-		<li>
-			<a
-				class="inline-block p-2 sm:hover:text-link"
-				href={SOCIAL_LINKS.atproto}
-				target="_blank"
-				rel="noopener noreferrer"
-			>
-				<svg
-				class="h-6 w-6"
-				aria-hidden="true"
-				focusable="false"
-				xmlns="http://www.w3.org/2000/svg"
-				viewBox="0 0 24 24"
-				stroke-width="1"
-				stroke="currentColor"
-				fill="none"
-				stroke-linecap="round"
-				stroke-linejoin="round"
-				>
-          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-            <circle cx="12" cy="12" r="4"/>
-            <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/>
-          </g>
-				</svg>
-				<span class="sr-only">ATProto</span>
-			</a>
-		</li>
-		<li>
-			<a
-				class="inline-block p-2 sm:hover:text-link"
-				href={SOCIAL_LINKS.ethereum}
-				target="_blank"
-				rel="noopener noreferrer"
-			>
-				<svg
-				class="h-6 w-6" stroke-width="1.5" stroke="currentColor"
-				 viewBox="0 0 202 231"  xmlns="http://www.w3.org/2000/svg">
-          <path d="M98.3592 2.80337L34.8353 107.327C34.3371 108.147 33.1797 108.238 32.5617 107.505C26.9693 100.864 6.13478 72.615 31.9154 46.8673C55.4403 23.3726 85.4045 6.62129 96.5096 0.831705C97.7695 0.174847 99.0966 1.59007 98.3592 2.80337Z" fill="#fff" />
-          <path d="M94.8459 230.385C96.1137 231.273 97.6758 229.759 96.8261 228.467C82.6374 206.886 35.4713 135.081 28.9559 124.302C22.5295 113.67 9.88976 96.001 8.83534 80.8842C8.7301 79.3751 6.64332 79.0687 6.11838 80.4879C5.27178 82.7767 4.37045 85.5085 3.53042 88.6292C-7.07427 128.023 8.32698 169.826 41.7753 193.238L94.8459 230.386V230.385Z" fill="#fff" />
-          <path d="M103.571 228.526L167.095 124.003C167.593 123.183 168.751 123.092 169.369 123.825C174.961 130.465 195.796 158.715 170.015 184.463C146.49 207.957 116.526 224.709 105.421 230.498C104.161 231.155 102.834 229.74 103.571 228.526Z" fill="#fff" />
-          <path d="M107.154 0.930762C105.886 0.0433954 104.324 1.5567 105.174 2.84902C119.363 24.4301 166.529 96.2354 173.044 107.014C179.471 117.646 192.11 135.315 193.165 150.432C193.27 151.941 195.357 152.247 195.882 150.828C196.728 148.539 197.63 145.808 198.47 142.687C209.074 103.293 193.673 61.4905 160.225 38.078L107.154 0.930762Z" fill="#fff" />
-        </svg>
-
-				<span class="sr-only">Ethereum</span>
-			</a>
-		</li>
+						<Fragment set:html={link.icon} />
+						<span class="sr-only">{link.name}</span>
+					</a>
+				</li>
+			))
+		}
 	</ul>
 </div>

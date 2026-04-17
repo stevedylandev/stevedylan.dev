@@ -3,7 +3,9 @@ export const prerender = false;
 
 import PageLayout from "@/layouts/Base.astro";
 import NowUpdates from "@/components/now/NowUpdates.astro";
-import { SOCIAL_LINKS } from "@/data/constants";
+import { getSocial } from "@/data/constants";
+
+const atproto = getSocial("atproto")!;
 
 const meta = {
 	title: "Now",
@@ -49,7 +51,7 @@ const meta = {
   			</a>
         <a
           class="flex items-center gap-4 p-2 sm:hover:text-link"
-          href={SOCIAL_LINKS.atproto}
+          href={atproto.href}
           target="_blank"
           rel="noopener noreferrer"
         >
