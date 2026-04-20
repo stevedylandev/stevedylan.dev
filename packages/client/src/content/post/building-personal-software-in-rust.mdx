@@ -1,0 +1,52 @@
+---
+title: "Building Personal Software in Rust"
+publishDate: "19 Apr 2026"
+description: "The good, the bad, and the ugly of using AI to build software"
+tags: ["programming", "ai", "philosophy", "personal"]
+ogImage: "/blog-images/other/sipp-demo.png"
+hidden: true
+---
+
+![cover image](/blog-images/other/sipp-demo.png)
+
+For the past month or two I've been experimenting with building personal, self hosted software in Rust. The apps include anything from simple note taking, a wine tracker, image resizing, even a full blown RSS aggregator to replace FreshRSS. I'm not going to go into too much detail around the apps themselves, you can check them out [here](https://andromeda.build) if you're really interested. Instead, I want to use this post to talk about how I got here, why Rust, and the good, the bad, and the ugly of building personal software with AI. 
+
+## How I got here
+
+It all started with something I wanted: a code sharing app. In my line of work I often had to share snippets of code or ask someone to show me a quick piece of code to help them debug, and I really didn't like the options out there. Many of them were riddled with ads or they just looked awful. I decided to build my own, as the basics of this app is simply a database with some CRUD operations. At the time I used Bun since it had everything I needed in one neat package, including web server and an SQLite interface. The result was exactly what I wanted. Time passed and I had a few other apps I built with a similar philosophy. 
+
+Between then and now, I had also been learning Rust as much as I could. Along with going through the Rust book and doing exercises, I also had built a simple app or two in order to get more experience. This drive was accelerated as the points from [this video](https://youtu.be/WhjEL817Onw) resonated with me. The thought came to me: what if I rewrote the couple of personal apps I made in Rust? For the memes, but I also liked the idea of making my coding app a web app and TUI all in one. My Rust skills probably could have handled most of the work if I did it by hand, but naturally I took the lazy route. This after all was an experiment; I have very little free time to do such a rewrite by hand. What could go wrong? 
+
+Everything ended up going right. The result of my rewrite of the code sharing app was fantastic. I loved having a single binary no bigger than 13MB that ran the server and the TUI app to create and manage code snippets. Quickly the experiment turned into building more and more apps that I wanted. The stack was so simple that it made it easy to crank out more CRUD apps, so anytime I found myself dissatisfied with a current situation that could be solved with an app, I built it. Now I have a suite of apps that I use all the time and I absolutely love how they've turned out. I even started optimizing the workspace to use shared crates and Docker setups to make self hosting a breeze.
+
+I've previously written about how using AI to write code not only takes the fun out of it, but also can reduce your capacity to think critically and solve problems. Admittedly this is still happening as I crank out these apps, but there's more nuance I've discovered while thinking through this experiment.
+
+## The Good
+
+The biggest benefit I've found through this experience is the ability to get exactly what I want out of my software, and to do it quickly. I should clarify that I'm not an AI maxi bro. I don't use git worktrees or have some swarm of agents. I just use Claude Code with the $20 a month plan with no extra usage. Only every now and then would I hit a limit and have to wait. This was possibly due to the fact that I knew exactly what I wanted, and the apps were stupid simple. The beauty of CRUD apps is how repeatable everything is. I quickly created two skills for scaffolding a new app along with styles that unify them. 
+
+Rust proved to be pretty great for these kinds of apps. One of the main reasons I was pursuing Rust was memory efficiency. As I mentioned earlier, my code sharing app was originally made with Typescript using Bun. While that approach was much simpler and easier to do, it also took way more memory. My Bun runtime instances on my server were taking average 65MB of RAM to run, which isn't the worst, but if you start to multiply that across multiple apps or add more expensive logic, it can quickly grow out of control. Ironically this has become a bigger problem in our current age of AI due to the shortage of RAM across the globe, and how [it's only going to get worse](https://www.theverge.com/ai-artificial-intelligence/914672/the-ram-shortage-could-last-years). Optimizing for memory and using little as possible has become a big piece of why I used Rust. The same app with more features only runs on ~10MB. I acknowledge that this logic can't be applied everywhere, but for personal software like this running on my own hardware, I love having that level of control.
+
+There are plenty of other lower level languages that could have accomplished these apps, but so far Rust has proven to be especially good for Claude. The Rust compiler is a beautiful thing, providing detailed info about any problems in the code base that AI can react to efficiently. Not only that, if you use the Rust LSP extension in Claude then it will catch issues on the fly. There is still plenty of room for error though, and I can't say I would take this approach with a serious project, but it's fine for my own personal software.
+
+While all of this sounds amazing, and for me personally it excites me at the possibility of [end-user programming](https://www.inkandswitch.com/end-user-programming/), there are some downsides.
+
+## The Bad
+
+With all the good parts of Rust, there is still the opportunity for a solid footgun. It feels almost dangerous for someone of my level of skill in Rust to create this much software in a language that is known to be incredibly complex. Sure I can test it, and I know how to identify bad patterns that can be corrected, but it does not replace what comes with years of experience in Rust that I simply don't have yet. Not to mention the dependencies. My apps don't have many, but it's still a level of abstraction that I have to eat and hope doesn't hurt me later. 
+
+The idea of other people taking this approach also has some flaws. I want to believe in a future where people can just create their own software as they need it, but today, the truth is I already know a fair bit of how all of this works. While I don't have lots of experience in Rust, I do have experience in programming in general and hosting applications. Using something like Tailscale or a Cloudflare tunnel is second nature to me and I understand why they exist, but the average person that may want to build an app will have no idea. I also already knew what pieces of the stack I needed, and how to avoid adding bigger dependencies like using React for a client side app. This is just knowledge that helps me build exactly what I want, but I can't say someone else would have the same experience.
+
+## The Ugly
+
+What I hate the most is the dependency on AI itself. Yes I could probably build these apps without Claude, but it would take much, much longer; more time than I have. Going another level deeper, I hate the dependency on an AI provider. Local models are slowly getting better, but they are a long ways from competing with frontier models, and I hate that. This means if Anthropic has an outage (I know, that could never happen) then I no longer have the ability to keep building what I want. Or if they decide to change their pricing or limits, I might find my speed crippled. 
+
+Perhaps the most frightening, what if I just get kicked out of Claude? Andrew Olsson made a [video](https://youtu.be/03wgVlCKKVg) recently explaining how that happened to him. With little to no explanation, he got an email saying he violated the usage policy. Didn't detail how exactly, and after reviewing the policy he couldn't see what he did wrong. Where it really goes downhill is how Claude has zero support. Ironically not even a chatbot. The email did have a Google form to file an appeal, but even it said that the wait could be extensive. It's been weeks and Andrew still hasn't heard back. From the comments in the video, this incident isn't isolated either. 
+
+The irony of this whole project is using something like AI, that could be taken away from me in an instant, to build software that can liberate me from other apps or platforms. In some ways it's rather depressing, but I'm trying to look beyond our current moment. 
+
+## What's Next
+
+While a few major companies hold the keys to the best AI models, progress is being made in the realm of open source. I have hope that eventually we will get to a place where AI is liberated and works just like an operating system. If we do get there, it opens up a whole realm of end-user programming, where people can use natural language to describe what they want to accomplish on a computer. That specific focus is already being built towards in projects like [Radiant](https://radiant.computer).
+
+While I don't know what the future holds for programming or AI, I do know that I love my little apps, and one way or another, I want to keep writing my own software.
