@@ -9,7 +9,7 @@ export type ProjectItem = {
 export const projects: ProjectItem[] = [
   {
     title: "Andromeda",
-    description: "A collection of personal and self hostable software written in Rust. Each app is minimal and focuses on low memory and data usage. Includes common needs like an RSS reader, markdown note taker, even a micro blogging platform. Andromeda also includes a base Rust stack and agent skills that can be used to build more basic web applications."
+    description: "A collection of personal and self hostable software written in Rust. Each app is minimal and focuses on low memory and data usage. Includes common needs like an RSS reader, markdown note taker, even a micro blogging platform. Andromeda also includes a base Rust stack and agent skills that can be used to build more basic web applications.",
     image: "https://andromeda.build/og.png",
     link: "https://andromeda.build",
     tags: ["productivity", "self hosting"]
