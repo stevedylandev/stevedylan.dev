@@ -1,0 +1,48 @@
+---
+import PageLayout from "@/layouts/Base.astro";
+
+const meta = {
+	title: "Soundboard",
+	description: "Click buttons. Hear sounds.",
+};
+
+const sounds = [
+	{ name: "Ack", file: "/audio/ack.mp3" },
+	{ name: "Airhorn", file: "/audio/airhorn.mp3" },
+	{ name: "Anime Wow", file: "/audio/anime-wow.mp3" },
+	{ name: "Boom", file: "/audio/boom.mp3" },
+	{ name: "Bruh", file: "/audio/bruh.mp3" },
+	{ name: "Lizard", file: "/audio/lizard.mp3" },
+];
+---
+
+<PageLayout meta={meta}>
+  <div class="space-y-6">
+    <h1 class="title mb-6">Soundboard</h1>
+    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3">
+      {
+        sounds.map((sound) => (
+          <button
+            type="button"
+            data-sound={sound.file}
+            class="sound-btn aspect-square rounded-lg border border-white/20 bg-white/5 p-4 text-center transition-colors sm:hover:bg-white/10 sm:hover:text-link"
+          >
+            {sound.name}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll<HTMLButtonElement>(".sound-btn");
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const src = btn.dataset.sound;
+        if (!src) return;
+        const audio = new Audio(src);
+        audio.play();
+      });
+    });
+  </script>
+</PageLayout>
