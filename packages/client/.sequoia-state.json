@@ -1,0 +1,250 @@
+{
+  "posts": {
+    "src/content/post/back-to-basic.mdx": {
+      "contentHash": "dced34604b582ac4631db5aafe33e3d90089bd3429e463ae2543e8b4e85ffad5",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mggpic7sdd2h",
+      "lastPublished": "2026-03-06T05:00:00.000Z",
+      "slug": "back-to-basic"
+    },
+    "src/content/post/programmers-on-the-verge-of-extinction.mdx": {
+      "contentHash": "0077e0d782061bb84c60967e481578240b3f854b903e607fbe634b733bfc6ee9",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mfv2rjkplk2h",
+      "lastPublished": "2026-02-27T05:00:00.000Z",
+      "slug": "programmers-on-the-verge-of-extinction"
+    },
+    "src/content/post/the-power-of-dedicated-gateways.mdx": {
+      "contentHash": "0049e5f9848c92a124214718178cd218b80f153cbeade00527e83781f0494243",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvutcycf2v",
+      "lastPublished": "2022-02-10T05:00:00.000Z",
+      "slug": "the-power-of-dedicated-gateways"
+    },
+    "src/content/post/how-to-offset-NFT-emissions.mdx": {
+      "contentHash": "afa6abe84fa1520252ca4559f110d7ca4269fc69732b800a906119de77e96686",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvut7d4f2v",
+      "lastPublished": "2022-04-22T04:00:00.000Z",
+      "slug": "how-to-offset-nft-emissions"
+    },
+    "src/content/post/3d-solana-nfts.mdx": {
+      "contentHash": "c8bcdcc72a18c53c5d1ad0c0835f1683c47571d29988418ff169a7b64ffadf01",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvut5khv2v",
+      "lastPublished": "2022-05-18T04:00:00.000Z",
+      "slug": "3d-solana-nfts"
+    },
+    "src/content/post/resizing-ipfs-images.mdx": {
+      "contentHash": "9f4a3b64b2c2f5af972204e70ac8456925d9b0c8afef3fc9ac7dd3451c3ff267",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvut3ovn2v",
+      "lastPublished": "2022-06-23T04:00:00.000Z",
+      "slug": "resizing-ipfs-images"
+    },
+    "src/content/post/beginners-guide-to-ipfs.mdx": {
+      "contentHash": "1738d00f8b70132fe6fd859f428dd74c3207030f3b27cfdf90006fd69cec0f6b",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvusztdf2v",
+      "lastPublished": "2022-10-07T04:00:00.000Z",
+      "slug": "beginners-guide-to-ipfs"
+    },
+    "src/content/post/case-for-ipfs-on-l1-chains.mdx": {
+      "contentHash": "31bb805e67a5fd599830cdbe379c2da9dc77e2a61105edd1a8cbd8d85b5a4882",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvusuqan2v",
+      "lastPublished": "2022-12-06T05:00:00.000Z",
+      "slug": "case-for-ipfs-on-l1-chains"
+    },
+    "src/content/post/3d-nft-resume.mdx": {
+      "contentHash": "e54863264ab98ead0653f75ac24d70b01c2cbb5543113ed04df72e2bec33650a",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvussqrf2v",
+      "lastPublished": "2023-01-10T05:00:00.000Z",
+      "slug": "3d-nft-resume"
+    },
+    "src/content/post/how-to-mint-on-sui.mdx": {
+      "contentHash": "34927db597a951650cc6e7d2cd5e5d278df0d8d48aef7a8f351798c2612dff7f",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvusolxf2v",
+      "lastPublished": "2023-02-27T05:00:00.000Z",
+      "slug": "how-to-mint-on-sui"
+    },
+    "src/content/post/my-developer-journey.md": {
+      "contentHash": "49bace7b3b4c147edb9c05631652d0b39e3a8ba6bc6886988094f49e53793d04",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvusmkjn2v",
+      "lastPublished": "2023-02-28T05:00:00.000Z",
+      "slug": "my-developer-journey"
+    },
+    "src/content/post/arc-internet.mdx": {
+      "contentHash": "c3aa3810b085a9dd9020c4302dd04a7fa6eb8887607c0d3bf3f501f5f7478262",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvuskpwn2v",
+      "lastPublished": "2023-03-08T05:00:00.000Z",
+      "slug": "arc-internet"
+    },
+    "src/content/post/48-hours-disconnected.mdx": {
+      "contentHash": "b0d632a60f95724783ac205f09cc6e52afdb9f76d167bb961f32bf7264e067cb",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvusirgn2v",
+      "lastPublished": "2023-05-02T04:00:00.000Z",
+      "slug": "48-hours-disconnected"
+    },
+    "src/content/post/how-to-create-a-weekly-photo-zine.mdx": {
+      "contentHash": "80079d77779c443a703b05feb1da32dc565432f765ca5e258e315fc68bf4c0de",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvusgpyv2v",
+      "lastPublished": "2023-06-08T04:00:00.000Z",
+      "slug": "how-to-create-a-weekly-photo-zine"
+    },
+    "src/content/post/how-to-migrate-from-neovim-to-vscode.mdx": {
+      "contentHash": "0b19444c34b821b6bb9f1be0863918855024b66fa08d457fbca2785f116c9f32",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvuseriv2v",
+      "lastPublished": "2023-07-06T04:00:00.000Z",
+      "slug": "how-to-migrate-from-neovim-to-vscode"
+    },
+    "src/content/post/How To Run Your Own IPFS Gateway.mdx": {
+      "contentHash": "7e61fa3bfb77f72d2a6863e603095608157ed45a50583cdf281982a89fe6ce94",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvus7pff2v",
+      "lastPublished": "2023-10-10T00:00:00.000Z",
+      "slug": "how-to-run-your-own-ipfs-gateway"
+    },
+    "src/content/post/How to Encrypt and Decrypt Files on IPFS Using Lit.md": {
+      "contentHash": "4ed99c9b13c6d64dc3e8a1151b664de8335738f68d8d3254f2961c0e6710621b",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvus3hnn2v",
+      "lastPublished": "2023-11-04T04:00:00.000Z",
+      "slug": "how-to-encrypt-and-decrypt-files-on-ipfs-using-lit"
+    },
+    "src/content/post/why-i-learned-vim.mdx": {
+      "contentHash": "58c0a48983183589d4f0175d6c994dcbcfb0f04572370a9a48dfa0a5e504687a",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvurxbuf2v",
+      "lastPublished": "2024-01-05T05:00:00.000Z",
+      "slug": "why-i-learned-vim"
+    },
+    "src/content/post/a-terminal-based-workflow.mdx": {
+      "contentHash": "ec3532e9aaef9466849e34089b09fb5e2363aad90d85f0d5f61e7329bdea7206",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvurvdef2v",
+      "lastPublished": "2024-03-06T05:00:00.000Z",
+      "slug": "a-terminal-based-workflow"
+    },
+    "src/content/post/building-snippets-so.mdx": {
+      "contentHash": "676ad30c25c02d980a530cf01a0b1ae2aac6cb2aca8325b93ab68238b43319ab",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvurteuf2v",
+      "lastPublished": "2024-08-02T04:00:00.000Z",
+      "slug": "building-snippets-so"
+    },
+    "src/content/post/leaving-neovim-for-zed.mdx": {
+      "contentHash": "52715d1e88dd8db9921222e7b58b9c2cfb8ad3a3860174915ff3e7f9e19bc222",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvurqlyn2v",
+      "lastPublished": "2024-08-16T04:00:00.000Z",
+      "slug": "leaving-neovim-for-zed"
+    },
+    "src/content/post/building-a-guestbook-with-pglite-clerk-and-pinata.mdx": {
+      "contentHash": "720a4d301ca8edf109317703943af40f1cc156429286c0558531306f271f381a",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvurhwnn2v",
+      "lastPublished": "2024-09-24T04:00:00.000Z",
+      "slug": "building-a-guestbook-with-pglite-clerk-and-pinata"
+    },
+    "src/content/post/why-you-should-learn-jq-in-2024.mdx": {
+      "contentHash": "74263c4d4b8b320279582ab717f8d13fdd822302592431ff61131eeecf9d7892",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvurdwpv2v",
+      "lastPublished": "2024-10-12T04:00:00.000Z",
+      "slug": "why-you-should-learn-jq-in-2024"
+    },
+    "src/content/post/vibe-coding-and-kodak-cameras.mdx": {
+      "contentHash": "17d0932eac5ba08ae666f01a6c20faf43f1f8121904048fa3b742059b0886333",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvur3ysv2v",
+      "lastPublished": "2025-03-30T04:00:00.000Z",
+      "slug": "vibe-coding-and-kodak-cameras"
+    },
+    "src/content/post/learning-rust-with-ai.mdx": {
+      "contentHash": "6fb67a72bff6b72d8beb117242abe882edf56555b5036d710135efcc8f5301d8",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvuqzawf2v",
+      "lastPublished": "2025-07-11T04:00:00.000Z",
+      "slug": "learning-rust-with-ai"
+    },
+    "src/content/post/the-meaning-of-life.mdx": {
+      "contentHash": "5fe508620a2cb861bb6c13a72da1a052822504f4348ebc83bb2d36ce881c1ad0",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvuqqzav2v",
+      "lastPublished": "2025-08-15T04:00:00.000Z",
+      "slug": "the-meaning-of-life"
+    },
+    "src/content/post/turning-natspec-into-markdown-ui.mdx": {
+      "contentHash": "1947cb4d75885eb6c7f6b1b830d72e7dccb2cd9fa0dddac5e4d33801432d5b54",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvuqmxen2v",
+      "lastPublished": "2025-08-31T04:00:00.000Z",
+      "slug": "turning-natspec-into-markdown-ui"
+    },
+    "src/content/post/resurrect-the-old-web.mdx": {
+      "contentHash": "00bef41b408ae240a9753a09c361121ef6d11cd13e5a64419b01befb0ccc172c",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvuqbfav2v",
+      "lastPublished": "2025-09-23T04:00:00.000Z",
+      "slug": "resurrect-the-old-web"
+    },
+    "src/content/post/when-ai-gives-the-ick.mdx": {
+      "contentHash": "9f79fa67376c39951c019a21e16d397e26249b0ee30ceb330e436268779e18db",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvuq2x752v",
+      "lastPublished": "2025-10-03T04:00:00.000Z",
+      "slug": "when-ai-gives-the-ick"
+    },
+    "src/content/post/programming-bowls.mdx": {
+      "contentHash": "e551a3cd78f8b115b1314a2dec6b5e111e67d075a4a2a159afe939509c71f1af",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvuposjn2v",
+      "lastPublished": "2025-10-16T04:00:00.000Z",
+      "slug": "programming-bowls"
+    },
+    "src/content/post/concerning-omarchy-and-distro-philosophy.mdx": {
+      "contentHash": "8c597d97e15b3a503fd0d77a7789c76599c2f537b7e1be6a29627ee3b7af8c55",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvupkguv2v",
+      "lastPublished": "2025-11-09T05:00:00.000Z",
+      "slug": "concerning-omarchy-and-distro-philosophy"
+    },
+    "src/content/post/introducing-alcove.mdx": {
+      "contentHash": "3ed76d60690fb192cdfa3a670360fd83d0031c88a64645d99520a772dfecc81a",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvupi6mf2v",
+      "lastPublished": "2025-11-23T05:00:00.000Z",
+      "slug": "introducing-alcove"
+    },
+    "src/content/post/how-gemini-gives-me-hope.mdx": {
+      "contentHash": "5df336c1bc0767ce164ca4ede25233bc6a189df7da0fb712527ffdf4c6d51c35",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvupdcef2v",
+      "lastPublished": "2025-12-18T05:00:00.000Z",
+      "slug": "how-gemini-gives-me-hope"
+    },
+    "src/content/post/2026-site-plans.mdx": {
+      "contentHash": "fafc451b6b4847309b61b9b294a60680b588251216ef4669e55459a039702f47",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvup73lv2v",
+      "lastPublished": "2026-01-01T05:00:00.000Z",
+      "slug": "2026-site-plans"
+    },
+    "src/content/post/using-atproto-for-posse.mdx": {
+      "contentHash": "cedbab5668b69de3f00c4b559d0ab91815ca07163f6f763407f7b1285d63178d",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvup2mzf2v",
+      "lastPublished": "2026-01-05T05:00:00.000Z",
+      "slug": "using-atproto-for-posse"
+    },
+    "src/content/post/standard-site-the-publishing-gateway.mdx": {
+      "contentHash": "6b237f9d35c9e6d1f67b841ee98ed05a2093d6019965f4a759976589588e8fe4",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvuovxm52v",
+      "lastPublished": "2026-01-11T05:00:00.000Z",
+      "slug": "standard-site-the-publishing-gateway"
+    },
+    "src/content/post/atproto-starter.mdx": {
+      "contentHash": "3711525540806f7456ca1eec9df4902dc0a3b1ab5df853a86bdf71018ccd63ca",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mcxxqjgspk26",
+      "lastPublished": "2026-01-21T05:00:00.000Z",
+      "slug": "atproto-starter"
+    },
+    "src/content/post/introducing-sequoia.mdx": {
+      "contentHash": "3fdd4e2604e3fe78b9b7655b8fa2e818edd27e9cb5e43dde5be357264f5a27b5",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvuohmmn2v",
+      "lastPublished": "2026-01-30T05:00:00.000Z",
+      "slug": "introducing-sequoia"
+    },
+    "src/content/post/building-personal-software-in-rust.mdx": {
+      "contentHash": "ac1d0f6a6a5515d4b375244083cee823e4b370376503b0472324d577e47e80ab",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mjvh4pgklc2q",
+      "lastPublished": "2026-04-20T02:44:00.125Z",
+      "slug": "building-personal-software-in-rust"
+    },
+    "src/content/post/indexing-standard-site.mdx": {
+      "contentHash": "62676d3786fddc9a3adae7f95464f06cde54997cbb676900c5636566c315217d",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mjvh4pmxns2q",
+      "lastPublished": "2026-04-20T02:44:00.270Z",
+      "slug": "indexing-standard-site"
+    },
+    "src/content/post/returning-to-neovim.mdx": {
+      "contentHash": "365416317f801b062fb04ded20284710e1e09c0df5c288f283a91ae964db9ea4",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mjvh4prebs2q",
+      "lastPublished": "2026-04-20T02:44:00.422Z",
+      "slug": "returning-to-neovim"
+    }
+  }
+}
