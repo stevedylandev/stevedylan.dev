@@ -1,0 +1,51 @@
+Submission ID,Common Name,Scientific Name,Taxonomic Order,Count,State/Province,County,Location ID,Location,Latitude,Longitude,Date,Time,Protocol,Duration (Min),All Obs Reported,Distance Traveled (km),Area Covered (ha),Number of Observers,Breeding Code,Observation Details,Checklist Comments,ML Catalog Numbers
+S52901738,Mourning Dove,Zenaida macroura,2412,1,US-OH,Wayne,L633955,Rittman,40.97815,-81.78206,2019-02-17,08:00 AM,eBird - Stationary Count,240,1,,,1
+S274971512,Chimney Swift,Chaetura pelagica,3896,X,US-TN,Hamilton,L53163921,Yellow house,35.004486,-85.328152,2025-09-22,07:22 PM,eBird - Casual Observation,,0,,,1
+S285949309,Common Loon,Gavia immer,6933,X,US-VA,Hampton,L55417840,Grandview,37.082234,-76.274658,2025-11-24,10:36 AM,eBird - Casual Observation,,0,,,1
+S285949853,Double-crested Cormorant,Nannopterum auritum,7424,X,US-VA,Hampton,L55417840,Grandview,37.082234,-76.274658,2025-11-24,,eBird - Casual Observation,,0,,,1
+S285949916,Black Vulture,Coragyps atratus,7811,X,US-VA,Hampton,L55417840,Grandview,37.082234,-76.274658,2025-11-24,,eBird - Casual Observation,,0,,,1
+S269906110,Cooper's Hawk,Astur cooperii,8278,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2025-08-27,06:37 PM,eBird - Casual Observation,,0,,,1
+S288732135,Cooper's Hawk,Astur cooperii,8278,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2025-12-15,,eBird - Casual Observation,,0,,,1
+S307412404,Bald Eagle,Haliaeetus leucocephalus,8367,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2026-03-08,05:57 PM,eBird - Casual Observation,,0,,,1
+S283025851,Barred Owl,Strix varia,9219,X,US-TN,Sevier,L54820414,302,35.724099,-83.488389,2025-11-05,01:24 PM,eBird - Casual Observation,,0,,,1
+S281776897,Belted Kingfisher,Megaceryle alcyon,10306,X,US-TN,Hamilton,L54549354,Reflection,35.008206,-85.367618,2025-10-28,10:12 AM,eBird - Casual Observation,,0,,,1
+S280997034,Yellow-bellied Sapsucker,Sphyrapicus varius,11126,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2025-10-23,06:13 PM,eBird - Casual Observation,,0,,,1
+S293484611,Yellow-bellied Sapsucker,Sphyrapicus varius,11126,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2026-01-10,11:24 AM,eBird - Casual Observation,,0,,,1
+S52901738,Red-headed Woodpecker,Melanerpes erythrocephalus,11145,1,US-OH,Wayne,L633955,Rittman,40.97815,-81.78206,2019-02-17,08:00 AM,eBird - Stationary Count,240,1,,,1
+S245506705,Red-bellied Woodpecker,Melanerpes carolinus,11199,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2025-06-01,11:28 AM,eBird - Casual Observation,,0,,,1
+S52901738,Downy Woodpecker,Dryobates pubescens,11400,4,US-OH,Wayne,L633955,Rittman,40.97815,-81.78206,2019-02-17,08:00 AM,eBird - Stationary Count,240,1,,,1
+S291928629,Hairy Woodpecker,Leuconotopicus villosus,11427,X,US-TN,Hamilton,L56728377,Reflection,35.012076,-85.365562,2026-01-02,02:04 PM,eBird - Casual Observation,,0,,,1
+S326724606,Pileated Woodpecker,Dryocopus pileatus,11762,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2026-04-24,06:35 PM,eBird - Casual Observation,,0,,,1
+S52901738,Blue Jay,Cyanocitta cristata,21294,6,US-OH,Wayne,L633955,Rittman,40.97815,-81.78206,2019-02-17,08:00 AM,eBird - Stationary Count,240,1,,,1
+S245511194,American Crow,Corvus brachyrhynchos,21557,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2025-06-01,11:36 AM,eBird - Casual Observation,,0,,,1
+S52901738,Carolina Chickadee,Poecile carolinensis,22060,8,US-OH,Wayne,L633955,Rittman,40.97815,-81.78206,2019-02-17,08:00 AM,eBird - Stationary Count,240,1,,,1
+S229033893,Tufted Titmouse,Baeolophus bicolor,22160,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2025-04-24,07:50 PM,eBird - Casual Observation,,0,,,1
+S52901738,Tufted Titmouse,Baeolophus bicolor,22160,5,US-OH,Wayne,L633955,Rittman,40.97815,-81.78206,2019-02-17,08:00 AM,eBird - Stationary Count,240,1,,,1
+S52901738,White-breasted Nuthatch,Sitta carolinensis,26889,4,US-OH,Wayne,L633955,Rittman,40.97815,-81.78206,2019-02-17,08:00 AM,eBird - Stationary Count,240,1,,,1
+S286968969,Brown-headed Nuthatch,Sitta pusilla,26932,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2025-12-01,02:50 PM,eBird - Casual Observation,,0,,,1
+S316759515,Blue-gray Gnatcatcher,Polioptila caerulea,27123,X,US-TN,Hamilton,L56726540,Reflection,35.008516,-85.365789,2026-04-04,09:35 AM,eBird - Casual Observation,,0,,,1
+S274271892,Carolina Wren,Thryothorus ludovicianus,27348,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2025-09-19,01:48 PM,eBird - Casual Observation,,0,,,1
+S52901738,Carolina Wren,Thryothorus ludovicianus,27348,2,US-OH,Wayne,L633955,Rittman,40.97815,-81.78206,2019-02-17,08:00 AM,eBird - Stationary Count,240,1,,,1
+S280948076,Gray Catbird,Dumetella carolinensis,28000,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2025-10-23,11:48 AM,eBird - Casual Observation,,0,,,1
+S245511364,Brown Thrasher,Toxostoma rufum,28037,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2025-06-01,11:36 AM,eBird - Casual Observation,,0,,,1
+S245511086,Northern Mockingbird,Mimus polyglottos,28114,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2025-06-01,11:36 AM,eBird - Casual Observation,,0,,,1
+S245510383,Eastern Bluebird,Sialia sialis,28126,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2025-04-14,,eBird - Casual Observation,,0,,,1
+S245510815,American Robin,Turdus migratorius,28633,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2025-06-01,11:35 AM,eBird - Casual Observation,,0,,,1
+S291928581,Cedar Waxwing,Bombycilla cedrorum,29888,X,US-TN,Hamilton,L56728377,Reflection,35.012076,-85.365562,2026-01-02,02:04 PM,eBird - Casual Observation,,0,,,1
+S52901738,House Sparrow,Passer domesticus,31534,7,US-OH,Wayne,L633955,Rittman,40.97815,-81.78206,2019-02-17,08:00 AM,eBird - Stationary Count,240,1,,,1
+S52901738,House Finch,Haemorhous mexicanus,32310,7,US-OH,Wayne,L633955,Rittman,40.97815,-81.78206,2019-02-17,08:00 AM,eBird - Stationary Count,240,1,,,1
+S277843076,American Goldfinch,Spinus tristis,32617,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2025-10-07,12:51 PM,eBird - Casual Observation,,0,,,1
+S52901738,American Goldfinch,Spinus tristis,32617,3,US-OH,Wayne,L633955,Rittman,40.97815,-81.78206,2019-02-17,08:00 AM,eBird - Stationary Count,240,1,,,1
+S309087566,Chipping Sparrow,Spizella passerina,32990,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2026-03-14,11:36 AM,eBird - Casual Observation,,0,,,1
+S52901738,Dark-eyed Junco,Junco hyemalis,33124,2,US-OH,Wayne,L633955,Rittman,40.97815,-81.78206,2019-02-17,08:00 AM,eBird - Stationary Count,240,1,,,1
+S285232936,White-throated Sparrow,Zonotrichia albicollis,33201,X,US-TN,Hamilton,L55269775,Coolidge Park,35.059942,-85.307549,2025-11-19,05:42 PM,eBird - Casual Observation,,0,,,1
+S285323117,White-throated Sparrow,Zonotrichia albicollis,33201,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2025-11-20,11:53 AM,eBird - Casual Observation,,0,,,1
+S245510630,Song Sparrow,Melospiza melodia,33277,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2025-06-01,11:35 AM,eBird - Casual Observation,,0,,,1
+S245510210,Eastern Towhee,Pipilo erythrophthalmus,33415,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2025-06-01,11:34 AM,eBird - Casual Observation,,0,,,1
+S250718329,Brown-headed Cowbird,Molothrus ater,33833,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2025-06-15,01:21 PM,eBird - Casual Observation,,0,,,1
+S316736239,Palm Warbler,Setophaga palmarum,34148,X,US-TN,Hamilton,L61794176,Reflection,35.009712,-85.364895,2026-04-04,,eBird - Casual Observation,,0,,,1
+S291920127,Yellow-rumped Warbler,Setophaga coronata,34159,X,US-TN,Hamilton,L56726540,Reflection,35.008516,-85.365789,2026-01-02,01:38 PM,eBird - Casual Observation,,0,,,1
+S245701356,Summer Tanager,Piranga rubra,34432,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2025-06-01,,eBird - Casual Observation,,0,,,1
+S324815983,Summer Tanager,Piranga rubra,34432,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2026-04-20,05:41 PM,eBird - Casual Observation,,0,,,1
+S52901738,Northern Cardinal,Cardinalis cardinalis,34515,6,US-OH,Wayne,L633955,Rittman,40.97815,-81.78206,2019-02-17,08:00 AM,eBird - Stationary Count,240,1,,,1
+S243855815,Indigo Bunting,Passerina cyanea,34607,X,US-TN,Hamilton,L43356473,Home,35.007848,-85.331243,2025-05-28,12:26 PM,eBird - Casual Observation,,0,,,1
