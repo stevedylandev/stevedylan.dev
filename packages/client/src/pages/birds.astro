@@ -14,28 +14,37 @@ const meta = {
 			<h1 class="title">Birds</h1>
 			<p class="mt-2 text-sm text-gray-400">{birds.length} species observed</p>
 		</div>
-		<div class="w-full">
-			<table class="w-full text-sm border-collapse">
-				<thead>
-					<tr class="border-b border-gray-700 text-left text-gray-400">
-						<th class="pb-2 pr-6 font-normal">#</th>
-						<th class="pb-2 pr-6 font-normal">Common Name</th>
-						<th class="pb-2 pr-6 font-normal italic">Scientific Name</th>
-
-					</tr>
-				</thead>
-				<tbody>
-					{birds.map((bird, i) => (
-						<tr class="border-b border-gray-800 hover:bg-gray-900/40 transition-colors">
-							<td class="py-2 pr-6 text-gray-500 tabular-nums">{i + 1}</td>
-							<td class="py-2 pr-6 font-medium">
-								<a href={`https://www.allaboutbirds.org/guide/${bird.commonName.replace(/ /g, "_")}`} target="_blank" rel="noopener noreferrer" class="hover:underline">{bird.commonName}</a>
-							</td>
-							<td class="py-2 pr-6 text-gray-400 italic">{bird.scientificName}</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
+		<div class="flex w-full flex-col">
+			{birds.map((bird) => (
+				<a
+					href={`https://www.allaboutbirds.org/guide/${bird.commonName.replace(/ /g, "_")}`}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="flex items-center gap-4 border-b border-[#333] py-3 no-underline transition-opacity hover:opacity-70"
+				>
+					{bird.photo ? (
+						<img
+							src={bird.photo}
+							alt={bird.commonName}
+							class="h-16 w-16 flex-shrink-0 rounded object-cover"
+							loading="lazy"
+						/>
+					) : (
+						<div class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded bg-[#1a1a1a]">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 opacity-30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M16 7h.01M3.055 11H5a2 2 0 0 1 2 2v1a2 2 0 0 0 2 2a2 2 0 0 1 2 2v2.945M8 3.935V5.5A2.5 2.5 0 0 0 10.5 8h.5a2 2 0 0 1 2 2a2 2 0 0 0 4 0a2 2 0 0 1 2-2h1.064M15 20.488V18a2 2 0 0 1 2-2h3.064M21 12a9 9 0 1 1-18 0a9 9 0 0 1 18 0"/>
+							</svg>
+						</div>
+					)}
+					<div class="flex flex-col gap-0.5">
+						<span class="text-base">{bird.commonName}</span>
+						<span class="text-xs italic opacity-50">{bird.scientificName}</span>
+						{bird.summary && (
+							<span class="mt-0.5 text-xs opacity-50 line-clamp-2">{bird.summary}</span>
+						)}
+					</div>
+				</a>
+			))}
 		</div>
 	</div>
 </PageLayout>
