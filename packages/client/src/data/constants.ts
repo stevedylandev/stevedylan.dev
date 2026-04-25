@@ -28,16 +28,16 @@ export const MENU_LINKS = [
     path: "/now",
   },
   {
+    title: "Feeds",
+    path: "/feeds",
+  },
+  {
     title: "Cellar",
     path: "/cellar",
   },
   {
     title: "Birds",
     path: "/birds",
-  },
-  {
-    title: "Feeds",
-    path: "/feeds",
   },
   {
     title: "Photos",
