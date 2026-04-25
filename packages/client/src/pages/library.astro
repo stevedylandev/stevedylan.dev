@@ -1,0 +1,65 @@
+---
+export const prerender = false;
+
+import PageLayout from "@/layouts/Base.astro";
+import BookCard from "@/components/page/BookCard.astro";
+
+type Book = {
+	id: number;
+	title: string;
+	authors: string;
+	cover_url: string | null;
+	notes: string | null;
+	status: "read" | "reading" | "want";
+};
+
+const meta = {
+	title: "Library",
+	description: "Books I'm reading, have read, and want to read",
+};
+
+let books: Book[] = [];
+let error: string | null = null;
+try {
+	const res = await fetch("https://library.stevedylan.dev/api/books?status=all");
+	if (res.ok) {
+		books = await res.json();
+	} else {
+		error = `API returned ${res.status}`;
+	}
+} catch (e) {
+	error = e instanceof Error ? e.message : "Failed to reach library API";
+}
+
+const reading = books.filter((b) => b.status === "reading");
+const read = books.filter((b) => b.status === "read");
+const want = books.filter((b) => b.status === "want");
+
+const sections: { label: string; items: Book[] }[] = [
+	{ label: "Reading", items: reading },
+	{ label: "Read", items: read },
+	{ label: "Want to Read", items: want },
+];
+---
+
+<PageLayout meta={meta}>
+	<div class="flex min-h-screen flex-col items-start justify-start gap-6">
+		<h1 class="title">Library</h1>
+		{error ? (
+			<p class="text-red-400 text-sm">Could not load books: {error}</p>
+		) : books.length === 0 ? (
+			<p class="text-gray-400 text-sm">no books yet</p>
+		) : (
+			<div class="flex flex-col w-full gap-8">
+				{sections.filter((s) => s.items.length > 0).map((section) => (
+					<div class="flex flex-col w-full">
+						<h2 class="text-sm font-semibold uppercase tracking-widest opacity-50 mb-2">{section.label}</h2>
+						{section.items.map((book) => (
+							<BookCard book={book} />
+						))}
+					</div>
+				))}
+			</div>
+		)}
+	</div>
+</PageLayout>

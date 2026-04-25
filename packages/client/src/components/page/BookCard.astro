@@ -1,0 +1,36 @@
+---
+type Book = {
+	id: number;
+	title: string;
+	authors: string;
+	cover_url: string | null;
+	notes: string | null;
+	status: "read" | "reading" | "want";
+};
+
+const { book } = Astro.props as { book: Book };
+---
+
+<article class="flex items-start gap-4 py-3 border-b border-[#333]">
+	<div class="flex-shrink-0 w-14 h-20">
+		{book.cover_url ? (
+			<img
+				src={book.cover_url}
+				alt=""
+				width="56"
+				height="80"
+				style="width:56px;height:80px;object-fit:cover;"
+				loading="lazy"
+			/>
+		) : (
+			<div style="width:56px;height:80px;" class="bg-[#2a2a2a] rounded" />
+		)}
+	</div>
+	<div class="flex flex-col gap-1">
+		<span class="text-base">{book.title}</span>
+		<span class="text-xs opacity-50">{book.authors}</span>
+		{book.notes && (
+			<span class="text-xs opacity-70 mt-1">{book.notes}</span>
+		)}
+	</div>
+</article>
