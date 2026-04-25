@@ -28,6 +28,10 @@ export const MENU_LINKS = [
     path: "/now",
   },
   {
+    title: "Cellar",
+    path: "/cellar",
+  },
+  {
     title: "Feeds",
     path: "/feeds",
   },

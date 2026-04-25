@@ -1,0 +1,114 @@
+---
+export const prerender = false;
+
+import PageLayout from "@/layouts/Base.astro";
+
+const { short_id } = Astro.params;
+const CELLAR_API_URL = import.meta.env.CELLAR_API_URL ?? "https://cellar.stevedylan.dev";
+
+let wine: any = null;
+let fetchError: string | null = null;
+try {
+	const res = await fetch(`${CELLAR_API_URL}/api/wines/${short_id}`);
+	if (res.status === 404) {
+		return Astro.redirect("/404");
+	} else if (!res.ok) {
+		fetchError = `API returned ${res.status}`;
+	} else {
+		wine = await res.json();
+	}
+} catch (e) {
+	fetchError = e instanceof Error ? e.message : "Failed to reach cellar API";
+}
+
+const meta = {
+	title: wine?.name ?? "Wine",
+	description: wine ? `${wine.origin} · ${wine.grape}` : "",
+};
+---
+
+<PageLayout meta={meta}>
+	<div class="flex flex-col gap-6 w-full pb-16">
+
+		{fetchError ? (
+			<p class="text-red-400 text-sm">Could not load wine: {fetchError}</p>
+		) : wine && (
+			<>
+				<h1 class="text-2xl font-bold" style="letter-spacing:-0.5px">{wine.name}</h1>
+
+				<div class="grid grid-cols-2 gap-6 items-center wine-detail-top">
+					{wine.has_image && (
+						<div class="w-full">
+							<img
+								src={`${CELLAR_API_URL}/wines/${wine.short_id}/image`}
+								alt={wine.name}
+								class="w-full object-cover rounded wine-image"
+								loading="eager"
+							/>
+						</div>
+					)}
+					{!wine.wishlist && (
+						<div class="flex flex-col items-center gap-4 p-3">
+							<img
+								src={`${CELLAR_API_URL}/api/wines/${wine.short_id}/pentagon.svg`}
+								alt="Taste profile"
+								width="250"
+								height="250"
+								loading="eager"
+							/>
+							<img
+								src={`${CELLAR_API_URL}/api/wines/${wine.short_id}/bars.svg`}
+								alt="Appearance and nose"
+								width="250"
+								loading="eager"
+							/>
+						</div>
+					)}
+				</div>
+
+				<div class="flex flex-col gap-1">
+					{wine.origin && (
+						<div class="flex gap-3 text-sm">
+							<span class="text-xs opacity-50">origin</span>
+							<span>{wine.origin}</span>
+						</div>
+					)}
+					{wine.grape && (
+						<div class="flex gap-3 text-sm">
+							<span class="text-xs opacity-50">grape</span>
+							<span>{wine.grape}</span>
+						</div>
+					)}
+				</div>
+
+				{wine.notes && (
+					<div class="flex flex-col gap-1">
+						<span class="text-xs opacity-50">notes</span>
+						<p class="whitespace-pre-wrap">{wine.notes}</p>
+					</div>
+				)}
+
+				{wine.background && (
+					<div class="flex flex-col gap-1">
+						<span class="text-xs opacity-50">background</span>
+						<p class="whitespace-pre-wrap">{wine.background}</p>
+					</div>
+				)}
+			</>
+		)}
+	</div>
+  		<a href="/cellar" class="text-sm">← cellar</a>
+
+</PageLayout>
+
+<style>
+	@media (max-width: 480px) {
+		.wine-detail-top {
+			grid-template-columns: 1fr;
+		}
+		.wine-image {
+			max-height: none;
+			width: 100%;
+		}
+	}
+</style>
