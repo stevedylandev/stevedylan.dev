@@ -52,6 +52,10 @@ export const MENU_LINKS = [
     path: "/birds",
   },
   {
+    title: "EDC",
+    path: "/edc",
+  },
+  {
     title: "Photos",
     path: "https://steve.photo",
   },

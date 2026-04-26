@@ -1,0 +1,19 @@
+---
+import PageLayout from "@/layouts/Base.astro";
+import { Content } from "../content/pages/edc.md";
+
+const meta = {
+  title: "EDC",
+  description: "My everyday carry items",
+};
+---
+
+<PageLayout meta={meta}>
+  <article class="flex-grow break-words">
+    <div
+      class="prose prose-sm prose-cactus prose-headings:font-semibold"
+    >
+      <Content />
+    </div>
+  </article>
+</PageLayout>
