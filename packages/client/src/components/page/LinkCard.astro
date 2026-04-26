@@ -1,0 +1,23 @@
+---
+type Link = {
+	id: number;
+	short_id: string;
+	title: string;
+	url: string;
+	category_id: number;
+	created_at: number;
+};
+
+const { link } = Astro.props as { link: Link };
+const domain = new URL(link.url).hostname.replace(/^www\./, "");
+---
+
+<article class="flex flex-col py-3 border-b border-[#333]">
+	<a
+		href={link.url}
+		target="_blank"
+		rel="noopener noreferrer"
+		class="text-base hover:opacity-70 transition-opacity"
+	>{link.title}</a>
+	<span class="text-xs opacity-50 mt-0.5">{domain}</span>
+</article>

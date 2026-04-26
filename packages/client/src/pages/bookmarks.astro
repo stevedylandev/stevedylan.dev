@@ -1,0 +1,56 @@
+---
+export const prerender = false;
+
+import PageLayout from "@/layouts/Base.astro";
+import LinkCard from "@/components/page/LinkCard.astro";
+
+type Link = {
+	id: number;
+	short_id: string;
+	title: string;
+	url: string;
+	category_id: number;
+	created_at: number;
+};
+
+const meta = {
+	title: "Bookmarks",
+	description: "Links I've saved and want to read",
+};
+
+let categories: [string, Link[]][] = [];
+let error: string | null = null;
+try {
+	const res = await fetch("https://bookmarks.stevedylan.dev/api/links");
+	if (res.ok) {
+		const data: Record<string, Link[]> = await res.json();
+		categories = Object.entries(data).filter(([, links]) => links.length > 0);
+	} else {
+		error = `API returned ${res.status}`;
+	}
+} catch (e) {
+	error = e instanceof Error ? e.message : "Failed to reach bookmarks API";
+}
+---
+
+<PageLayout meta={meta}>
+	<div class="flex min-h-screen flex-col items-start justify-start gap-6">
+		<h1 class="title">Bookmarks</h1>
+		{error ? (
+			<p class="text-red-400 text-sm">Could not load bookmarks: {error}</p>
+		) : categories.length === 0 ? (
+			<p class="text-gray-400 text-sm">no bookmarks yet</p>
+		) : (
+			<div class="flex flex-col w-full gap-8">
+				{categories.map(([name, links]) => (
+					<div class="flex flex-col w-full">
+						<h2 class="text-sm font-semibold uppercase tracking-widest opacity-50 mb-2">{name}</h2>
+						{links.map((link) => (
+							<LinkCard link={link} />
+						))}
+					</div>
+				))}
+			</div>
+		)}
+	</div>
+</PageLayout>
