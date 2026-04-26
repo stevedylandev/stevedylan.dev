@@ -1,0 +1,31 @@
+---
+import PageLayout from "@/layouts/Base.astro";
+import { createHighlighterCore, type ThemeRegistrationRaw } from "shiki/core";
+import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
+import { bundledLanguages } from "shiki";
+import darkmatter from "../../darkmatter.json";
+
+const meta = {
+	title: "Git",
+	description: "Access the open source repos I'm working on",
+};
+
+const highlighter = await createHighlighterCore({
+	themes: [darkmatter as unknown as ThemeRegistrationRaw],
+	langs: [bundledLanguages.bash],
+	engine: createJavaScriptRegexEngine(),
+});
+
+const codeHtml = highlighter.codeToHtml("ssh git.stevedylan.dev", {
+	lang: "bash",
+	theme: "Darkmatter",
+});
+---
+
+<PageLayout meta={meta}>
+	<div class="space-y-6">
+		<h1 class="title">Git</h1>
+		<p>Access my open source repos either through <a href="https://github.com/stevedylandev" target="_blank" rel="noreferrer" class="style-link">GitHub</a> or over SSH:</p>
+		<div set:html={codeHtml} />
+	</div>
+</PageLayout>

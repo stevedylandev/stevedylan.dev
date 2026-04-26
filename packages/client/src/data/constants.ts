@@ -40,6 +40,10 @@ export const MENU_LINKS = [
     path: "/library",
   },
   {
+    title: "Git",
+    path: "/git",
+  },
+  {
     title: "Birds",
     path: "/birds",
   },

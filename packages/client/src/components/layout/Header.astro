@@ -120,18 +120,18 @@ const url = new URL(Astro.request.url);
 
 <header
   id="main-header"
-  class="relative mb-14 sm:mb-28 sm:flex sm:items-center sm:pl-[4.5rem]"
+  class="relative mb-14"
 >
-  <div class="sm:flex sm:flex-col">
+  <div>
     <a
       href="/"
-      class="inline-flex items-center mb-4 sm:mb-0 sm:relative sm:inline-block"
+      class="inline-flex items-center mb-4"
       aria-current={url.pathname === "/" ? "page" : false}
       data-astro-reload
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="mr-3 h-10 w-6 sm:pb-4 sm:absolute sm:left-[-4.5rem] sm:mr-0 sm:h-20 sm:w-[52px]"
+        class="mr-3 h-10 w-6 sm:w-10"
         fill="none"
         stroke="currentColor"
         stroke-linecap="round"
@@ -143,18 +143,18 @@ const url = new URL(Astro.request.url);
           d="M164 78a26 26 0 1 0-26-26a26 26 0 0 0 26 26m0-40a14 14 0 1 1-14 14a14 14 0 0 1 14-14m89.16 158.94l-54.56-92.08a13.9 13.9 0 0 0-12-6.86a13.88 13.88 0 0 0-12 6.86l-27.88 47.05l-46.56-79a14 14 0 0 0-24.13 0L2.83 197A6 6 0 0 0 8 206h240a6 6 0 0 0 5.16-9.06M86.27 79a2 2 0 0 1 3.46 0l25.34 43H60.93ZM18.5 194l35.36-60h68.29l19.3 32.77l16 27.2Zm152.93 0l-17.85-30.29L184.83 111a2 2 0 0 1 1.72-1a1.93 1.93 0 0 1 1.72 1l49.2 83Z"
         ></path></svg
       >
-      <span class="text-xl font-bold sm:text-2xl">Steve Simkins</span>
+      <span class="text-xl sm:text-3xl font-bold">Steve Simkins</span>
     </a>
     <nav
       id="navigation-menu"
-      class="grid grid-cols-4 gap-y-2 text-accent sm:flex sm:mt-1 sm:-ml-4 sm:flex-row sm:items-center sm:divide-x sm:divide-dashed sm:divide-accent sm:gap-y-0"
+      class="grid grid-cols-4 gap-y-2 text-accent"
       aria-label="Main menu"
     >
       {
         MENU_LINKS.map((link) => (
           <a
             href={link.path}
-            class="sm:py-0 sm:px-4 sm:hover:underline"
+            class="hover:underline"
             aria-current={url.pathname === link.path ? "page" : false}
             rel="prefetch"
           >
