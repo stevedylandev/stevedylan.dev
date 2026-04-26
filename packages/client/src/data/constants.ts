@@ -32,16 +32,16 @@ export const MENU_LINKS = [
     path: "/feeds",
   },
   {
-    title: "Cellar",
-    path: "/cellar",
-  },
-  {
     title: "Library",
     path: "/library",
   },
   {
     title: "Bookmarks",
     path: "/bookmarks",
+  },
+  {
+    title: "Cellar",
+    path: "/cellar",
   },
   {
     title: "Git",
