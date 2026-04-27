@@ -229,9 +229,9 @@
       "slug": "introducing-sequoia"
     },
     "src/content/post/building-personal-software-in-rust.mdx": {
-      "contentHash": "ac1d0f6a6a5515d4b375244083cee823e4b370376503b0472324d577e47e80ab",
+      "contentHash": "46e0374aaa161e5736df35264f60479f1ecd02d7aa682cafb06adba7e29bdb99",
       "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mjvh4pgklc2q",
-      "lastPublished": "2026-04-20T02:44:00.125Z",
+      "lastPublished": "2026-04-27T01:23:26.125Z",
       "slug": "building-personal-software-in-rust"
     },
     "src/content/post/indexing-standard-site.mdx": {
@@ -245,6 +245,12 @@
       "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mjvh4prebs2q",
       "lastPublished": "2026-04-20T02:44:00.422Z",
       "slug": "returning-to-neovim"
+    },
+    "src/content/post/spring-website-updates.mdx": {
+      "contentHash": "5e33edc09b9082301a0056439164bf0ecb54523056b4348e966ee65869380b94",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mkgvv37nsk2q",
+      "lastPublished": "2026-04-27T01:23:25.640Z",
+      "slug": "spring-website-updates"
     }
   }
 }
