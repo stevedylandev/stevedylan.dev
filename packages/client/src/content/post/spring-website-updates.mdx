@@ -1,0 +1,101 @@
+---
+title: "Spring Website Updates"
+publishDate: "26 Apr 2026"
+description: "Some fun updates I've made to my personal website"
+tags: ["personal", "open web" ]
+ogImage: "/blog-images/other/spring-updates.png"
+hidden: false
+---
+
+![cover](/blog-images/other/spring-updates.png)
+
+Earlier this week I quietly released an iOS app called [scout](https://apps.apple.com/us/app/scout-smallnet-browser/id6762810515), a Gemini protocol client. I built it quite a while ago but never published, and thought "why not?" Almost immediately after doing so, I read [this post](https://xn--gckvb8fzb.com/gemini-is-solutionism-at-its-worst/) that really made me think about the Gemini approach in general. After some deliberation, I thought it would be good to pour more into my personal site and invest in HTTP. The results have been so much fun, and I haven't been able to stop making changes all week! Here's a few highlights. 
+
+[**Birds**](/birds)
+
+![birds demo](https://files.stevedylan.dev/birds-demo.png)
+
+Yup, birds. I realized that Merlin Bird ID didn't have a way to share all the birds on my lifelist, so I found my own way to do it. Involves downloading my data as a CSV then running a script to convert it into JSON that the site uses, so not as fluid as I would like but gets the job done. It's so fun to scroll through all of them! 
+
+[**Library**](/library)
+
+![library demo](https://files.stevedylan.dev/library-demo.png)
+
+I recently [wrote a post](/posts/building-personal-software-in-rust) about how I started building small apps that help me organize or publish different forms of content, and one that I didn't have yet was a book tracker. Only took me 30 mins to spin one up and I absolutely love it. Nothing like seeing how many books you haven't read to inspire you to read more lol. 
+
+[**Bookmarks**](/bookmarks)
+
+![bookmarks demo](https://files.stevedylan.dev/bookmarks-demo.png)
+
+Another small app that simply lets me save links in different categories. The best part is some of the automations I've made with Apple Shortcuts. If you haven't messed with them much, they are actually quite powerful. API calls with headers and JSON are totally doable, and you can pass in different variables too. Below is the main guts of the shortcut that adds a link to my bookmarks!
+
+```
+┌─────────────────────────────────────┐
+│  Receive Input from Share Sheet     │
+│  (Apps + 18 more)                   │
+│  If no input → Continue             │
+└──────────────────┬──────────────────┘
+                   │
+┌──────────────────▼──────────────────┐
+│  Get URLs from Shortcut Input       │
+└──────────────────┬──────────────────┘
+                   │
+┌──────────────────▼──────────────────┐
+│  Get Name of URLs                   │
+└──────────────────┬──────────────────┘
+                   │
+┌──────────────────▼──────────────────┐
+│  Text                               │
+│  [API Key — redacted]               │
+└──────────────────┬──────────────────┘
+                   │
+┌──────────────────▼──────────────────┐
+│  POST to:                           │
+│  bookmarks.stevedylan.dev/api/links │
+│                                     │
+│  Headers:                           │
+│    x-api-key: [Text / API Key]      │
+│                                     │
+│  Body (JSON):                       │
+│    title:    [Name]                 │
+│    category: "Read Later"           │
+│    url:      [URLs]                 │
+└──────────────────┬──────────────────┘
+                   │
+┌──────────────────▼──────────────────┐
+│  Show: Contents of URL              │
+│  (API response)                     │
+└─────────────────────────────────────┘
+```
+
+[**Cellar**](/cellar)
+
+![cellar demo](https://files.stevedylan.dev/cellar-demo-2.png)
+
+This one isn't too new as I've actually had a dedicated wine app as part of Andromeda, however I did recently add a public API to fetch the wines so I can display them on my website. 
+
+[**Git**](/git)
+
+![ssh git demo](https://files.stevedylan.dev/ssh-git-demo.png)
+
+Nothing too crazy here, but I did want to have a dedicated page to help guide people to this cool terminal command :) 
+
+```bash
+ssh git.stevedylan.dev
+```
+
+
+[**EDC**](/edc)
+
+![edc demo](https://files.stevedylan.dev/edc-demo.png)
+
+I just love everyday carry stuff, and I decided it was about time to host some of mine. If you're into that stuff and have thoughts about it [I'd love to hear about it](mailto:contact@stevedylan.dev?subject=EDC)! Especially if it's stationary or watch related. 
+
+
+--- 
+
+It's been so refreshing to work on this stuff and fulfill some of [the goals](/posts/2026-site-plans) I had at the beginning of the year. Day by day my site looks and feels more like me, and I love that. I cannot recommend building your own site enough. It doesn't have to be self hosted either! I think [Pagecord](https://pagecord.com) or [BearBlog](https://bearblog.dev) serve as great blogging platforms with enough customization that you can add whatever content you want. The key is to just get started. You might end up finding how much you prefer a classic website over social media. While you're at it, get an RSS reader and subscribe to some blogs and make sure your own blog has RSS too! Make a page and share the people you're following like [this one](/feeds) so others can explore the small web. 
+
+The internet doesn't have to be terrible. It is what you make it, so go make it. 
+
+> I'd like to make a quick acknowledgement to [マリウス](https://xn--gckvb8fzb.com/) for some of the inspiration here as they have similar pages on their site; definitely give it a visit!. 
