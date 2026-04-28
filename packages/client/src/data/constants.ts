@@ -32,6 +32,10 @@ export const MENU_LINKS = [
     path: "/feeds",
   },
   {
+    title: "Blogroll",
+    path: "/blogroll"
+  },
+  {
     title: "Library",
     path: "/library",
   },
@@ -62,6 +66,30 @@ export const MENU_LINKS = [
   {
     title: "Links",
     path: "/links"
+  }
+];
+
+export type RssFeed = {
+  name: string;
+  href: string;
+};
+
+export const RSS_FEEDS: RssFeed[] = [
+  {
+    name: "Blog Posts",
+    href: "/rss.xml",
+  },
+  {
+    name: "Now Updates",
+    href: "/now/rss.xml",
+  },
+  {
+    name: "Photos",
+    href: "https://steve.photo/rss.xml"
+  },
+  {
+    name: "Wine Log",
+    href: "https://cellar.stevedylan.dev/feed.xml"
   }
 ];
 
