@@ -2,12 +2,12 @@
 title: "Returning to Neovim"
 publishDate: "16 Mar 2026"
 description: "Once again coming back to the editor I can't shake"
-ogImage: "/blog-images/other/return-to-neovim.png"
+ogImage: "/blog-images/return-to-neovim.png"
 tags: ["programming", "neovim", "developer"]
 atUri: "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mjvh4prebs2q"
 ---
 
-![cover](/blog-images/other/return-to-neovim.png)
+![cover](/blog-images/return-to-neovim.png)
 
 One of my more popular blog posts was how and why I switched to [Zed from Neovim](https://stevedylan.dev/posts/leaving-neovim-for-zed/). That was almost two years ago, and in that period Zed was my daily driver for programming. Every now and then I would still use Neovim to edit a config or make a quick edit, but outside of that, Zed was where I lived. It performed admirably, with minimal bugs that only irked me from time to time that would eventually be fixed. AI was still relatively minimal and I enjoyed using it. So why go back to Neovim?
 
@@ -143,7 +143,7 @@ vim.diagnostic.config({
 
 The key is `vim.lsp.enable()` where we pass in the names of all our files that have configs. Everything else is just some nicer configuration for looking at diagnostics.
 
-![nvim diagnostics icons](/blog-images/other/nvim-diagnostics-icons.png) 
+![nvim diagnostics icons](/blog-images/nvim-diagnostics-icons.png) 
 
 It's that simple, and I absolutely love how minimal the experience is. Does require understanding what your LSPs are, where they live, and how to run them, but totally worth it. 
 
@@ -166,7 +166,7 @@ The one I didn't list here is [mini.nvim](https://github.com/nvim-mini/mini.nvim
   loop
   playsinline
   className="w-full aspect-video"
-  src="/blog-images/other/mini-completion.mp4"
+  src="/blog-images/mini-completion.mp4"
 ></video>
 
 This would normally be handled through something heavier like coc.nvim, but it's truly awesome to have a simple and lightweight option inside mini.nvim.
@@ -179,7 +179,7 @@ This would normally be handled through something heavier like coc.nvim, but it's
   loop
   playsinline
   className="w-full aspect-video"
-  src="/blog-images/other/mini-files.mp4"
+  src="/blog-images/mini-files.mp4"
 ></video>
 
 A minimal file explorer thats a fun mix between oil and netrw.
@@ -192,7 +192,7 @@ A minimal file explorer thats a fun mix between oil and netrw.
   loop
   playsinline
   className="w-full aspect-video"
-  src="/blog-images/other/mini-pick-files.mp4"
+  src="/blog-images/mini-pick-files.mp4"
 ></video>
 
 Pick anything. Actually though. In a lot of ways this replaces telescope and lets me fuzzy find files, buffers, you name it!
@@ -225,7 +225,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
   loop
   playsinline
   className="w-full aspect-video"
-  src="/blog-images/other/buffers.mp4"
+  src="/blog-images/buffers.mp4"
 ></video>
 
 I don't have tabs setup in Neovim as I started to realize I don't really need them. I can use my keyboard shortcuts to move between buffers horizontally, 
@@ -256,7 +256,7 @@ map("n", "<leader>c", ":bd<cr>", opts)
   loop
   playsinline
   className="w-full aspect-video"
-  src="/blog-images/other/nvim-diagnostics.mp4"
+  src="/blog-images/nvim-diagnostics.mp4"
 ></video>
 
 Nothing too fancy here but it is nice how versatile the experience can be. I can either use this keymap to do a hover diagnostic:
@@ -279,7 +279,7 @@ map("n", "<leader>d", "<cmd>Pick diagnostic<CR>", opts)
   loop
   playsinline
   className="w-full aspect-video"
-  src="/blog-images/other/nvim-find.mp4"
+  src="/blog-images/nvim-find.mp4"
 ></video>
 
 One of the most important things an editor needs is an easy way to find anything, and I'm quite pleased with what I have setup here. To start, if I wanted to search the entire codebase for a given string, I can use mini.pick with `live_grep`. 

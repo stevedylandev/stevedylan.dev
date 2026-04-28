@@ -3,14 +3,14 @@ title: "Indexing Standard.site"
 publishDate: "14 Apr 2026"
 description: "A journey to index a new standard for content publishing and why it matters"
 tags: ["atproto"]
-ogImage: "/blog-images/other/indexing-standard-site.png"
+ogImage: "/blog-images/indexing-standard-site.png"
 hidden: false
 atUri: "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mjvh4pmxns2q"
 ---
 
 import Diagram from "@/components/blog/Diagram.astro"
 
-![A white outline icon of a floppy disk on a dark gray background. The floppy disk has a rectangular shape with a cut corner at the top left, a small rectangular label area at the top, and a circular element in the center with a crosshair or targeting symbol inside it.](/blog-images/other/indexing-standard-site.png)
+![A white outline icon of a floppy disk on a dark gray background. The floppy disk has a rectangular shape with a cut corner at the top left, a small rectangular label area at the top, and a circular element in the center with a crosshair or targeting symbol inside it.](/blog-images/indexing-standard-site.png)
 
 For decades the internet has been a place to make your voice heard, and the cornerstone for most of that time has been blogs. Even in the rise and fall of social media, blogs continue to have their place in the internet. RSS, as old as it sounds, has also been proven to help connect and keep up with people and their content. However these two pieces of technology have one main problem: distribution. Back in the day, webrings and blogrolls were attempts to help cover this gap, but social media and algorithms became the default way to get that distribution. 
 
@@ -71,7 +71,7 @@ This is important, because while the document might have the main content of the
 
 That means if we want to properly index Standard.site, we need to first grab the document, then grab the publication. 
 
-<Diagram src="/blog-images/other/standard-site-challenge-1.svg" alt="Diagram showing the standard site challenge workflow between a client and PDS (Personal Data Server). The client requests a document URI (at://document-uri) from the PDS, which returns a document record containing a publication URI (at://publication-uri). The client then requests this publication URI from the PDS, which responds with a publication record containing the site URL." />
+<Diagram src="/blog-images/standard-site-challenge-1.svg" alt="Diagram showing the standard site challenge workflow between a client and PDS (Personal Data Server). The client requests a document URI (at://document-uri) from the PDS, which returns a document record containing a publication URI (at://publication-uri). The client then requests this publication URI from the PDS, which responds with a publication record containing the site URL." />
 
 So lets say someone has the document AT URI (something like `at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mii2k5x4hd2h`) then we need to make a total of two API requests at minimum. Not bad, but it gets a bit more complicated. 
 
@@ -93,7 +93,7 @@ If you're keeping track, that means we now need to:
 - Request the publication verification
 - Request the main post URL for the document verification
 
-<Diagram src="/blog-images/other/standard-site-challenge-2.svg" alt="Diagram showing the flow of a standard site challenge. A Client sends an at://document-uri request to a PDS (Personal Data Server). The PDS responds with a document record containing an at://publication-uri. The Client then sends this publication URI back to the PDS, which returns a publication record with a site URL. Finally, the Client makes a GET request to the User's Website/Blog at the path /.well-known/site.standard.publication to complete the verification process." />
+<Diagram src="/blog-images/standard-site-challenge-2.svg" alt="Diagram showing the flow of a standard site challenge. A Client sends an at://document-uri request to a PDS (Personal Data Server). The PDS responds with a document record containing an at://publication-uri. The Client then sends this publication URI back to the PDS, which returns a publication record with a site URL. Finally, the Client makes a GET request to the User's Website/Blog at the path /.well-known/site.standard.publication to complete the verification process." />
 
 
 You can start to see why this is slowly growing in complexity, and unfortunately it only gets worse (we'll get to that later). For now, you can get an idea of what we need to do and the challenges at hand. Let's start talking about some of the solutions I cycled through. 
@@ -118,7 +118,7 @@ From previous experience I knew that Cloudflare had the perfect solutions for bo
 - Queue stores data in D1 database
 - Cron job runs to re-check records that were initially marked as not verified
 
-<Diagram src="/blog-images/other/tap-and-cloudflare.svg" alt="Architecture diagram showing the data flow for a Bluesky content indexing system. The diagram illustrates how new record webhook events flow from Tap (represented by an octagon) through Railway's hosting platform to a Worker service. The Worker processes batches of documents and sends them to both a queue (represented by an oval) and a database (DB, shown as an octagon). The indexed documents are then made available through a GET /feed API endpoint to a Docs.surf application. Additionally, there's a Firehose service (shown as a circle) that connects via WebSocket (wss) to provide real-time data streams. The system also includes PDS (Personal Data Server) and Site/Blog components for record storage and verification processes." />
+<Diagram src="/blog-images/tap-and-cloudflare.svg" alt="Architecture diagram showing the data flow for a Bluesky content indexing system. The diagram illustrates how new record webhook events flow from Tap (represented by an octagon) through Railway's hosting platform to a Worker service. The Worker processes batches of documents and sends them to both a queue (represented by an oval) and a database (DB, shown as an octagon). The indexed documents are then made available through a GET /feed API endpoint to a Docs.surf application. Additionally, there's a Firehose service (shown as a circle) that connects via WebSocket (wss) to provide real-time data streams. The system also includes PDS (Personal Data Server) and Site/Blog components for record storage and verification processes." />
 
 Overall this flow worked pretty well! [Docs.surf](https://docs.surf) was born and I was able to build a front-end that could make API calls to the worker which would query the database for complete Standard.site documents. That was until I started blowing through egress limits on Railway when there was a sudden uptick in Standard.site records being created. There was just more and more data being sent out from Railway, and while the cost was manageable, I knew it wouldn't scale at the rate at which records were being created. 
 
@@ -134,11 +134,11 @@ Last week I found out that my Railway Tap instance was starting to burn through 
 
 Since I already had a full queue flow with a database, it didn't feel necessary to have that Tap database in the way. I could just subscribe to the Jetstream, send the records to the queue, then process the documents. There was the realization that Docs.surf only shows the latest 100 posts, so there's no need to index the entire history of Standard.site records. It was also pointed out that I could subscribe to Jetstream through a [Cloudflare Durable Object](https://developers.cloudflare.com/durable-objects/), therefore keeping all traffic within Cloudflare and avoid ingress or egress fees.
 
-<Diagram src="/blog-images/other/jetstream-and-cloudflare.svg" alt="Architecture diagram showing data flow between Jetstream, Cloudflare, and various components. The diagram illustrates a Jetstream queue system connected via WebSocket (wss) to a Duable Object, which processes batch documents and records. The flow continues through a Worker that handles database reads and writes, connects to a database (DB), and serves a Docs.surf documentation site. The system processes new record events, manages document verification and indexing, and provides GET /feed endpoints. Additional components shown include a PDS (Personal Data Server) and Site/Blog integration points." />
+<Diagram src="/blog-images/jetstream-and-cloudflare.svg" alt="Architecture diagram showing data flow between Jetstream, Cloudflare, and various components. The diagram illustrates a Jetstream queue system connected via WebSocket (wss) to a Duable Object, which processes batch documents and records. The flow continues through a Worker that handles database reads and writes, connects to a database (DB), and serves a Docs.surf documentation site. The system processes new record events, manages document verification and indexing, and provides GET /feed endpoints. Additional components shown include a PDS (Personal Data Server) and Site/Blog integration points." />
 
 The results of the refactor were amazing. By cutting out the external requests from Tap, we were able to bring request volume down dramatically.
 
-![Bar chart showing web requests over time from April 7-12. The chart displays three data series: d700a5c0 (1.63k requests, purple), e5fa4c32 (1.13M requests, orange), and f66fa1e6 (313 requests, blue). The y-axis shows request counts from 0 to 105k, while the x-axis shows time in EDT. Orange bars dominate the chart, reaching peaks around 90k requests on April 7-8, with most activity concentrated between April 7 08:00 and April 9 02:00. After April 9, the chart shows minimal activity with small purple and blue indicators near the baseline.](/blog-images/other/cloudflare-requests.png)
+![Bar chart showing web requests over time from April 7-12. The chart displays three data series: d700a5c0 (1.63k requests, purple), e5fa4c32 (1.13M requests, orange), and f66fa1e6 (313 requests, blue). The y-axis shows request counts from 0 to 105k, while the x-axis shows time in EDT. Orange bars dominate the chart, reaching peaks around 90k requests on April 7-8, with most activity concentrated between April 7 08:00 and April 9 02:00. After April 9, the chart shows minimal activity with small purple and blue indicators near the baseline.](/blog-images/cloudflare-requests.png)
 
 Now Docs.surf runs on a single Cloudflare account that only costs $5 a month. It was so refreshing to find a solution that fit my particular use case with the help of the atproto community. 
 

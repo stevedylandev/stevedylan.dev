@@ -19,4 +19,12 @@ const post = defineCollection({
 	}),
 });
 
-export const collections = { post };
+const pages = defineCollection({
+	schema: z
+		.object({
+			title: z.string().optional(),
+		})
+		.optional(),
+});
+
+export const collections = { post, pages };
