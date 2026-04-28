@@ -3,11 +3,11 @@ title: "Why You Should Learn jq in 2024"
 publishDate: "12 Oct 2024"
 description: "Discover why learning jq isn't just about boosting your productivity, it's about becoming a more curious developer"
 tags: ["programming", "developer tools"]
-ogImage: "/blog-images/files-stevedylan-dev/bafybeihderpsuxl43msvzletfuhuqw75ygo3jhbh2psiboate4xc7gzhde.webp"
+ogImage: "/blog-images/files-stevedylan-dev/jq-cover.webp"
 atUri: "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvurdwpv2v"
 ---
 
-![header image](/blog-images/files-stevedylan-dev/bafybeihderpsuxl43msvzletfuhuqw75ygo3jhbh2psiboate4xc7gzhde.webp)
+![header image](/blog-images/files-stevedylan-dev/jq-cover.webp)
 
 The chances are that if you are a modern developer or if you're starting out, you probably don't know what `jq` is, and that's why I'm writing this post. It won't take long to explain what `jq` is, so let's just get that out of the way.
 
@@ -15,7 +15,7 @@ The chances are that if you are a modern developer or if you're starting out, yo
 
 A great way to experience `jq` yourself is to follow their [short tutorial](https://jqlang.github.io/jq/tutorial/) but I wanted to give a more personal example. Recently I built a [CLI](https://cli.pinata.cloud) for Pinata that lets you upload, access, and manage your files from the terminal. One simple command you can run is `pinata files list -a 5` to display a list of your most recent uploads (limiting the amount to 5 items for now), and the output looks like this.
 
-```
+```json
 {
     "files": [
         {
@@ -86,7 +86,7 @@ pinata files list -a 5 | jq .files[0]
 
 This will select the array and particularly the zero index of the array, just one object:
 
-```
+```json
 {
   "id": "01927e06-6f36-7208-adb9-8cdd53ce1c98",
   "name": "pgdata.tar.gz",
@@ -120,7 +120,7 @@ pinata files list | jq [.files[].name]
 
 This will give us an array of all the file names like so:
 
-```
+```json
 [
   "pgdata.tar.gz",
   "pgdata.tar.gz",
@@ -137,7 +137,7 @@ This will give us an array of all the file names like so:
 
 Then we can pipe that into a list for later if we need it!
 
-```
+```bash
 pinata files list | jq [.files[].name] > files.json
 ```
 
