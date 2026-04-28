@@ -20,7 +20,7 @@ const sortedFeeds = data.subscriptions.sort((a, b) =>
     <h1 class="title">Feeds</h1>
     <p>Help build a blog network with me! Check out some of the people I follow below, and if you end up following them too, create a `Feeds` page of your own with your list of people!</p>
     <h2 class="text-xl font-semibold text-accent-2">Links</h2>
-    <ul class="list-disc pl-4 space-y-4">
+    <ul class="list-disc pl-4 space-y-4 sm:grid sm:grid-cols-2">
       {sortedFeeds.map((feed) => (
         <li>
           <a
