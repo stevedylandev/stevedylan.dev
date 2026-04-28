@@ -9,9 +9,7 @@
 		"build": "astro build",
 		"preview": "astro preview",
 		"format": "biome format --write src package.json",
-		"deploy:orbiter": "orbiter deploy",
 		"deploy": "bun run build && wrangler pages deploy dist",
-		"publish:atproto": "bun run scripts/publish-to-atproto.ts",
 		"parse:birds": "bun run scripts/parse-birds.ts"
 	},
 	"devDependencies": {
@@ -35,7 +33,6 @@
 		"@astrojs/react": "4.4.2",
 		"@astrojs/rss": "4.0.14",
 		"@astrojs/ts-plugin": "1.10.6",
-		"@atproto/api": "^0.18.9",
 		"@types/react": "^18.3.8",
 		"@types/react-dom": "^18.3.0",
 		"astro": "5.16.7",

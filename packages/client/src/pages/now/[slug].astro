@@ -1,6 +1,6 @@
 ---
 import PageLayout from "@/layouts/Base.astro";
-import { ReplyContainer } from "@/components/now/ReplyContainer";
+import GuestReply from "@/components/now/GuestReply.astro";
 import { OWNER_DID, PDS_URL } from "@/data/constants";
 import { createMarkdownRenderer } from "@/utils";
 
@@ -141,7 +141,7 @@ const meta = {
 						Share
 					</button>
 				</div>
-				<ReplyContainer client:load atUri={atUri} postTitle={title} />
+				<GuestReply postTitle={title} />
 			</>
 		)}
 	</article>

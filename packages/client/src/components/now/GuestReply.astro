@@ -1,0 +1,20 @@
+---
+interface Props {
+	postTitle: string;
+}
+
+const { postTitle } = Astro.props;
+const emailSubject = encodeURIComponent(`Re: ${postTitle}`);
+const mailtoLink = `mailto:contact@stevedylan.dev?subject=${emailSubject}`;
+---
+
+<div class="mt-8 space-y-4">
+	<div class="flex gap-3 flex-wrap">
+		<a
+			href={mailtoLink}
+			class="px-2 py-0.5 border border-white hover:border-gray-400 hover:text-gray-400 transition-colors text-xs"
+		>
+			Reply via Email
+		</a>
+	</div>
+</div>
