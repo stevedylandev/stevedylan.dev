@@ -3,14 +3,14 @@ title: "Indexing Standard.site"
 publishDate: "14 Apr 2026"
 description: "A journey to index a new standard for content publishing and why it matters"
 tags: ["atproto"]
-ogImage: "/blog-images/indexing-standard-site.png"
+ogImage: "../../assets/blog-images/indexing-standard-site.png"
 hidden: false
 atUri: "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mjvh4pmxns2q"
 ---
 
 import Diagram from "@/components/blog/Diagram.astro"
 
-![A white outline icon of a floppy disk on a dark gray background. The floppy disk has a rectangular shape with a cut corner at the top left, a small rectangular label area at the top, and a circular element in the center with a crosshair or targeting symbol inside it.](/blog-images/indexing-standard-site.png)
+![A white outline icon of a floppy disk on a dark gray background. The floppy disk has a rectangular shape with a cut corner at the top left, a small rectangular label area at the top, and a circular element in the center with a crosshair or targeting symbol inside it.](../../assets/blog-images/indexing-standard-site.png)
 
 For decades the internet has been a place to make your voice heard, and the cornerstone for most of that time has been blogs. Even in the rise and fall of social media, blogs continue to have their place in the internet. RSS, as old as it sounds, has also been proven to help connect and keep up with people and their content. However these two pieces of technology have one main problem: distribution. Back in the day, webrings and blogrolls were attempts to help cover this gap, but social media and algorithms became the default way to get that distribution. 
 
@@ -138,7 +138,7 @@ Since I already had a full queue flow with a database, it didn't feel necessary 
 
 The results of the refactor were amazing. By cutting out the external requests from Tap, we were able to bring request volume down dramatically.
 
-![Bar chart showing web requests over time from April 7-12. The chart displays three data series: d700a5c0 (1.63k requests, purple), e5fa4c32 (1.13M requests, orange), and f66fa1e6 (313 requests, blue). The y-axis shows request counts from 0 to 105k, while the x-axis shows time in EDT. Orange bars dominate the chart, reaching peaks around 90k requests on April 7-8, with most activity concentrated between April 7 08:00 and April 9 02:00. After April 9, the chart shows minimal activity with small purple and blue indicators near the baseline.](/blog-images/cloudflare-requests.png)
+![Bar chart showing web requests over time from April 7-12. The chart displays three data series: d700a5c0 (1.63k requests, purple), e5fa4c32 (1.13M requests, orange), and f66fa1e6 (313 requests, blue). The y-axis shows request counts from 0 to 105k, while the x-axis shows time in EDT. Orange bars dominate the chart, reaching peaks around 90k requests on April 7-8, with most activity concentrated between April 7 08:00 and April 9 02:00. After April 9, the chart shows minimal activity with small purple and blue indicators near the baseline.](../../assets/blog-images/cloudflare-requests.png)
 
 Now Docs.surf runs on a single Cloudflare account that only costs $5 a month. It was so refreshing to find a solution that fit my particular use case with the help of the atproto community. 
 

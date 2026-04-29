@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { getImage } from "astro:assets";
 
 import BaseLayout from "./Base.astro";
 import BlogHero from "@/components/blog/Hero.astro";
@@ -12,7 +13,16 @@ const { post } = Astro.props;
 const {
 	data: { title, description, ogImage, publishDate, atUri },
 } = post;
-const socialImage = ogImage ?? "/social-card.png";
+
+let socialImage: string;
+if (!ogImage) {
+	socialImage = "/social-card.png";
+} else if (typeof ogImage === "string") {
+	socialImage = ogImage;
+} else {
+	const optimized = await getImage({ src: ogImage, format: "png", width: 1200 });
+	socialImage = optimized.src;
+}
 const articleDate = publishDate.toISOString();
 const { headings } = await post.render();
 ---

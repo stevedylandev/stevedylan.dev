@@ -8,15 +8,16 @@ function removeDupsAndLowerCase(array: string[]) {
 }
 
 const post = defineCollection({
-	schema: z.object({
-		title: z.string(),
-		description: z.string().min(10).max(160),
-		publishDate: z.string().transform((str) => new Date(str)),
-		tags: z.array(z.string()).default([]).transform(removeDupsAndLowerCase),
-		ogImage: z.string().optional(),
-		hidden: z.boolean().optional().default(false),
-		atUri: z.string().optional(),
-	}),
+	schema: ({ image }) =>
+		z.object({
+			title: z.string(),
+			description: z.string().min(10).max(160),
+			publishDate: z.string().transform((str) => new Date(str)),
+			tags: z.array(z.string()).default([]).transform(removeDupsAndLowerCase),
+			ogImage: z.union([image(), z.string().url()]).optional(),
+			hidden: z.boolean().optional().default(false),
+			atUri: z.string().optional(),
+		}),
 });
 
 const pages = defineCollection({

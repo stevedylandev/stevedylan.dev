@@ -1,6 +1,9 @@
 ---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
 interface Props {
-	images: string[];
+	images: (ImageMetadata | string)[];
 }
 
 const { images } = Astro.props;
@@ -8,9 +11,13 @@ const { images } = Astro.props;
 
 <div class="image-collage">
 	<div class="collage-grid">
-		{images.map((url, index) => (
+		{images.map((img, index) => (
 			<div class="collage-item" data-index={index}>
-				<img src={url} alt={`Image ${index + 1}`} loading="lazy" />
+				{typeof img === "string" ? (
+					<img src={img} alt={`Image ${index + 1}`} loading="lazy" />
+				) : (
+					<Image src={img} alt={`Image ${index + 1}`} loading="lazy" />
+				)}
 			</div>
 		))}
 	</div>
