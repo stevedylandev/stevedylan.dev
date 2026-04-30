@@ -4,8 +4,8 @@ export const prerender = false;
 import PageLayout from "@/layouts/Base.astro";
 
 const meta = {
-	title: "Blogroll",
-	description: "A collection of RSS feeds I'm subscribed to",
+  title: "Blogroll",
+  description: "A collection of RSS feeds I'm subscribed to",
 };
 
 // Fetch the feeds data
@@ -14,31 +14,53 @@ const data = await response.json();
 
 // Sort subscriptions by title
 const sortedFeeds = data.subscriptions.sort((a, b) =>
-	a.title.localeCompare(b.title),
+  a.title.localeCompare(b.title),
 );
 ---
+
 <PageLayout meta={meta}>
   <div class="space-y-6">
     <h1 class="title">Blogroll</h1>
-    <p>Help build a blog network with me! Check out some of the people I follow below, and if you end up following them too, create a `Blogroll` page of your own with your list of people!</p>
+    <p>
+      Help build a blog network with me! Check out some of the people I follow
+      below, and if you end up following them too, create a <a
+        href="https://indieweb.org/blogroll"
+        class="style-link"
+        target="_blank"
+        rel="noreferrer">/blogroll</a
+      > page of your own with your list of people!
+    </p>
     <h2 class="text-xl font-semibold text-accent-2">Links</h2>
-    <ul class="list-disc pl-4 space-y-4 sm:grid sm:grid-cols-2 sm:gap-y-4 sm:space-y-0">
-      {sortedFeeds.map((feed) => (
-        <li>
-          <a
-            href={feed.htmlUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="style-link"
-          >
-            {feed.title}
-          </a>
-        </li>
-      ))}
+    <ul
+      class="list-disc pl-4 space-y-4 sm:grid sm:grid-cols-2 sm:gap-y-4 sm:space-y-0"
+    >
+      {
+        sortedFeeds.map((feed) => (
+          <li>
+            <a
+              href={feed.htmlUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="style-link"
+            >
+              {feed.title}
+            </a>
+          </li>
+        ))
+      }
     </ul>
     <h2 class="text-xl font-semibold text-accent-2 pt-8">API</h2>
-    <p>I'm currently using my own RSS aggregator and reader called <a href="https://andromeda.build/apps/feeds/" target="_blank" rel="noopener noreferrer" class="style-link">Feeds</a> to manage my feeds, which inlcudes an API to programmatically share them as a list.</p>
-    <pre class="whitespace-pre-wrap break-all"><code># JSON
+    <p>
+      I'm currently using my own RSS aggregator and reader called <a
+        href="https://andromeda.build/apps/feeds/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="style-link">Feeds</a
+      > to manage my feeds, which inlcudes an API to programmatically share them as
+      a list.
+    </p>
+    <pre
+      class="whitespace-pre-wrap break-all"><code># JSON
 curl https://feeds.stevedylan.dev/feeds?format=json
 
 # OPML File
