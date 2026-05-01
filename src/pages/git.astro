@@ -2,7 +2,7 @@
 import PageLayout from "@/layouts/Base.astro";
 import { createHighlighterCore, type ThemeRegistrationRaw } from "shiki/core";
 import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
-import { bundledLanguages } from "shiki";
+import bash from "@shikijs/langs/bash";
 import darkmatter from "../../darkmatter.json";
 
 const meta = {
@@ -12,7 +12,7 @@ const meta = {
 
 const highlighter = await createHighlighterCore({
 	themes: [darkmatter as unknown as ThemeRegistrationRaw],
-	langs: [bundledLanguages.bash],
+	langs: [bash],
 	engine: createJavaScriptRegexEngine(),
 });
 
