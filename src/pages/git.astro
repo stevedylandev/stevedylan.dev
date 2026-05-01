@@ -1,24 +1,17 @@
 ---
 import PageLayout from "@/layouts/Base.astro";
-import { createHighlighterCore, type ThemeRegistrationRaw } from "shiki/core";
-import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
-import bash from "@shikijs/langs/bash";
-import darkmatter from "../../darkmatter.json";
+import { createDarkmatterHighlighter, THEME_NAME } from "../../shiki-setup.mjs";
 
 const meta = {
 	title: "Git",
 	description: "Access the open source repos I'm working on",
 };
 
-const highlighter = await createHighlighterCore({
-	themes: [darkmatter as unknown as ThemeRegistrationRaw],
-	langs: [bash],
-	engine: createJavaScriptRegexEngine(),
-});
+const highlighter = createDarkmatterHighlighter();
 
 const codeHtml = highlighter.codeToHtml("ssh git.stevedylan.dev", {
 	lang: "bash",
-	theme: "Darkmatter",
+	theme: THEME_NAME,
 });
 ---
 

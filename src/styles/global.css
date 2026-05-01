@@ -132,7 +132,7 @@
 .prose :where(strong):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
 	font-weight: 700;
 }
-.prose :where(code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+.prose :where(code):not(:where(pre code, [class~="not-prose"], [class~="not-prose"] *)) {
 	border: 1px dotted #666;
 	border-radius: 2px;
 }

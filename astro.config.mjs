@@ -1,12 +1,18 @@
 import { defineConfig } from "astro/config";
 import rehypeExternalLinks from "rehype-external-links";
+import rehypeShikiFromHighlighter from "@shikijs/rehype/core";
 import cloudflare from "@astrojs/cloudflare";
 import mdx from "@astrojs/mdx";
 import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 import { fileURLToPath } from "url";
 import path from "path";
-import darkmatter from "./darkmatter.json";
+import { createDarkmatterHighlighter, THEME_NAME } from "./shiki-setup.mjs";
+
+const highlighter = createDarkmatterHighlighter();
+
+const root = path.dirname(fileURLToPath(import.meta.url));
+const emptyShikiTheme = path.resolve(root, "./empty-shiki-theme.mjs");
 
 // https://astro.build/config
 export default defineConfig({
@@ -14,11 +20,9 @@ export default defineConfig({
 	outDir: "dist",
 	compressHTML: true,
 	markdown: {
-		shikiConfig: {
-			theme: darkmatter,
-			wrap: false,
-		},
+		syntaxHighlight: false,
 		rehypePlugins: [
+			[(opts) => rehypeShikiFromHighlighter(highlighter, opts), { theme: THEME_NAME, defaultLanguage: "text", fallbackLanguage: "text", addLanguageClass: true }],
 			[rehypeExternalLinks, { target: "_blank", rel: ["noopener", "noreferrer"] }],
 		],
 	},
@@ -27,28 +31,15 @@ export default defineConfig({
 	vite: {
 		plugins: [tailwindcss()],
 		resolve: {
-			alias: {
-				"@/components": path.resolve(
-					path.dirname(fileURLToPath(import.meta.url)),
-					"./src/components",
-				),
-				"@/layouts": path.resolve(
-					path.dirname(fileURLToPath(import.meta.url)),
-					"./src/layouts",
-				),
-				"@/utils": path.resolve(
-					path.dirname(fileURLToPath(import.meta.url)),
-					"./src/utils/index.ts",
-				),
-				"@/stores": path.resolve(
-					path.dirname(fileURLToPath(import.meta.url)),
-					"./src/stores",
-				),
-				"@/data": path.resolve(
-					path.dirname(fileURLToPath(import.meta.url)),
-					"./src/data",
-				),
-			},
+			alias: [
+				{ find: /^@shikijs\/themes\/[^/]+$/, replacement: emptyShikiTheme },
+				{ find: /^@shikijs\/themes\/dist\/.+\.mjs$/, replacement: emptyShikiTheme },
+				{ find: "@/components", replacement: path.resolve(root, "./src/components") },
+				{ find: "@/layouts", replacement: path.resolve(root, "./src/layouts") },
+				{ find: "@/utils", replacement: path.resolve(root, "./src/utils/index.ts") },
+				{ find: "@/stores", replacement: path.resolve(root, "./src/stores") },
+				{ find: "@/data", replacement: path.resolve(root, "./src/data") },
+			],
 			extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json", ".astro"],
 		},
 		ssr: {
