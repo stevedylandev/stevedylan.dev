@@ -1,42 +1,43 @@
 ---
 import { createMarkdownRenderer } from "@/utils";
-import { OWNER_DID, PDS_URL } from "@/data/constants";
+import { POSTS_API } from "@/data/constants";
 
 const md = await createMarkdownRenderer();
 
-interface Document {
-	uri: string;
-	value: {
-		title: string;
-		publishedAt: string;
-		path: string;
-		content?: {
-			markdown?: string;
-		};
-		textContent?: string;
-		location?: string;
-	};
+interface Post {
+	short_id: string;
+	title: string;
+	slug: string;
+	published_date: string | null;
+	meta_description: string | null;
+	meta_image: string | null;
+	canonical_url: string | null;
+	lang: string;
+	tags: string | null;
+	content: string;
+	created_at: string;
+	updated_at: string;
 }
 
-let documents: Document[] = [];
+interface PostsListResponse {
+	posts: Post[];
+}
+
+let posts: Post[] = [];
 let error = false;
 
 try {
-	const res = await fetch(
-		`${PDS_URL}/xrpc/com.atproto.repo.listRecords?` +
-			new URLSearchParams({
-				repo: OWNER_DID,
-				collection: "site.standard.document",
-			}),
-	);
+	const res = await fetch(`${POSTS_API}/posts`);
 
 	if (res.ok) {
-		const data = await res.json();
-		documents = (data.records || [])
-			.filter((doc: Document) => doc.value.path.includes("/now/"))
-			.sort((a: Document, b: Document) => {
-				return new Date(b.value.publishedAt).getTime() - new Date(a.value.publishedAt).getTime();
-			});
+		const data = (await res.json()) as PostsListResponse;
+		posts = (data.posts || []).slice().sort((a, b) => {
+			const dateA = a.published_date ? new Date(a.published_date).getTime() : 0;
+			const dateB = b.published_date ? new Date(b.published_date).getTime() : 0;
+			return dateB - dateA;
+		});
+	} else {
+		error = true;
 	}
 } catch (err) {
 	console.error("Error fetching updates:", err);
@@ -44,38 +45,35 @@ try {
 }
 ---
 
-{error && <p>Error loading recent updates. Make sure your PDS is accessible.</p>}
+{error && <p>Error loading recent updates.</p>}
 
-{!error && documents.length === 0 && <p>No recent updates found.</p>}
+{!error && posts.length === 0 && <p>No recent updates found.</p>}
 
-{!error && documents.length > 0 && (
+{!error && posts.length > 0 && (
 	<div class="space-y-4">
-		{documents.map((record) => {
-			const value = record.value;
-			const path = value.path.slice(1);
-			const publishedAt = new Date(value.publishedAt).toLocaleDateString();
+		{posts.map((post) => {
+			const publishedAt = post.published_date
+				? new Date(post.published_date).toLocaleDateString()
+				: "";
 
-			let contentHTML = "";
-			if (value.content && value.content.markdown) {
-				contentHTML = md.render(value.content.markdown).trim()
+			const contentHTML = post.content
+				? md.render(post.content).trim()
 					.replace(/<img\s([^>]*?)>/g, (_, attrs) => {
 						const hasLoading = /loading\s*=/.test(attrs);
 						const hasDecoding = /decoding\s*=/.test(attrs);
 						const hasWidth = /width\s*=/.test(attrs);
 						const extra = `${hasLoading ? "" : ' loading="lazy"'}${hasDecoding ? "" : ' decoding="async"'}${hasWidth ? "" : ' width="800"'}`;
 						return `<img ${attrs}${extra} style="height:auto">`;
-					});
-			} else if (value.textContent) {
-				contentHTML = `<p>${value.textContent}</p>`;
-			}
+					})
+				: "";
 
 			return (
 				<article class="border-b pb-6 mb-6 last:border-b-0">
 					<a
-						href={`/${path}`}
+						href={`/now/${post.slug}`}
 						class="block hover:opacity-80 transition-opacity"
 					>
-						<h3 class="text-lg font-semibold mb-3">{value.title}</h3>
+						<h3 class="text-lg font-semibold mb-3">{post.title}</h3>
 					</a>
 					<div
 						class="prose prose-invert max-w-none mb-3"

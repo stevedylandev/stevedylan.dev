@@ -2,6 +2,8 @@
 export const OWNER_DID = "did:plc:ia2zdnhjaokf5lazhxrmj6eu";
 export const PDS_URL = "https://andromeda.social";
 
+export const POSTS_API = "https://posts.stevedylan.dev/api";
+
 export const MENU_LINKS = [
   {
     title: "Home",

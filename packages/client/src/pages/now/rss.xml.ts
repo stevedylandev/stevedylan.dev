@@ -1,7 +1,7 @@
 import rss from "@astrojs/rss";
 import sanitizeHtml from "sanitize-html";
 import MarkdownIt from "markdown-it";
-import { OWNER_DID, PDS_URL } from "@/data/constants";
+import { POSTS_API } from "@/data/constants";
 
 export const prerender = false;
 
@@ -11,78 +11,52 @@ const md = new MarkdownIt({
 	typographer: true,
 });
 
-interface DocumentRecord {
-	uri: string;
-	cid: string;
-	value: {
-		$type: string;
-		title: string;
-		site: string;
-		path?: string;
-		content?: {
-			$type: string;
-			markdown: string;
-		};
-		textContent?: string;
-		publishedAt: string;
-		location?: string;
-	};
+interface Post {
+	short_id: string;
+	title: string;
+	slug: string;
+	published_date: string | null;
+	meta_description: string | null;
+	meta_image: string | null;
+	canonical_url: string | null;
+	lang: string;
+	tags: string | null;
+	content: string;
+	created_at: string;
+	updated_at: string;
 }
 
-interface ListRecordsResponse {
-	records: DocumentRecord[];
-	cursor?: string;
+interface PostsListResponse {
+	posts: Post[];
 }
 
 export async function GET() {
 	try {
-		const response = await fetch(
-			`${PDS_URL}/xrpc/com.atproto.repo.listRecords?` +
-				new URLSearchParams({
-					repo: OWNER_DID,
-					collection: "site.standard.document",
-					limit: "50",
-				}),
-		);
+		const response = await fetch(`${POSTS_API}/posts`);
 
 		if (!response.ok) {
 			throw new Error(`HTTP error! status: ${response.status}`);
 		}
 
-		const data = (await response.json()) as ListRecordsResponse;
+		const data = (await response.json()) as PostsListResponse;
 
-		// Only include documents from the site publication, excluding blog posts
-		const filteredDocuments = data.records.filter(
-			(doc) =>
-				doc.value?.site ===
-					"at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.publication/3mbykzswhqc2x" &&
-				!doc.value?.path?.includes("/posts"),
-		);
-
-		// Sort by publishedAt descending
-		filteredDocuments.sort((a, b) => {
-			const dateA = new Date(a.value.publishedAt);
-			const dateB = new Date(b.value.publishedAt);
-			return dateB.getTime() - dateA.getTime();
+		const posts = (data.posts || []).slice().sort((a, b) => {
+			const dateA = a.published_date ? new Date(a.published_date).getTime() : 0;
+			const dateB = b.published_date ? new Date(b.published_date).getTime() : 0;
+			return dateB - dateA;
 		});
 
-		const items = filteredDocuments.map((record) => {
-			const doc = record.value;
-			const rkey = record.uri.split("/").pop();
-
-			// Use custom path if available, otherwise use rkey
-			const urlPath = doc.path || `/${rkey}`;
-
-			// Always treat content as markdown and render to HTML
-			const markdownContent = doc.content?.markdown || doc.title;
-			const htmlContent = md.render(markdownContent);
-			const description = doc.textContent || doc.title;
+		const items = posts.map((post) => {
+			const htmlContent = md.render(post.content || post.title);
+			const description = post.meta_description || post.title;
 
 			return {
-				title: doc.title,
-				description: description,
-				pubDate: new Date(doc.publishedAt),
-				link: urlPath,
+				title: post.title,
+				description,
+				pubDate: post.published_date
+					? new Date(post.published_date)
+					: new Date(0),
+				link: `/now/${post.slug}`,
 				content: sanitizeHtml(htmlContent, {
 					allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
 				}),
@@ -90,7 +64,7 @@ export async function GET() {
 		});
 
 		return rss({
-			title: "Steve Dylan - Updates",
+			title: "Steve's Updates",
 			description:
 				"Small updates from my life that don't quite fit into a blog",
 			site: process.env.SITE_URL || "https://stevedylan.dev",
@@ -99,9 +73,8 @@ export async function GET() {
 	} catch (error) {
 		console.error("Error generating RSS feed:", error);
 
-		// Return an empty feed on error
 		return rss({
-			title: "Steve Dylan - Updates",
+			title: "Steve's Updates",
 			description:
 				"Small updates from my life that don't quite fit into a blog",
 			site: process.env.SITE_URL || "https://stevedylan.dev",

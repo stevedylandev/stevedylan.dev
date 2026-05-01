@@ -1,7 +1,6 @@
 ---
 import PageLayout from "@/layouts/Base.astro";
-import GuestReply from "@/components/now/GuestReply.astro";
-import { OWNER_DID, PDS_URL } from "@/data/constants";
+import { POSTS_API } from "@/data/constants";
 import { createMarkdownRenderer } from "@/utils";
 
 export const prerender = false;
@@ -14,92 +13,49 @@ if (!slug) {
 	return Astro.redirect("/now");
 }
 
+interface PostDetail {
+	short_id: string;
+	title: string;
+	slug: string;
+	alias: string | null;
+	canonical_url: string | null;
+	published_date: string | null;
+	meta_description: string | null;
+	meta_image: string | null;
+	lang: string;
+	tags: string | null;
+	content: string;
+	created_at: string;
+	updated_at: string;
+}
+
 let title = "Post";
-let description = "A post from my PDS";
+let description = "A post";
 let contentHTML = "";
 let publishedAt = "";
-let atUri = "";
 let errorMessage = "";
 let isError = false;
 
 try {
-	let documentFound = false;
+	const res = await fetch(`${POSTS_API}/posts/${encodeURIComponent(slug)}`);
 
-	// First, try to find a document with a matching custom path
-	const listResponse = await fetch(
-		`${PDS_URL}/xrpc/com.atproto.repo.listRecords?` +
-			new URLSearchParams({
-				repo: OWNER_DID,
-				collection: "site.standard.document",
-				limit: "100",
-			}),
-	);
-
-	if (listResponse.ok) {
-		const listData = await listResponse.json();
-		const matchingDoc = listData.records.find((record: any) => {
-			// Check if document has a custom path that matches
-			const docPath = record.value.path;
-			if (docPath) {
-				// Remove leading slash for comparison
-				const normalizedPath = docPath.startsWith("/")
-					? docPath.slice(1)
-					: docPath;
-				// Match against the full path including /now/
-				return normalizedPath === `now/${slug}`;
-			}
-			return false;
-		});
-
-		if (matchingDoc) {
-			const doc = matchingDoc.value;
-			title = doc.title || "Post";
-			description = doc.content?.markdown?.slice(0, 160) || description;
-			publishedAt = new Date(doc.publishedAt).toLocaleDateString();
-			atUri = matchingDoc.uri;
-
-			if (doc.content && doc.content.markdown) {
-				contentHTML = md.render(doc.content.markdown);
-			} else if (doc.textContent) {
-				contentHTML = `<p>${doc.textContent}</p>`;
-			}
-			documentFound = true;
-		}
-	}
-
-	// If no custom path match, try fetching by rkey
-	if (!documentFound) {
-		const documentResponse = await fetch(
-			`${PDS_URL}/xrpc/com.atproto.repo.getRecord?` +
-				new URLSearchParams({
-					repo: OWNER_DID,
-					collection: "site.standard.document",
-					rkey: slug,
-				}),
-		);
-
-		if (documentResponse.ok) {
-			const data = await documentResponse.json();
-			const doc = data.value;
-			title = doc.title || "Post";
-			description = doc.content?.markdown?.slice(0, 160) || description;
-			publishedAt = new Date(doc.publishedAt).toLocaleDateString();
-			atUri = `at://${OWNER_DID}/site.standard.document/${slug}`;
-
-			if (doc.content && doc.content.markdown) {
-				contentHTML = md.render(doc.content.markdown);
-			} else if (doc.textContent) {
-				contentHTML = `<p>${doc.textContent}</p>`;
-			}
-			documentFound = true;
-		}
-	}
-
-	if (!documentFound) {
+	if (res.status === 404) {
 		Astro.response.status = 404;
 		isError = true;
 		title = "Not Found";
 		errorMessage = "The post you're looking for doesn't exist.";
+	} else if (!res.ok) {
+		throw new Error(`HTTP ${res.status}`);
+	} else {
+		const post = (await res.json()) as PostDetail;
+		title = post.title || "Post";
+		description =
+			post.meta_description ||
+			(post.content ? post.content.slice(0, 160) : description);
+		publishedAt = post.published_date
+			? new Date(post.published_date).toLocaleDateString()
+			: "";
+		contentHTML = md.render(post.content || "");
 	}
 } catch (err) {
 	console.error("Error fetching post:", err);
@@ -112,7 +68,6 @@ try {
 const meta = {
 	title,
 	description,
-	atUri,
 };
 ---
 
@@ -131,7 +86,6 @@ const meta = {
 				<div class="prose prose-invert max-w-none my-4">
 					<Fragment set:html={contentHTML} />
 				</div>
-				<a href={`https://pdsls.dev/${atUri}`} target="_blank" rel="noreferrer" class="underline text-xs text-gray-400 mt-4 break-all">{atUri}</a>
 				<div class="mt-12 flex items-center justify-between">
 					<a class="style-link" href="/now">&larr; Now</a>
 					<button
@@ -141,7 +95,6 @@ const meta = {
 						Share
 					</button>
 				</div>
-				<GuestReply postTitle={title} />
 			</>
 		)}
 	</article>
