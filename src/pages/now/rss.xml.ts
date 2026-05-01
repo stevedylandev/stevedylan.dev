@@ -13,7 +13,7 @@ const md = new MarkdownIt({
 
 interface Post {
 	short_id: string;
-	title: string;
+	title: string | null;
 	slug: string;
 	published_date: string | null;
 	meta_description: string | null;
@@ -47,11 +47,12 @@ export async function GET() {
 		});
 
 		const items = posts.map((post) => {
-			const htmlContent = md.render(post.content || post.title);
-			const description = post.meta_description || post.title;
+			const fallback = post.content ? post.content.slice(0, 80) : post.slug;
+			const htmlContent = md.render(post.content || post.title || "");
+			const description = post.meta_description || post.title || fallback;
 
 			return {
-				title: post.title,
+				title: post.title || fallback,
 				description,
 				pubDate: post.published_date
 					? new Date(post.published_date)
