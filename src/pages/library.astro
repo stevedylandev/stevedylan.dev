@@ -21,7 +21,9 @@ const meta = {
 let books: Book[] = [];
 let error: string | null = null;
 try {
-	const res = await fetch("https://library.stevedylan.dev/api/books?status=all");
+	const res = await fetch(
+		"https://library.stevedylan.dev/api/books?status=all",
+	);
 	if (res.ok) {
 		books = await res.json();
 	} else {

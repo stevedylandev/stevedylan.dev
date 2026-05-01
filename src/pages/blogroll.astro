@@ -4,8 +4,8 @@ export const prerender = false;
 import PageLayout from "@/layouts/Base.astro";
 
 const meta = {
-  title: "Blogroll",
-  description: "A collection of RSS feeds I'm subscribed to",
+	title: "Blogroll",
+	description: "A collection of RSS feeds I'm subscribed to",
 };
 
 // Fetch the feeds data
@@ -14,7 +14,7 @@ const data = await response.json();
 
 // Sort subscriptions by title
 const sortedFeeds = data.subscriptions.sort((a, b) =>
-  a.title.localeCompare(b.title),
+	a.title.localeCompare(b.title),
 );
 ---
 

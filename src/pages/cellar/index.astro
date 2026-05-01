@@ -9,7 +9,8 @@ const meta = {
 	description: "My wine tasting log",
 };
 
-const CELLAR_API_URL = import.meta.env.CELLAR_API_URL ?? "https://cellar.stevedylan.dev";
+const CELLAR_API_URL =
+	import.meta.env.CELLAR_API_URL ?? "https://cellar.stevedylan.dev";
 
 let wines: any[] = [];
 let error: string | null = null;

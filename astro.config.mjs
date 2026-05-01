@@ -4,7 +4,6 @@ import cloudflare from "@astrojs/cloudflare";
 import mdx from "@astrojs/mdx";
 import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
-import react from "@astrojs/react";
 import { fileURLToPath } from "url";
 import path from "path";
 import darkmatter from "./darkmatter.json";
@@ -25,14 +24,13 @@ export default defineConfig({
 	},
 	prefetch: true,
 	integrations: [
-		mdx({}),
+		mdx(),
 		tailwind({
 			config: {
 				applyBaseStyles: false,
 			},
 		}),
 		sitemap(),
-		react(),
 	],
 	vite: {
 		resolve: {

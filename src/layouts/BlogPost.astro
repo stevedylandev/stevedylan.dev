@@ -20,7 +20,11 @@ if (!ogImage) {
 } else if (typeof ogImage === "string") {
 	socialImage = ogImage;
 } else {
-	const optimized = await getImage({ src: ogImage, format: "png", width: 1200 });
+	const optimized = await getImage({
+		src: ogImage,
+		format: "png",
+		width: 1200,
+	});
 	socialImage = optimized.src;
 }
 const articleDate = publishDate.toISOString();

@@ -4,7 +4,8 @@ export const prerender = false;
 import PageLayout from "@/layouts/Base.astro";
 
 const { short_id } = Astro.params;
-const CELLAR_API_URL = import.meta.env.CELLAR_API_URL ?? "https://cellar.stevedylan.dev";
+const CELLAR_API_URL =
+	import.meta.env.CELLAR_API_URL ?? "https://cellar.stevedylan.dev";
 
 let wine: any = null;
 let fetchError: string | null = null;

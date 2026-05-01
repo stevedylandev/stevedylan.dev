@@ -7,20 +7,22 @@ export type ProjectItem = {
 };
 
 export const projects: ProjectItem[] = [
-  {
-    title: "Andromeda",
-    description: "A collection of personal and self hostable software written in Rust. Each app is minimal and focuses on low memory and data usage. Includes common needs like an RSS reader, markdown note taker, even a micro blogging platform. Andromeda also includes a base Rust stack and agent skills that can be used to build more basic web applications.",
-    image: "https://andromeda.build/og.png",
-    link: "https://andromeda.build",
-    tags: ["productivity", "self hosting"]
-  },
-  {
-    title: "Scout",
-    description: "A minimal iOS Gemini Protocol client in SwiftUI. I became really interested in the Gemini Protocol and didn't like the existing options out there for iOS, so I built my own. Was a good learning experience and thoroughly enjoy the final product. Features things like bookmarks, searching, themes, client certificates, you name it. Currently in the process of publishing to the App Store.",
-      image: "https://files.stevedylan.dev/titan-ii.png",
-      link: "https://github.com/stevedylandev/Scout",
-    tags: ["privacy", "networking"]
-  },
+	{
+		title: "Andromeda",
+		description:
+			"A collection of personal and self hostable software written in Rust. Each app is minimal and focuses on low memory and data usage. Includes common needs like an RSS reader, markdown note taker, even a micro blogging platform. Andromeda also includes a base Rust stack and agent skills that can be used to build more basic web applications.",
+		image: "https://andromeda.build/og.png",
+		link: "https://andromeda.build",
+		tags: ["productivity", "self hosting"],
+	},
+	{
+		title: "Scout",
+		description:
+			"A minimal iOS Gemini Protocol client in SwiftUI. I became really interested in the Gemini Protocol and didn't like the existing options out there for iOS, so I built my own. Was a good learning experience and thoroughly enjoy the final product. Features things like bookmarks, searching, themes, client certificates, you name it. Currently in the process of publishing to the App Store.",
+		image: "https://files.stevedylan.dev/titan-ii.png",
+		link: "https://github.com/stevedylandev/Scout",
+		tags: ["privacy", "networking"],
+	},
 	{
 		title: "Sequoia",
 		description:
@@ -45,21 +47,22 @@ export const projects: ProjectItem[] = [
 		link: "https://sipp.so",
 		tags: ["developer tools", "productivity", "self hosting"],
 	},
-  {
-    title: "Parcels",
-    description: "A minimal package tracking app written in Rust, designed to be self hosted for personal use.",
-    image: "https://files.stevedylan.dev/parcels-demo-2.png",
-    link: "https://github.com/stevedylandev/parcels",
-    tags: ["productivity", "self hosting"]
-  },
-  {
-    title: "Feeds",
-    description:
-      "A minimal take on an RSS reader, Feeds lets you pull from multiple sources of feeds including URL query params, OPML files, and FreshRSS. Instead of rendering the post, Feeds simply gives you a feed link so you can view the content in its original context. Feeds is also designed to be simple and easy to self host for your own use cases.",
-    image: "https://files.stevedylan.dev/feeds-demo.png",
-      link: "https://feeds.software",
-      tags: ["blogging", "rss", "self hosted"],
-  },
+	{
+		title: "Parcels",
+		description:
+			"A minimal package tracking app written in Rust, designed to be self hosted for personal use.",
+		image: "https://files.stevedylan.dev/parcels-demo-2.png",
+		link: "https://github.com/stevedylandev/parcels",
+		tags: ["productivity", "self hosting"],
+	},
+	{
+		title: "Feeds",
+		description:
+			"A minimal take on an RSS reader, Feeds lets you pull from multiple sources of feeds including URL query params, OPML files, and FreshRSS. Instead of rendering the post, Feeds simply gives you a feed link so you can view the content in its original context. Feeds is also designed to be simple and easy to self host for your own use cases.",
+		image: "https://files.stevedylan.dev/feeds-demo.png",
+		link: "https://feeds.software",
+		tags: ["blogging", "rss", "self hosted"],
+	},
 	{
 		title: "Docs.surf",
 		description:
