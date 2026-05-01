@@ -1,5 +1,5 @@
 <div align="center">
-  <img alt="stevedylandevlogo" src="./packages/client/public/icon.png" width="70" />
+  <img alt="stevedylandevlogo" src="./public/icon.png" width="70" />
 </div>
 
 </br>
