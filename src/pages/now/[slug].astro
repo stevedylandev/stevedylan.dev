@@ -15,7 +15,7 @@ if (!slug) {
 
 interface PostDetail {
 	short_id: string;
-	title: string;
+	title: string | null;
 	slug: string;
 	alias: string | null;
 	canonical_url: string | null;
@@ -29,7 +29,7 @@ interface PostDetail {
 	updated_at: string;
 }
 
-let title = "Post";
+let title: string | null = "Post";
 let description = "A post";
 let contentHTML = "";
 let publishedAt = "";
@@ -48,7 +48,7 @@ try {
 		throw new Error(`HTTP ${res.status}`);
 	} else {
 		const post = (await res.json()) as PostDetail;
-		title = post.title || "Post";
+		title = post.title;
 		description =
 			post.meta_description ||
 			(post.content ? post.content.slice(0, 160) : description);
@@ -66,7 +66,7 @@ try {
 }
 
 const meta = {
-	title,
+	title: title || "Post",
 	description,
 };
 ---
@@ -81,7 +81,7 @@ const meta = {
 			</>
 		) : (
 			<>
-				<h1 class="text-2xl font-bold mb-2">{title}</h1>
+				{title && <h1 class="text-2xl font-bold mb-2">{title}</h1>}
 				<time class="text-sm text-gray-400">{publishedAt}</time>
 				<div class="prose prose-invert max-w-none my-4">
 					<Fragment set:html={contentHTML} />

@@ -6,7 +6,7 @@ const md = await createMarkdownRenderer();
 
 interface Post {
 	short_id: string;
-	title: string;
+	title: string | null;
 	slug: string;
 	published_date: string | null;
 	meta_description: string | null;
@@ -69,12 +69,14 @@ try {
 
 			return (
 				<article class="border-b pb-6 mb-6 last:border-b-0">
-					<a
-						href={`/now/${post.slug}`}
-						class="block hover:opacity-80 transition-opacity"
-					>
-						<h3 class="text-lg font-semibold mb-3">{post.title}</h3>
-					</a>
+					{post.title && (
+						<a
+							href={`/now/${post.slug}`}
+							class="block hover:opacity-80 transition-opacity"
+						>
+							<h3 class="text-lg font-semibold mb-3">{post.title}</h3>
+						</a>
+					)}
 					<div
 						class="prose prose-invert max-w-none mb-3"
 						set:html={contentHTML}
