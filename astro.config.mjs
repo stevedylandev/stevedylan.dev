@@ -2,7 +2,7 @@ import { defineConfig } from "astro/config";
 import rehypeExternalLinks from "rehype-external-links";
 import cloudflare from "@astrojs/cloudflare";
 import mdx from "@astrojs/mdx";
-import tailwind from "@astrojs/tailwind";
+import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 import { fileURLToPath } from "url";
 import path from "path";
@@ -23,16 +23,9 @@ export default defineConfig({
 		],
 	},
 	prefetch: true,
-	integrations: [
-		mdx(),
-		tailwind({
-			config: {
-				applyBaseStyles: false,
-			},
-		}),
-		sitemap(),
-	],
+	integrations: [mdx(), sitemap()],
 	vite: {
+		plugins: [tailwindcss()],
 		resolve: {
 			alias: {
 				"@/components": path.resolve(

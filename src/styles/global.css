@@ -12,7 +12,34 @@
 	font-style: normal;
 	font-display: swap;
 }
-@tailwind base;
+
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+	--color-bgColor: var(--theme-bg);
+	--color-textColor: var(--theme-text);
+	--color-link: var(--theme-link);
+	--color-accent: var(--theme-accent);
+	--color-accent-2: var(--theme-accent-2);
+
+	--font-sans: "Commit Mono", ui-sans-serif, system-ui, -apple-system,
+		BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+	--animate-fade-in: fadeIn 1s ease-in forwards;
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+}
+
 @layer base {
 	:root {
 		color-scheme: light;
@@ -49,13 +76,96 @@
 	}
 
 	::-webkit-scrollbar-track {
-		background: #121113; /* Change this to your desired background color */
+		background: #121113;
 	}
 
 	::-webkit-scrollbar-thumb {
-		background: #121113; /* Change this to your desired thumb color */
+		background: #121113;
 		border-radius: 10px;
 	}
 }
-@tailwind components;
-@tailwind utilities;
+
+@utility style-link {
+	background-size: 100% 6px;
+	background-position: bottom;
+	background-repeat: repeat-x;
+	background-image: linear-gradient(
+		transparent,
+		transparent 5px,
+		var(--theme-text) 5px,
+		var(--theme-text)
+	);
+	&:hover {
+		background-image: linear-gradient(
+			transparent,
+			transparent 4px,
+			var(--theme-link) 4px,
+			var(--theme-link)
+		);
+	}
+}
+
+@utility title {
+	@apply text-2xl font-semibold text-accent-2;
+}
+
+.prose :where(a):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+	background-size: 100% 6px;
+	background-position: bottom;
+	background-repeat: repeat-x;
+	background-image: linear-gradient(
+		transparent,
+		transparent 5px,
+		var(--theme-text) 5px,
+		var(--theme-text)
+	);
+	text-decoration: none;
+}
+.prose :where(a):not(:where([class~="not-prose"], [class~="not-prose"] *)):hover {
+	background-image: linear-gradient(
+		transparent,
+		transparent 4px,
+		var(--theme-link) 4px,
+		var(--theme-link)
+	);
+}
+.prose :where(strong):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+	font-weight: 700;
+}
+.prose :where(code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+	border: 1px dotted #666;
+	border-radius: 2px;
+}
+.prose :where(blockquote):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+	border-left-width: 0;
+}
+.prose :where(hr):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+	border-top-style: dashed;
+}
+.prose :where(thead):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+	border-bottom-width: 0;
+}
+.prose :where(thead th):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+	font-weight: 700;
+	border-bottom: 1px dashed #666;
+}
+.prose :where(tbody tr):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+	border-bottom-width: 0;
+}
+.prose :where(tfoot):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+	border-top: 1px dashed #666;
+}
+.prose-sm :where(code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+	font-size: 0.875rem;
+	font-weight: 400;
+}
+.prose-cactus {
+	--tw-prose-body: var(--theme-text);
+	--tw-prose-headings: var(--theme-accent-2);
+	--tw-prose-links: var(--theme-text);
+	--tw-prose-bold: var(--theme-text);
+	--tw-prose-bullets: var(--theme-text);
+	--tw-prose-quotes: var(--theme-quote);
+	--tw-prose-code: var(--theme-text);
+	--tw-prose-th-borders: #666;
+}
