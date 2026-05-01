@@ -7,12 +7,12 @@ import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 import { fileURLToPath } from "url";
 import path from "path";
-import { createDarkmatterHighlighter, THEME_NAME } from "./shiki-setup.mjs";
+import { createDarkmatterHighlighter, THEME_NAME } from "./scripts/shiki-setup.mjs";
 
 const highlighter = createDarkmatterHighlighter();
 
 const root = path.dirname(fileURLToPath(import.meta.url));
-const emptyShikiTheme = path.resolve(root, "./empty-shiki-theme.mjs");
+const emptyShikiTheme = path.resolve(root, "./scripts/empty-shiki-theme.mjs");
 
 // https://astro.build/config
 export default defineConfig({

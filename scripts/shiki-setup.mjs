@@ -16,7 +16,7 @@ import markdown from "@shikijs/langs/markdown";
 import yaml from "@shikijs/langs/yaml";
 import toml from "@shikijs/langs/toml";
 import lua from "@shikijs/langs/lua";
-import darkmatter from "./darkmatter.json" with { type: "json" };
+import darkmatter from "../darkmatter.json" with { type: "json" };
 
 export const LANGS = [
 	javascript,
