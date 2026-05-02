@@ -9,7 +9,7 @@ const meta = {
 };
 
 // Fetch the feeds data
-const response = await fetch("https://feeds.stevedylan.dev/feeds?format=json");
+const response = await fetch("https://feeds.stevedylan.dev/api/subscriptions");
 const data = await response.json();
 
 // Sort subscriptions by title
@@ -32,17 +32,41 @@ const sortedFeeds = data.subscriptions.sort((a, b) =>
     </p>
     <h2 class="text-xl font-semibold text-accent-2">Links</h2>
     <ul
-      class="list-disc pl-4 space-y-4 sm:grid sm:grid-cols-2 sm:gap-y-4 sm:space-y-0"
+      class="list-none pl-0 space-y-4 sm:grid sm:grid-cols-2 sm:gap-y-4 sm:space-y-0"
     >
       {
         sortedFeeds.map((feed) => (
           <li>
             <a
-              href={feed.htmlUrl}
+              href={feed.site_url}
               target="_blank"
               rel="noopener noreferrer"
-              class="style-link"
+              class="inline-flex items-center gap-2"
             >
+              {feed.favicon_url ? (
+                <img
+                  src={feed.favicon_url}
+                  alt=""
+                  width="16"
+                  height="16"
+                  loading="lazy"
+                  class="w-4 h-4 rounded-sm"
+                />
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 256 256"
+                  class="w-4 h-4"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M216 40H40a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16m0 16v32H40V56Zm0 144H40v-96h176z"
+                  />
+                </svg>
+              )}
               {feed.title}
             </a>
           </li>
