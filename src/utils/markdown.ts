@@ -1,5 +1,8 @@
 import MarkdownIt from "markdown-it";
-import { createDarkmatterHighlighter, THEME_NAME } from "../../scripts/shiki-setup.mjs";
+import {
+	createDarkmatterHighlighter,
+	THEME_NAME,
+} from "../../scripts/shiki-setup.mjs";
 
 export async function createMarkdownRenderer(): Promise<MarkdownIt> {
 	const highlighter = createDarkmatterHighlighter();
