@@ -46,8 +46,17 @@ export async function GET() {
 			return dateB - dateA;
 		});
 
+		const stripMarkdown = (text: string) =>
+			sanitizeHtml(md.renderInline(text), {
+				allowedTags: [],
+				allowedAttributes: {},
+			});
+
 		const items = posts.map((post) => {
-			const fallback = post.content ? `${post.content.slice(0, 70)}...` : post.slug;
+			const rawFallback = post.content
+				? `${post.content.slice(0, 70)}...`
+				: post.slug;
+			const fallback = stripMarkdown(rawFallback);
 			const htmlContent = md.render(post.content || post.title || "");
 			const description = post.meta_description || post.title || fallback;
 
