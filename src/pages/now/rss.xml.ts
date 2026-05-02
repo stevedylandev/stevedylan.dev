@@ -47,7 +47,7 @@ export async function GET() {
 		});
 
 		const items = posts.map((post) => {
-			const fallback = post.content ? post.content.slice(0, 80) : post.slug;
+			const fallback = post.content ? `${post.content.slice(0, 70)}...` : post.slug;
 			const htmlContent = md.render(post.content || post.title || "");
 			const description = post.meta_description || post.title || fallback;
 
