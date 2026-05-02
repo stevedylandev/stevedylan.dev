@@ -43,30 +43,31 @@ const sortedFeeds = data.subscriptions.sort((a, b) =>
               rel="noopener noreferrer"
               class="inline-flex items-center gap-2"
             >
-              {feed.favicon_url ? (
+              {feed.favicon_url && (
                 <img
                   src={feed.favicon_url}
                   alt=""
                   width="16"
                   height="16"
                   loading="lazy"
-                  class="w-4 h-4 rounded-sm"
+                  class="favicon w-4 h-4 rounded-sm"
+                  onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block'"
                 />
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 256 256"
-                  class="w-4 h-4"
-                  aria-hidden="true"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M216 40H40a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16m0 16v32H40V56Zm0 144H40v-96h176z"
-                  />
-                </svg>
               )}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 256 256"
+                class="favicon-fallback w-4 h-4"
+                style={feed.favicon_url ? "display:none" : ""}
+                aria-hidden="true"
+              >
+                <path
+                  fill="currentColor"
+                  d="M216 40H40a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16m0 16v32H40V56Zm0 144H40v-96h176z"
+                />
+              </svg>
               {feed.title}
             </a>
           </li>
