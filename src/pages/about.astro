@@ -1,8 +1,6 @@
 ---
 import PageLayout from "@/layouts/Base.astro";
-import { Image } from "astro:assets";
-import aboutImg from "../assets/pfp.png";
-import { projects } from "../data/projects";
+import { Content } from "../content/pages/about.mdx";
 
 const meta = {
 	title: "About",
@@ -11,72 +9,9 @@ const meta = {
 ---
 
 <PageLayout meta={meta}>
-  <div class="space-y-6">
-    <h1 class="title">About Me</h1>
-    <p>
-      My name is Steve and I’m a DX Engineer with a passion for
-      developer tooling that advances an open web. I’m currently working at
-      <a
-        class="style-link inline-block"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="stablecore"
-        href="https://stablecore.com"
-      >
-        Stablecore</a
-      >
-      as a senior solutions engineer. I'm also working on a host of other <a
-        class="style-link inline-block"
-        aria-label="projects"
-        href="/projects">projects</a
-      >, the latest being
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        class="style-link inline-block"
-        aria-label={projects[0].title}
-        href={projects[0].link}
-      >
-        {projects[0].title}
-      </a>. Check out what else I've been up to recently at my <a class="style-link inline-block" href="/now">now page</a>!
-    </p>
-    <div class="flex justify-center">
-      <Image
-        src={aboutImg}
-        alt="Steve pfp"
-        loading="eager"
-        class="animate-fade-in"
-      />
+  <article class="flex-grow break-words">
+    <div class="prose prose-sm prose-cactus prose-headings:font-semibold">
+      <Content />
     </div>
-    <p>Here's some more info about me:</p>
-    <ul class="list-inside list-disc">
-      <li>Currently at the foot of a mountain in Chattanooga TN.</li>
-      <li>
-        Married with two boys; they mean the world to me.
-      </li>
-      <li>
-        I love spending time building side projects, but I also have a plethora of random hobbies. Some of which include birdwatching, collecting vinyls/cassettes, trying Chinese loose leaf tea, or doing amateur astronomy.
-      </li>
-      <li>
-        I've worn many hats over the past decade, including archery technician, bank support specialist, and engineer.
-      </li>
-      <li>I have a killer waffle recipe handed down through my family. If you're lucky, maybe one day you'll get to try it.</li>
-    </ul>
-    <p>
-      Feel free to
-      <button
-        class="style-link inline-block"
-        onclick="window.location.href='mailto:contact@stevedylan.dev'"
-        aria-label="email link"
-      >
-        reach out
-      </button>!
-    </p>
-  </div>
-  <!-- <div class="space-y-6 mt-12"> -->
-  <!--   <h1 class="title">About This Site</h1> -->
-  <!--   <p> -->
-  <!--   The main bones of this site is made with <a href="https://astro.build" class="style-link" rel="noreferrer" target="_blank">Astro</a> and the <a href="https://astro.build/themes/details/astro-cactus/">Astro Cactus Theme</a>, although at this point it has been pretty gutted out to fit my own needs. I'm currently hosting it on Cloudflare Pages with a hybrid SSR/Static approach.  -->
-  <!--   </p> -->
-  <!-- </div> -->
+  </article>
 </PageLayout>

@@ -1,0 +1,41 @@
+---
+title: About
+---
+
+import { Image } from "astro:assets";
+import aboutImg from "../../assets/pfp.png";
+import Diagram from "@/components/blog/Diagram.astro";
+
+# About Me
+
+My name is Steve and I'm a DX Engineer with a passion for developer tooling that advances an open web. I'm currently working at [Stablecore](https://stablecore.com) as a senior solutions engineer. I'm also working on a host of other [projects](/projects), the latest being [Andromeda](https://andromeda.build). Check out what else I've been up to recently at my [now page](/now)!
+
+<div class="flex justify-center not-prose">
+  <Image src={aboutImg} alt="Steve pfp" loading="eager" class="animate-fade-in" />
+</div>
+
+Here's some more info about me:
+
+- Currently at the foot of a mountain in Chattanooga TN.
+- Married with two boys; they mean the world to me.
+- I love spending time building side projects, but I also have a plethora of random hobbies. Some of which include birdwatching, collecting vinyls/cassettes, trying Chinese loose leaf tea, or doing amateur astronomy.
+- I've worn many hats over the past decade, including archery technician, bank support specialist, and engineer.
+- I have a killer waffle recipe handed down through my family. If you're lucky, maybe one day you'll get to try it.
+
+Feel free to [reach out](mailto:contact@stevedylan.dev)!
+
+# About This Site
+
+This website was built with [Astro](https://astro.build), and started out with the [Astro Cactus theme](https://astro.build/themes/details/astro-cactus/), but has significantly diverged as the years have gone by. Astro is an incredible framework for building personal sites/blogs and I would highly recommend it to anyone looking for a solution that needs just a bit more juice than your standard SSG.
+
+Evidence of this is how I have structured this site. Most of the content is prerendered (static content), which other pieces are more dynamic and are rendered on the server per request using `export const prerender = false`.
+
+<Diagram src="/blog-images/personal-site-structure.svg" alt="multiple services connecting to stevedylan.dev" />
+
+As illustrated above, I have multiple apps running outside my website that have public facing APIs which let me fetch content from them and display it dynamically. Each request to one of these pages makes an API call to that service first and then renders the content in the sent HTML from the server (SSR). Another option at my disposal is to prerender those pages and it will make the API request at build time, but I lose the live updates. 
+
+This architecture saves me the hassle from running everything from one massive app (ie my website) and lets me break up my services into atomic pieces. If you're interested to learn more about the small apps themselves, check them out [here](https://andromeda.build).
+
+The site is hosted on Cloudflare Pages, but I sleep well at night knowing I could easily self host this or use another platform if I needed to.
+
+Everything you see is also MIT opened sourced and can be explored [here](https://github.com/stevedylandev/stevedylan.dev) or through `ssh git.stevedylan.dev -t stevedylan.dev`.
