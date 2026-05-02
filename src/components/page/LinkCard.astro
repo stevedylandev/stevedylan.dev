@@ -6,6 +6,7 @@ type Link = {
 	url: string;
 	category_id: number;
 	created_at: number;
+	favicon_url?: string | null;
 };
 
 const { link } = Astro.props as { link: Link };
@@ -17,7 +18,33 @@ const domain = new URL(link.url).hostname.replace(/^www\./, "");
 		href={link.url}
 		target="_blank"
 		rel="noopener noreferrer"
-		class="text-base hover:opacity-70 transition-opacity"
-	>{link.title}</a>
+		class="inline-flex items-center gap-2 text-base hover:opacity-70 transition-opacity"
+	>
+		{link.favicon_url ? (
+			<img
+				src={link.favicon_url}
+				alt=""
+				width="16"
+				height="16"
+				loading="lazy"
+				class="w-4 h-4 rounded-sm shrink-0"
+			/>
+		) : (
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="16"
+				height="16"
+				viewBox="0 0 256 256"
+				class="w-4 h-4 shrink-0"
+				aria-hidden="true"
+			>
+				<path
+					fill="currentColor"
+					d="M216 40H40a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16m0 16v32H40V56Zm0 144H40v-96h176z"
+				/>
+			</svg>
+		)}
+		<span>{link.title}</span>
+	</a>
 	<span class="text-xs opacity-50 mt-0.5">{domain}</span>
 </article>
