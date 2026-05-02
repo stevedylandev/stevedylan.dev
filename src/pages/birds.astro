@@ -14,7 +14,7 @@ const meta = {
 			<h1 class="title">Birds</h1>
 			<p class="mt-2 text-sm text-gray-400">{birds.length} species observed</p>
 		</div>
-		<div class="flex w-full flex-col">
+		<div class="flex w-full flex-col sm:grid sm:grid-cols-2">
 			{birds.map((bird) => (
 				<a
 					href={`https://www.allaboutbirds.org/guide/${bird.commonName.replace(/ /g, "_")}`}
