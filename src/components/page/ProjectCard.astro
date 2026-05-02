@@ -5,7 +5,7 @@ import { Image } from "astro:assets";
 
 <div
 	style={{ borderWidth: "1px" }}
-	class="flex max-w-[500px] cursor-pointer flex-col items-start justify-start gap-2 overflow-hidden rounded-lg border-accent-2 transition-all ease-in-out hover:border-accent"
+	class="flex cursor-pointer flex-col items-start justify-start gap-2 overflow-hidden rounded-lg border-accent-2 transition-all ease-in-out hover:border-accent"
 >
 	<a href={content.link} target="_blank">
     <Image height="800" width="1200" src={content.image} alt={content.title} loading={index < 2 ? "eager" : "lazy"} />
