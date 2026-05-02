@@ -14,7 +14,7 @@ Primary computer is a M4 Macbook Pro, and as much as I would love to go Linux fu
 
 ![beelink ser8](../../assets/edc-images/beelink-ser8.jpg)
 
-I also have a small Beelink SER8 that acts like my Linux desktop / home server, and it's an absolute champ. 1TB SSD, 32GB Ram, and since it's running Arch with zero desktop manager by default, the energy and CPU footprint is razor thin. Opening up `btop` makes you wonder if it's doing anything at all, but in reality it's running over 12 different apps over the web through Cloudflare tunnels. If at any point I need to use it as a desktop I just start up `mango` as my compositor and even then the memory and CPU footprint is minimal. I just love this thing.
+I also have a small Beelink SER8 (aka "Benson") that acts like my Linux desktop / home server, and it's an absolute champ. 1TB SSD, 32GB Ram, and since it's running Arch with zero desktop manager by default, the energy and CPU footprint is razor thin. Opening up `btop` makes you wonder if it's doing anything at all, but in reality it's running over 12 different apps over the web through Cloudflare tunnels. If at any point I need to use it as a desktop I just start up `mango` as my compositor and even then the memory and CPU footprint is minimal. I just love this thing.
 
 ### Logitech MX Master 3S
 
@@ -62,6 +62,9 @@ Here's a quick list of some of the primary software I use on a day to day basis.
 | [Mango](https://github.com/mangowm/mango) | Wayland Compositor / Window manager (Arch) |
 | [Helium](https://helium.computer) | Web Browser |
 | [Macchina](https://github.com/Macchina-CLI/macchina) | System information frontend |
+| [Docker](https://www.docker.com/) | Managing running apps on my home server |
+| [Raycast](https://www.raycast.com/) | Launcher/clipboard manager/everything |
+| [CleanShot X](https://cleanshot.com/) | Screenshot multitool |
 | [Jotts](https://andromeda.build/apps/jotts) | Minimal markdown notepad |
 | [Feeds](https://andromeda.build/apps/feeds) | RSS aggregator and reader |
 | [Posts](https://andromeda.build/apps/posts) | Micro blogging |
