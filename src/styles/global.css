@@ -144,7 +144,8 @@
 }
 .prose
 	:where(blockquote):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-	border-left-width: 0;
+	border-left-width: 4px;
+	border-left-color: var(--color-zinc-500);
 }
 .prose :where(hr):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
 	border-top-style: dashed;
