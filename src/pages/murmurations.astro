@@ -33,6 +33,16 @@ const meta = {
 	>
 		Back
 	</a>
+	<audio id="murmuration-audio" src="/murmuration.mp3" loop preload="none"></audio>
+	<button
+		id="audio-btn"
+		class="fixed right-16 bottom-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-textColor/60 bg-bgColor/60 p-0 text-base hover:bg-textColor/15 active:bg-textColor/15"
+		style="bottom: max(1rem, env(safe-area-inset-bottom)); right: calc(max(1rem, env(safe-area-inset-right)) + 3rem);"
+		aria-label="Play audio"
+		aria-pressed="false"
+	>
+		<span id="audio-icon">▶</span>
+	</button>
 	<button
 		id="info-btn"
 		class="fixed right-4 bottom-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-textColor/60 bg-bgColor/60 p-0 text-base hover:bg-textColor/15 active:bg-textColor/15"
@@ -68,6 +78,30 @@ const meta = {
 			That fixed count is why turning waves cross the flock so fast and stay crisp at any density.
 		</p>
 	</div>
+	<script>
+		const audioBtn = document.getElementById("audio-btn") as HTMLButtonElement | null;
+		const audioEl = document.getElementById("murmuration-audio") as HTMLAudioElement | null;
+		const audioIcon = document.getElementById("audio-icon");
+		if (audioBtn && audioEl && audioIcon) {
+			audioBtn.addEventListener("click", async () => {
+				if (audioEl.paused) {
+					try {
+						await audioEl.play();
+						audioIcon.textContent = "⏸";
+						audioBtn.setAttribute("aria-pressed", "true");
+						audioBtn.setAttribute("aria-label", "Pause audio");
+					} catch (err) {
+						console.error("Audio play failed", err);
+					}
+				} else {
+					audioEl.pause();
+					audioIcon.textContent = "▶";
+					audioBtn.setAttribute("aria-pressed", "false");
+					audioBtn.setAttribute("aria-label", "Play audio");
+				}
+			});
+		}
+	</script>
 	<script>
 		const btn = document.getElementById("info-btn") as HTMLButtonElement | null;
 		const panel = document.getElementById("info-panel") as HTMLDivElement | null;
