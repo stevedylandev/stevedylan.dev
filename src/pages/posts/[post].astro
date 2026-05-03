@@ -23,4 +23,7 @@ const { Content } = await post.render();
 
 <PostLayout post={post}>
 	<Content />
+  <div class="mt-12">
+    <a href={ `mailto:contact@stevedylan.dev?subject=${'Re: ' + post.data.title}` }>Reply via Email</a>
+  </div>
 </PostLayout>
