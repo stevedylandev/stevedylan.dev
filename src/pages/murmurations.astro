@@ -55,12 +55,16 @@ const meta = {
       No leader directs them; coherence emerges from each bird reacting to its closest neighbors.
 		</p>
 		<p class="mb-2">
-			This simulation uses <a class="underline" href="https://en.wikipedia.org/wiki/Boids" target="_blank" rel="noreferrer">Craig Reynolds&apos; boids algorithm</a>:
-			each agent follows three rules — <strong>separation</strong> (avoid crowding),
-			<strong>alignment</strong> (match neighbor heading), and <strong>cohesion</strong> (steer toward neighbor center).
+			This simulation uses <a class="underline" href="https://en.wikipedia.org/wiki/Boids" target="_blank" rel="noreferrer">Craig Reynolds&apos; boids algorithm</a>.
+			Each agent follows three rules:
 		</p>
+		<ol class="mb-2 ml-5 list-decimal space-y-1">
+			<li><strong>Separation</strong> (avoid crowding)</li>
+			<li><strong>Alignment</strong> (match neighbor heading)</li>
+			<li><strong>Cohesion</strong> (steer toward neighbor center)</li>
+		</ol>
 		<p>
-			Real starlings track ~7 nearest neighbors regardless of distance — topological, not metric.
+			Real starlings track ~7 nearest neighbors regardless of distance: topological, not metric.
 			That fixed count is why turning waves cross the flock so fast and stay crisp at any density.
 		</p>
 	</div>
