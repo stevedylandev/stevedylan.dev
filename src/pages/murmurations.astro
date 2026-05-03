@@ -1,133 +1,86 @@
 ---
+import PageLayout from "@/layouts/Base.astro";
 import Murmurations from "@/components/page/Murmurations.astro";
+
+const meta = {
+	title: "Murmurations",
+	description: "Boids simulation — emergent flocking from local rules",
+};
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="theme-color" content="#121113" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-		<title>Murmurations</title>
-		<style>
-			* { margin: 0; padding: 0; box-sizing: border-box; }
-			html, body {
-				width: 100%;
-				height: 100vh;
-				height: 100dvh;
-				overflow: hidden;
-				background: #121113;
-				overscroll-behavior: none;
-				touch-action: none;
-				-webkit-tap-highlight-color: transparent;
-			}
-
-			.top-link {
-				position: fixed;
-				top: max(16px, env(safe-area-inset-top));
-				color: #f5f3ee;
-				font-size: 16px;
-				z-index: 10;
-				text-decoration: underline;
-				font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
-				padding: 8px;
-				margin: -8px;
-			}
-			.top-link.title { left: max(16px, env(safe-area-inset-left)); }
-			.top-link.back { right: max(16px, env(safe-area-inset-right)); }
-
-			.info-btn {
-				position: fixed;
-				bottom: max(16px, env(safe-area-inset-bottom));
-				right: max(16px, env(safe-area-inset-right));
-				width: 40px;
-				height: 40px;
-				border-radius: 50%;
-				border: 1px solid rgba(245, 243, 238, 0.6);
-				background: rgba(18, 17, 19, 0.6);
-				color: #f5f3ee;
-				font-family: ui-serif, Georgia, serif;
-				font-style: italic;
-				font-size: 18px;
-				cursor: pointer;
-				z-index: 10;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				padding: 0;
-				-webkit-tap-highlight-color: transparent;
-			}
-			.info-btn:hover, .info-btn:active { background: rgba(245, 243, 238, 0.15); }
-
-			.info-panel {
-				position: fixed;
-				bottom: calc(max(16px, env(safe-area-inset-bottom)) + 52px);
-				right: max(16px, env(safe-area-inset-right));
-				left: max(16px, env(safe-area-inset-left));
-				max-width: 340px;
-				margin-left: auto;
-				background: rgba(18, 17, 19, 0.94);
-				border: 1px solid rgba(245, 243, 238, 0.2);
-				color: #f5f3ee;
-				padding: 16px 18px;
-				font-size: 13px;
-				line-height: 1.5;
-				z-index: 10;
-				display: none;
-				font-family: ui-sans-serif, system-ui, sans-serif;
-			}
-			.info-panel.open { display: block; }
-			.info-panel h2 {
-				font-size: 14px;
-				margin-bottom: 8px;
-				font-weight: 600;
-			}
-			.info-panel p { margin-bottom: 8px; }
-			.info-panel p:last-child { margin-bottom: 0; }
-			.info-panel a { color: #f5f3ee; text-decoration: underline; }
-
-			@media (max-width: 480px) {
-				.top-link { font-size: 14px; }
-				.info-panel { font-size: 12px; padding: 14px; }
-			}
-		</style>
-	</head>
-	<body>
-		<span class="top-link title">Murmurations</span>
-		<a href="/" class="top-link back">Back</a>
-		<Murmurations />
-		<button id="info-btn" class="info-btn" aria-label="About this simulation" aria-expanded="false">i</button>
-		<div id="info-panel" class="info-panel" role="dialog" aria-label="About this simulation">
-			<h2>Boids &amp; Starlings</h2>
-			<p>
-				A <em>murmuration</em> is the swirling, shape-shifting flight of thousands of starlings at dusk.
-				No leader directs them — coherence emerges from each bird reacting to its closest neighbors.
-			</p>
-			<p>
-				This simulation uses <a href="https://en.wikipedia.org/wiki/Boids" target="_blank" rel="noreferrer">Craig Reynolds&apos; boids algorithm</a>:
-				each agent follows three rules — <strong>separation</strong> (avoid crowding),
-				<strong>alignment</strong> (match neighbor heading), and <strong>cohesion</strong> (steer toward neighbor center).
-			</p>
-			<p>
-				Real starlings track ~7 nearest neighbors regardless of distance — topological, not metric.
-				That fixed count is why turning waves cross the flock so fast and stay crisp at any density.
-			</p>
-		</div>
-		<script>
-			const btn = document.getElementById('info-btn')!;
-			const panel = document.getElementById('info-panel')!;
-			btn.addEventListener('click', (e) => {
+<PageLayout meta={meta}>
+	<Murmurations />
+	<style is:global>
+		body.murmurations-page {
+			padding: 0 !important;
+			max-width: none !important;
+		}
+		body.murmurations-page #main-header,
+		body.murmurations-page footer {
+			display: none !important;
+		}
+		body.murmurations-page #main {
+			flex: none;
+		}
+	</style>
+	<script>
+		document.body.classList.add("murmurations-page");
+	</script>
+	<a
+		href="/"
+		class="fixed bottom-4 left-4 z-10 text-sm underline"
+		style="bottom: max(1rem, env(safe-area-inset-bottom)); left: max(1rem, env(safe-area-inset-left));"
+	>
+		Back
+	</a>
+	<button
+		id="info-btn"
+		class="fixed right-4 bottom-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-textColor/60 bg-bgColor/60 p-0 text-base hover:bg-textColor/15 active:bg-textColor/15"
+		style="bottom: max(1rem, env(safe-area-inset-bottom)); right: max(1rem, env(safe-area-inset-right));"
+		aria-label="About this simulation"
+		aria-expanded="false"
+	>
+		i
+	</button>
+	<div
+		id="info-panel"
+		class="fixed right-4 left-4 z-10 ml-auto hidden max-w-sm border border-textColor/20 bg-bgColor/95 p-4 text-xs leading-relaxed"
+		style="bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 3.25rem); right: max(1rem, env(safe-area-inset-right)); left: max(1rem, env(safe-area-inset-left));"
+		role="dialog"
+		aria-label="About this simulation"
+	>
+		<h2 class="mb-2 text-sm font-semibold">Boids &amp; Starlings</h2>
+		<p class="mb-2">
+			A <em>murmuration</em> is the swirling, shape-shifting flight of thousands of starlings at dusk.
+      No leader directs them; coherence emerges from each bird reacting to its closest neighbors.
+		</p>
+		<p class="mb-2">
+			This simulation uses <a class="underline" href="https://en.wikipedia.org/wiki/Boids" target="_blank" rel="noreferrer">Craig Reynolds&apos; boids algorithm</a>:
+			each agent follows three rules — <strong>separation</strong> (avoid crowding),
+			<strong>alignment</strong> (match neighbor heading), and <strong>cohesion</strong> (steer toward neighbor center).
+		</p>
+		<p>
+			Real starlings track ~7 nearest neighbors regardless of distance — topological, not metric.
+			That fixed count is why turning waves cross the flock so fast and stay crisp at any density.
+		</p>
+	</div>
+	<script>
+		const btn = document.getElementById("info-btn") as HTMLButtonElement | null;
+		const panel = document.getElementById("info-panel") as HTMLDivElement | null;
+		if (btn && panel) {
+			btn.addEventListener("click", (e) => {
 				e.stopPropagation();
-				const open = panel.classList.toggle('open');
-				btn.setAttribute('aria-expanded', String(open));
+				const willOpen = panel.classList.contains("hidden");
+				panel.classList.toggle("hidden", !willOpen);
+				btn.setAttribute("aria-expanded", String(willOpen));
 			});
-			document.addEventListener('click', (e) => {
-				if (!panel.classList.contains('open')) return;
-				if (panel.contains(e.target as Node)) return;
-				panel.classList.remove('open');
-				btn.setAttribute('aria-expanded', 'false');
+			document.addEventListener("click", (e) => {
+				if (panel.classList.contains("hidden")) return;
+				const target = e.target as Node;
+				if (panel.contains(target) || btn.contains(target)) return;
+				panel.classList.add("hidden");
+				btn.setAttribute("aria-expanded", "false");
 			});
-		</script>
-	</body>
-</html>
+		}
+	</script>
+</PageLayout>
