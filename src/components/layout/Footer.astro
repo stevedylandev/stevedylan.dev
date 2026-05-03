@@ -4,13 +4,14 @@ import Image from "astro/components/Image.astro";
 ---
 
 <footer
-	class="mt-auto flex w-full flex-col items-center justify-center gap-y-4 pt-20 pb-4 text-center align-top text-gray-500 sm:flex-row sm:justify-between sm:text-xs"
+	class="mt-auto flex flex-col gap-y-3 pt-20 pb-12 text-gray-500 text-xs"
 >
-	<div class="mr-0 sm:mr-4">
-		Copyright &copy; {year}
-		Steve Simkins
-	</div>
-  <a href="https://github.com/stevedylandev/stevedylan.dev">Source Code</a>
+<a class="underline" href="/">
+		&copy; {year} stevedylan.dev
+	</a>
+  <a target="_blank" rel="noreferrer" class="underline" href="https://github.com/stevedylandev/stevedylan.dev">Source Code</a>
+  <a class="underline" href="mailto:contact@stevedylan.dev">Contact</a>
+  <a class="underline" href="/kill-your-lawn">Kill Your Lawn</a>
   <a href="https://blog.kagi.com/small-web-updates">
     <Image inferSize={true} src="https://kagifeedback.org/assets/files/2025-11-27/1764250950-635837-80x15-2.png" alt="kagi small web"/>
   </a>
