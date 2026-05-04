@@ -34,6 +34,13 @@ const meta = {
 		Back
 	</a>
 	<audio id="murmuration-audio" src="/murmuration.mp3" loop preload="none"></audio>
+	<div
+		id="poem-overlay"
+		class="pointer-events-none fixed inset-0 z-10 hidden items-center justify-center p-8 italic text-xl"
+		aria-live="polite"
+	>
+		<div class="max-w-xl text-center text-sm leading-relaxed whitespace-pre-line text-textColor/90 opacity-0 transition-opacity duration-700 ease-in-out"></div>
+	</div>
 	<button
 		id="audio-btn"
 		class="fixed right-16 bottom-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-textColor/60 bg-bgColor/60 p-0 text-base hover:bg-textColor/15 active:bg-textColor/15"
@@ -77,12 +84,84 @@ const meta = {
 			Real starlings track ~7 nearest neighbors regardless of distance: topological, not metric.
 			That fixed count is why turning waves cross the flock so fast and stay crisp at any density.
 		</p>
+    <br/>
+    <p>
+    This simulation doesn't come close to the real thing, and I would highly recommend <a target="_blank" rel="noreferrer" href="https://youtu.be/uV54oa0SyMc" class="style-link">taking a few minutes to see it</a>
+    </p>
+    <br/>
+    <p class="italic">
+      Audio credits: <a href="https://youtu.be/vj_zcAC2Y_0?si=zBdfwWx-a4N53VUv&t=345" target="_blank" rel="noreferrer" class="style-link">Starlings in Winter by Mary Oliver</a>
+    </p>
 	</div>
 	<script>
 		const audioBtn = document.getElementById("audio-btn") as HTMLButtonElement | null;
 		const audioEl = document.getElementById("murmuration-audio") as HTMLAudioElement | null;
 		const audioIcon = document.getElementById("audio-icon");
+		const poemOverlay = document.getElementById("poem-overlay") as HTMLDivElement | null;
+
+		// "Starlings in Winter" by Mary Oliver — read by Sean Bean.
+		// Times in seconds from the start of /murmuration.mp3 (clip begins at 5:45 of source).
+		const cues: { t: number; line: string }[] = [
+			{ t: 13, line: "Starlings in Winter\nby Mary Oliver" },
+			{ t: 18, line: "Chunky and noisy," },
+			{ t: 20, line: "but with stars in their black feathers,\nthey spring from the telephone wire\nand instantly" },
+			{ t: 27, line: "they are acrobats in the freezing wind.\nAnd now, in the theater of air,\nthey swing over buildings," },
+			{ t: 36, line: "dipping and rising;\nthey float like one stippled star\nthat opens,\nbecomes for a moment fragmented," },
+			{ t: 45, line: "then closes again;\nand you watch\nand you try\nbut you simply can't imagine" },
+			{ t: 54, line: "how they do it\nwith no articulated instruction, no pause,\nonly the silent confirmation\nthat they are this notable thing," },
+			{ t: 67, line: "this wheel of many parts, that can rise and spin\nover and over again,\nfull of gorgeous life." },
+			{ t: 77, line: "Ah, world, what lessons you prepare for us,\neven in the leafless winter,\neven in the ashy city.\nI am thinking now\nof grief, and of getting past it;" },
+			{ t: 92, line: "I feel my boots\ntrying to leave the ground,\nI feel my heart\npumping hard. I want" },
+			{ t: 101, line: "to think again of dangerous and noble things.\nI want to be light and frolicsome.\nI want to be improbable beautiful and afraid of nothing,\nas though I had wings." },
+		];
+
+		const poemText = poemOverlay?.firstElementChild as HTMLDivElement | null;
+		let lastCueIdx = -1;
+		let swapTimer: number | undefined;
+		const FADE_MS = 300;
+		const renderCue = (idx: number) => {
+			if (!poemOverlay || !poemText) return;
+			if (idx === lastCueIdx) return;
+			window.clearTimeout(swapTimer);
+			poemText.classList.remove("opacity-100");
+			poemText.classList.add("opacity-0");
+			swapTimer = window.setTimeout(() => {
+				if (idx < 0) {
+					poemOverlay.classList.add("hidden");
+					poemOverlay.classList.remove("flex");
+					poemText.textContent = "";
+				} else {
+					poemText.textContent = cues[idx].line;
+					poemOverlay.classList.remove("hidden");
+					poemOverlay.classList.add("flex");
+					requestAnimationFrame(() => {
+						poemText.classList.remove("opacity-0");
+						poemText.classList.add("opacity-100");
+					});
+				}
+			}, FADE_MS);
+			lastCueIdx = idx;
+		};
+
+		const updateCue = () => {
+			if (!audioEl) return;
+			const t = audioEl.currentTime;
+			let idx = -1;
+			for (let i = 0; i < cues.length; i++) {
+				if (cues[i].t <= t) idx = i;
+				else break;
+			}
+			renderCue(idx);
+		};
+
 		if (audioBtn && audioEl && audioIcon) {
+			audioEl.addEventListener("timeupdate", updateCue);
+			audioEl.addEventListener("seeked", updateCue);
+			audioEl.addEventListener("pause", () => {
+				if (audioEl.currentTime === 0) renderCue(-1);
+			});
+			audioEl.addEventListener("ended", () => renderCue(-1));
+
 			audioBtn.addEventListener("click", async () => {
 				if (audioEl.paused) {
 					try {
@@ -90,6 +169,7 @@ const meta = {
 						audioIcon.textContent = "⏸";
 						audioBtn.setAttribute("aria-pressed", "true");
 						audioBtn.setAttribute("aria-label", "Pause audio");
+						updateCue();
 					} catch (err) {
 						console.error("Audio play failed", err);
 					}
