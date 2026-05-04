@@ -33,7 +33,7 @@ const meta = {
 	>
 		Back
 	</a>
-	<audio id="murmuration-audio" src="/murmuration.mp3" loop preload="none"></audio>
+	<audio id="murmuration-audio" src="/murmuration.mp3" preload="none"></audio>
 	<div
 		id="poem-overlay"
 		class="pointer-events-none fixed inset-0 z-10 hidden items-center justify-center p-8 italic text-xl"
@@ -48,7 +48,7 @@ const meta = {
 		aria-label="Play audio"
 		aria-pressed="false"
 	>
-		<span id="audio-icon">▶</span>
+		<span id="audio-icon" class="flex h-8 w-8 items-center justify-center"></span>
 	</button>
 	<button
 		id="info-btn"
@@ -115,6 +115,11 @@ const meta = {
 			{ t: 101, line: "to think again of dangerous and noble things.\nI want to be light and frolicsome.\nI want to be improbable beautiful and afraid of nothing,\nas though I had wings." },
 		];
 
+		const POEM_END_T = 118;
+		const PLAY_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" class="h-4 w-4" viewBox="0 0 256 256"><path fill="currentColor" d="M231.36 116.19L87.28 28.06a14 14 0 0 0-14.18-.27A13.69 13.69 0 0 0 66 39.87v176.26a13.69 13.69 0 0 0 7.1 12.08a14 14 0 0 0 14.18-.27l144.08-88.13a13.82 13.82 0 0 0 0-23.62m-6.26 13.38L81 217.7a2 2 0 0 1-2.06 0a1.78 1.78 0 0 1-1-1.61V39.87a1.78 1.78 0 0 1 1-1.61A2.06 2.06 0 0 1 80 38a2 2 0 0 1 1 .31l144.1 88.12a1.82 1.82 0 0 1 0 3.14"/></svg>';
+		const PAUSE_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" class="h-4 w-4" viewBox="0 0 256 256"><path fill="currentColor" d="M200 34h-40a14 14 0 0 0-14 14v160a14 14 0 0 0 14 14h40a14 14 0 0 0 14-14V48a14 14 0 0 0-14-14m2 174a2 2 0 0 1-2 2h-40a2 2 0 0 1-2-2V48a2 2 0 0 1 2-2h40a2 2 0 0 1 2 2ZM96 34H56a14 14 0 0 0-14 14v160a14 14 0 0 0 14 14h40a14 14 0 0 0 14-14V48a14 14 0 0 0-14-14m2 174a2 2 0 0 1-2 2H56a2 2 0 0 1-2-2V48a2 2 0 0 1 2-2h40a2 2 0 0 1 2 2Z"/></svg>';
+		if (audioIcon) audioIcon.innerHTML = PLAY_SVG;
+
 		const poemText = poemOverlay?.firstElementChild as HTMLDivElement | null;
 		let lastCueIdx = -1;
 		let swapTimer: number | undefined;
@@ -123,9 +128,10 @@ const meta = {
 			if (!poemOverlay || !poemText) return;
 			if (idx === lastCueIdx) return;
 			window.clearTimeout(swapTimer);
+			const wasHidden = poemOverlay.classList.contains("hidden");
 			poemText.classList.remove("opacity-100");
 			poemText.classList.add("opacity-0");
-			swapTimer = window.setTimeout(() => {
+			const swap = () => {
 				if (idx < 0) {
 					poemOverlay.classList.add("hidden");
 					poemOverlay.classList.remove("flex");
@@ -135,17 +141,25 @@ const meta = {
 					poemOverlay.classList.remove("hidden");
 					poemOverlay.classList.add("flex");
 					requestAnimationFrame(() => {
-						poemText.classList.remove("opacity-0");
-						poemText.classList.add("opacity-100");
+						requestAnimationFrame(() => {
+							poemText.classList.remove("opacity-0");
+							poemText.classList.add("opacity-100");
+						});
 					});
 				}
-			}, FADE_MS);
+			};
+			if (wasHidden) swap();
+			else swapTimer = window.setTimeout(swap, FADE_MS);
 			lastCueIdx = idx;
 		};
 
 		const updateCue = () => {
 			if (!audioEl) return;
 			const t = audioEl.currentTime;
+			if (t >= POEM_END_T) {
+				renderCue(-1);
+				return;
+			}
 			let idx = -1;
 			for (let i = 0; i < cues.length; i++) {
 				if (cues[i].t <= t) idx = i;
@@ -154,19 +168,31 @@ const meta = {
 			renderCue(idx);
 		};
 
+		const resetBtn = () => {
+			if (!audioBtn || !audioIcon) return;
+			audioIcon.innerHTML = PLAY_SVG;
+			audioBtn.setAttribute("aria-pressed", "false");
+			audioBtn.setAttribute("aria-label", "Play audio");
+		};
+
 		if (audioBtn && audioEl && audioIcon) {
 			audioEl.addEventListener("timeupdate", updateCue);
 			audioEl.addEventListener("seeked", updateCue);
 			audioEl.addEventListener("pause", () => {
 				if (audioEl.currentTime === 0) renderCue(-1);
 			});
-			audioEl.addEventListener("ended", () => renderCue(-1));
+			audioEl.addEventListener("ended", () => {
+				renderCue(-1);
+				audioEl.currentTime = 0;
+				resetBtn();
+			});
 
 			audioBtn.addEventListener("click", async () => {
 				if (audioEl.paused) {
 					try {
+						if (audioEl.ended) audioEl.currentTime = 0;
 						await audioEl.play();
-						audioIcon.textContent = "⏸";
+						audioIcon.innerHTML = PAUSE_SVG;
 						audioBtn.setAttribute("aria-pressed", "true");
 						audioBtn.setAttribute("aria-label", "Pause audio");
 						updateCue();
@@ -175,9 +201,7 @@ const meta = {
 					}
 				} else {
 					audioEl.pause();
-					audioIcon.textContent = "▶";
-					audioBtn.setAttribute("aria-pressed", "false");
-					audioBtn.setAttribute("aria-label", "Play audio");
+					resetBtn();
 				}
 			});
 		}
