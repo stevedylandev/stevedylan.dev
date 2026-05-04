@@ -4,7 +4,7 @@ import Murmurations from "@/components/page/Murmurations.astro";
 
 const meta = {
 	title: "Murmurations",
-	description: "Boids simulation — emergent flocking from local rules",
+  description: "Birds, math, and poetry in motion",
 };
 ---
 
@@ -69,7 +69,7 @@ const meta = {
 		<h2 class="mb-2 text-sm font-semibold">Boids &amp; Starlings</h2>
 		<p class="mb-2">
 			A <em>murmuration</em> is the swirling, shape-shifting flight of thousands of starlings at dusk.
-      No leader directs them; coherence emerges from each bird reacting to its closest neighbors.
+      There is no leader, rather coherence emerges from each bird reacting to its closest neighbors.
 		</p>
 		<p class="mb-2">
 			This simulation uses <a class="underline" href="https://en.wikipedia.org/wiki/Boids" target="_blank" rel="noreferrer">Craig Reynolds&apos; boids algorithm</a>.
@@ -81,7 +81,7 @@ const meta = {
 			<li><strong>Cohesion</strong> (steer toward neighbor center)</li>
 		</ol>
 		<p>
-			Real starlings track ~7 nearest neighbors regardless of distance: topological, not metric.
+			Real starlings track ~7 nearest neighbors regardless of distance.
 			That fixed count is why turning waves cross the flock so fast and stay crisp at any density.
 		</p>
     <br/>
