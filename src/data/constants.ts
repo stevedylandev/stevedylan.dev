@@ -74,24 +74,29 @@ export const MENU_LINKS = [
 export type RssFeed = {
 	name: string;
 	href: string;
+	description?: string;
 };
 
 export const RSS_FEEDS: RssFeed[] = [
 	{
 		name: "Blog Posts",
 		href: "/rss.xml",
+		description: "Long-form writing and notes from this site.",
 	},
 	{
-		name: "Now Updates",
-		href: "/now/rss.xml",
+		name: "Now Page Updates",
+		href: "https://posts.stevedylan.dev/feed.xml",
+		description: "Micro blog format from posts.stevedylan.dev",
 	},
 	{
 		name: "Photos",
 		href: "https://steve.photo/rss.xml",
+		description: "New photos posted to steve.photo.",
 	},
 	{
 		name: "Wine Log",
 		href: "https://cellar.stevedylan.dev/feed.xml",
+		description: "Wines I've tasted, logged in the cellar.",
 	},
 ];
 
