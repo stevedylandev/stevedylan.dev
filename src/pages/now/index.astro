@@ -3,9 +3,6 @@ export const prerender = false;
 
 import PageLayout from "@/layouts/Base.astro";
 import NowUpdates from "@/components/now/NowUpdates.astro";
-import { getSocial } from "@/data/constants";
-
-const atproto = getSocial("atproto")!;
 
 const meta = {
 	title: "Now",
@@ -31,7 +28,7 @@ const meta = {
     <div class="flex gap-2 items-center">
     <a
 				class="inline-block p-2 sm:hover:text-link"
-				href="/now/rss.xml"
+        href="https://posts.stevedylan.dev/feed.xml"
 				target="_blank"
 				rel="noopener noreferrer"
 			>
@@ -49,23 +46,6 @@ const meta = {
 				</svg>
 				<span class="sr-only">RSS</span>
   			</a>
-        <a
-          class="flex items-center gap-4 p-2 sm:hover:text-link"
-          href={atproto.href}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <svg
-  				class="h-6 w-6" stroke-width="1.5" stroke="currentColor"
-  				 viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg">
-            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-              <circle cx="12" cy="12" r="4"/>
-              <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/>
-            </g>
-            </svg>
-          </svg>
-          <span class="sr-only">ATProto</span>
-        </a>
     </div>
   </div>
   <NowUpdates />
