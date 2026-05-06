@@ -95,11 +95,6 @@ I have a few watches on rotation ever since my Hamilton Khaki Field Mechanical s
 
 I’ve also been getting into Casio watches for the reliability and low cost. The AE1200 aka Casio Royale is probably going to be the one that sticks the most. I often have to travel for work into different time zones and I love the world time feature on this watch. 
 
-![casio a168](../../assets/edc-images/a168.jpg)
-
-I also tried the A168WA-1 as it is considered a classic, and while I do like it, the bracelet catches a lot of arm hair. 
-
-
 ### Knife
 
 ![kershaw](../../assets/edc-images/knife.jpg)
@@ -108,9 +103,13 @@ I have a long history with knife collecting, and as I started to have kids I beg
 
 ### Pens
 
+![Muji pen](../../assets/blog-images/muji-knockback-pen.jpg)
+
+Old, true, and reliable. I absolutely love these little ballpoint pens. I have some capped and others that are knockback (clicker), and these pens just write. Smooth, minimal, even refillable! For my day to day writing these are my go to pens.
+
 ![kaweco sport](../../assets/edc-images/kaweco.jpg)
 
-Over the years I've tried so many pens, including various fountain pens. Currently I'm using the Kaweco AL Sport in Anthracite with a fine nib. It's a fantastic little aluminum fountain pen that just feels high quality. My only gripe is that it uses cartridges/converters rather than having a builtin piston mechanism. One time the converter came out of the pen and got ink everywhere, so I might eventually upgrade to Kaweco's AL Piston. I also have a TWSBI Diamond 580ALR which I do love, but it's just a bit large for a pocket pen. 
+Every now and then I break out a fountain and write with that instead. Currently I'm using the Kaweco AL Sport in Anthracite with a fine nib. It's a fantastic little aluminum fountain pen that just feels high quality. My only gripe is that it uses cartridges/converters rather than having a builtin piston mechanism. One time the converter came out of the pen and got ink everywhere, so I might eventually upgrade to Kaweco's AL Piston. I also have a TWSBI Diamond 580ALR which I do love, but it's just a bit large for a pocket pen. 
 
 ![kobe-ink](../../assets/edc-images/kobe-ink.jpg)
 

@@ -1,0 +1,178 @@
+{
+  "posts": {
+    "src/content/post/spring-website-updates.mdx": {
+      "contentHash": "c809e02ebc46ba9875ab160bdcd24d24aa1d47efa20050ffe1c65e4b408e0e5c",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mkgvv37nsk2q",
+      "lastPublished": "2026-04-26T04:00:00.000Z",
+      "slug": "spring-website-updates"
+    },
+    "src/content/post/building-personal-software-in-rust.mdx": {
+      "contentHash": "c82d099cf754dbfb0483d49ca5101e9089d86e88ced72128c8b8002a1fd245c5",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mjvh4pgklc2q",
+      "lastPublished": "2026-04-19T04:00:00.000Z",
+      "slug": "building-personal-software-in-rust"
+    },
+    "src/content/post/indexing-standard-site.mdx": {
+      "contentHash": "965ec45ab4d5c04707bea03f2e46030b62d533010c5f10a0a684784501a2c0c0",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mji5ysxzfi2h",
+      "lastPublished": "2026-04-14T04:00:00.000Z",
+      "slug": "indexing-standard-site"
+    },
+    "src/content/post/returning-to-neovim.mdx": {
+      "contentHash": "ec1b41fc347faea124c432c3aa0fec4e62893c9ad4c831be65a7393025a78699",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mh5mi4ngdd2h",
+      "lastPublished": "2026-03-16T04:00:00.000Z",
+      "slug": "returning-to-neovim"
+    },
+    "src/content/post/back-to-basic.mdx": {
+      "contentHash": "6a92872196e984818644e247dfcedc637629c676115dfd8f9d94a83249399dd2",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mggpic7sdd2h",
+      "lastPublished": "2026-03-06T05:00:00.000Z",
+      "slug": "back-to-basic"
+    },
+    "src/content/post/programmers-on-the-verge-of-extinction.mdx": {
+      "contentHash": "5e3228a5e64439ee60c5c050dac8eb92e61e436e18b0971ce403294e530186a3",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mfv2rjkplk2h",
+      "lastPublished": "2026-02-27T05:00:00.000Z",
+      "slug": "programmers-on-the-verge-of-extinction"
+    },
+    "src/content/post/my-developer-journey.md": {
+      "contentHash": "49bace7b3b4c147edb9c05631652d0b39e3a8ba6bc6886988094f49e53793d04",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvusmkjn2v",
+      "lastPublished": "2023-02-28T05:00:00.000Z",
+      "slug": "my-developer-journey"
+    },
+    "src/content/post/48-hours-disconnected.mdx": {
+      "contentHash": "68439789addacc60f56c5537833a7a7af3603c7b31eb94a67e498556c60c3152",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvusirgn2v",
+      "lastPublished": "2023-05-02T04:00:00.000Z",
+      "slug": "48-hours-disconnected"
+    },
+    "src/content/post/why-i-learned-vim.mdx": {
+      "contentHash": "2cca56786780765264aee6b88b0b1fb6e5a527b64413b39f99170426907800c0",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvurxbuf2v",
+      "lastPublished": "2024-01-05T05:00:00.000Z",
+      "slug": "why-i-learned-vim"
+    },
+    "src/content/post/a-terminal-based-workflow.mdx": {
+      "contentHash": "af3f1e81963bd79bb457ef1f39279ac1296b4b1023864985d6ff6cc03b20e701",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvurvdef2v",
+      "lastPublished": "2024-03-06T05:00:00.000Z",
+      "slug": "a-terminal-based-workflow"
+    },
+    "src/content/post/leaving-neovim-for-zed.mdx": {
+      "contentHash": "3a3137e43bca53d25fe6776d6a7dc7981183818ff2ca64196973d4d45cde7a23",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvurqlyn2v",
+      "lastPublished": "2024-08-16T04:00:00.000Z",
+      "slug": "leaving-neovim-for-zed"
+    },
+    "src/content/post/building-a-guestbook-with-pglite-clerk-and-pinata.mdx": {
+      "contentHash": "5c4f20fe4803399413736294f15f2becc7499fa1ecbc95dc016d0f203f8f2c6e",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvurhwnn2v",
+      "lastPublished": "2024-09-24T04:00:00.000Z",
+      "slug": "building-a-guestbook-with-pglite-clerk-and-pinata"
+    },
+    "src/content/post/why-you-should-learn-jq-in-2024.mdx": {
+      "contentHash": "0e9b26031a628883754700efda0a7dec48a72fd2519f2949e4e98881864da00c",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvurdwpv2v",
+      "lastPublished": "2024-10-12T04:00:00.000Z",
+      "slug": "why-you-should-learn-jq-in-2024"
+    },
+    "src/content/post/vibe-coding-and-kodak-cameras.mdx": {
+      "contentHash": "43986b7c0b1501efb6f9e9a2e7af560fe6ff6d3ac232f0be79bd3256b0d5b3eb",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvur3ysv2v",
+      "lastPublished": "2025-03-30T04:00:00.000Z",
+      "slug": "vibe-coding-and-kodak-cameras"
+    },
+    "src/content/post/learning-rust-with-ai.mdx": {
+      "contentHash": "b0a73bd8748391d7c158aa7553263d00e9aba7292f6f2f331fab5b7b21c97eca",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvuqzawf2v",
+      "lastPublished": "2025-07-11T04:00:00.000Z",
+      "slug": "learning-rust-with-ai"
+    },
+    "src/content/post/the-meaning-of-life.mdx": {
+      "contentHash": "e21ec45efa25aaf09fcdafb2cd445cd36cd0fd46ca9779f04db315122aa7a937",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvuqqzav2v",
+      "lastPublished": "2025-08-15T04:00:00.000Z",
+      "slug": "the-meaning-of-life"
+    },
+    "src/content/post/turning-natspec-into-markdown-ui.mdx": {
+      "contentHash": "10de6adbe00094335735ae5feea4ecce54dda53b7d7296cf6d3cadc244731a2a",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvuqmxen2v",
+      "lastPublished": "2025-08-31T04:00:00.000Z",
+      "slug": "turning-natspec-into-markdown-ui"
+    },
+    "src/content/post/resurrect-the-old-web.mdx": {
+      "contentHash": "ba93edb06ea0de5d26c1f22beb495eec4515b7394a02db8fca75907387ab2cb0",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvuqbfav2v",
+      "lastPublished": "2025-09-23T04:00:00.000Z",
+      "slug": "resurrect-the-old-web"
+    },
+    "src/content/post/when-ai-gives-the-ick.mdx": {
+      "contentHash": "b30b5712a9b5783844f5ae7f2a7a3aa21f8e61185f6545fba96e463ead042816",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvuq2x752v",
+      "lastPublished": "2025-10-03T04:00:00.000Z",
+      "slug": "when-ai-gives-the-ick"
+    },
+    "src/content/post/programming-bowls.mdx": {
+      "contentHash": "3390a2dde7b324f62b325db04fa187a01a21cf635dc2283e6a89e2bb72afc9ef",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvuposjn2v",
+      "lastPublished": "2025-10-16T04:00:00.000Z",
+      "slug": "programming-bowls"
+    },
+    "src/content/post/concerning-omarchy-and-distro-philosophy.mdx": {
+      "contentHash": "8c597d97e15b3a503fd0d77a7789c76599c2f537b7e1be6a29627ee3b7af8c55",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvupkguv2v",
+      "lastPublished": "2025-11-09T05:00:00.000Z",
+      "slug": "concerning-omarchy-and-distro-philosophy"
+    },
+    "src/content/post/introducing-alcove.mdx": {
+      "contentHash": "ccd10e32295e50bbe46f155e1ed401dc99d46161f999f0dc4f68aa7b1d2dcf33",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvupi6mf2v",
+      "lastPublished": "2025-11-23T05:00:00.000Z",
+      "slug": "introducing-alcove"
+    },
+    "src/content/post/how-gemini-gives-me-hope.mdx": {
+      "contentHash": "61a7207305c9e88a1f4da8f36bedfeb474852a1de3913f8f0d427f68cd1ab1ed",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvupdcef2v",
+      "lastPublished": "2025-12-18T05:00:00.000Z",
+      "slug": "how-gemini-gives-me-hope"
+    },
+    "src/content/post/2026-site-plans.mdx": {
+      "contentHash": "3c17e6a101e577bf8b906de5572085ac7040ee786586e0a5480dc04fc642d865",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvup73lv2v",
+      "lastPublished": "2026-01-01T05:00:00.000Z",
+      "slug": "2026-site-plans"
+    },
+    "src/content/post/using-atproto-for-posse.mdx": {
+      "contentHash": "64ff61860dec3459d4d0c44519eebd914764b1c616bccddcb948e22fc46b9a4c",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvup2mzf2v",
+      "lastPublished": "2026-01-05T05:00:00.000Z",
+      "slug": "using-atproto-for-posse"
+    },
+    "src/content/post/standard-site-the-publishing-gateway.mdx": {
+      "contentHash": "9816881b23c64dc4f4f46d9000af58e96f3d935f3860302a3346323c31ac26d8",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvuovxm52v",
+      "lastPublished": "2026-01-11T05:00:00.000Z",
+      "slug": "standard-site-the-publishing-gateway"
+    },
+    "src/content/post/atproto-starter.mdx": {
+      "contentHash": "a9503d1d76f357a0c8b7892949aaf2f76fec168ff3091f4c7996651be4ef80d4",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mcxxqjgspk26",
+      "lastPublished": "2026-01-21T05:00:00.000Z",
+      "slug": "atproto-starter"
+    },
+    "src/content/post/introducing-sequoia.mdx": {
+      "contentHash": "6d3b22f60cd9e1aba5734475bd8632747b588bd1fd84d3f9f82d7a102fce94cc",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvuohmmn2v",
+      "lastPublished": "2026-01-30T05:00:00.000Z",
+      "slug": "introducing-sequoia"
+    },
+    "src/content/post/wisdom-from-a-clear-pen.mdx": {
+      "contentHash": "15a7d4cf260b8df5c39210ee0ccf92b378a74e35cb0a3f1d8d76ad1532376c75",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3ml5jocdgdc2q",
+      "lastPublished": "2026-05-06T01:16:07.317Z",
+      "slug": "wisdom-from-a-clear-pen"
+    }
+  }
+}
