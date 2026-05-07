@@ -10,37 +10,42 @@ const paintings = [
   {
     src: savage,
     title: "The Savage State",
-    year: "1836",
+    year: "1834",
     description:
-      "The first in Thomas Cole's Course of Empire series. Primitive hunters chase prey through untouched wilderness as a storm gathers. Nature is raw, violent, and indifferent to man.",
+      "The first in Thomas Cole's Course of Empire. Dawn breaks over a wilderness as nomadic hunters chase a wounded deer and storm clouds wreathe the mountain. Nature is supreme; man clings to its edges.",
+    link: "https://explorethomascole.org/project/the-savage-state/"
   },
   {
     src: pastoral,
     title: "The Pastoral or Arcadian State",
-    year: "1836",
+    year: "1834",
     description:
-      "The second in Thomas Cole's Course of Empire series. Civilization rises from the wilderness — shepherds graze flocks, a stone temple takes shape, and the land is tamed. Youth and promise hang in the air.",
+      "The second in Thomas Cole's Course of Empire. Morning light, cleared fields, a Stonehenge-like temple, an old man tracing geometry in the dirt while a boy sketches a figure on stone. Civilization stirs; agriculture, science, art, all still close to the earth.",
+    link: "https://explorethomascole.org/project/the-arcadian-or-pastoral-state/"
   },
   {
     src: consumation,
     title: "The Consummation of Empire",
     year: "1836",
     description:
-      "The third and central panel of Thomas Cole's Course of Empire. Empire at its peak — marble columns, gilded processions, and the harbor choked with ships. Triumph so total it can only precede collapse.",
+      "The central panel of Thomas Cole's Course of Empire. High noon over a marble city. A triumphant ruler crosses the bridge in an elephant-drawn car, temples crowd the bay, the harbor brims with ships. Splendor so total it can only precede collapse.",
+    link: "https://explorethomascole.org/project/the-consummation-of-empire/"
   },
   {
     src: destruction,
     title: "Destruction",
     year: "1836",
     description:
-      "The fourth panel of Thomas Cole's Course of Empire. The empire burns. Invaders pour through the gates, monuments topple into the sea, and the sky turns red with fire and ruin.",
+      "The fourth panel of Thomas Cole's Course of Empire. Storm and sack. Invaders pour through the gates, the temple porch becomes a catapult, ships burn in the harbor, a headless warrior presides over the slaughter as the sky turns to fire.",
+    link: "https://explorethomascole.org/project/destruction/"
   },
   {
-  src: desolation,
-  title: "Desolation",
-  year: "1836",
-  description:
-  "The fifth and final panel of Thomas Cole's Course of Empire. The city is gone. A lone column stands amid ruins reclaimed by vines. No human figures remain. Nature has outlasted everything.",
+    src: desolation,
+    title: "Desolation",
+    year: "1836",
+    description:
+      "The final panel of Thomas Cole's Course of Empire. Sunset and moonrise over silent ruins. Vines climb a lone column, a bird nests where a temple stood, deer roam the broken friezes. No human figures remain. Nature outlasts everything man builds.",
+    link: "https://explorethomascole.org/project/desolation/"
   },
 ];
 
@@ -52,12 +57,13 @@ const estHour = parseInt(
   }),
 );
 
-const boundaries = [8, 11, 14, 17, 19];
+const boundaries = [6, 9, 12, 15, 18];
 const idx = boundaries.findLastIndex((b) => estHour >= b);
-const { src, title, year, description } = paintings[idx === -1 ? 4 : idx];
+const { src, title, year, description, link } = paintings[idx === -1 ? 4 : idx];
 ---
 
-<div class="hero-wrapper mb-12" id="hero-wrapper">
+<div  class="hero-wrapper mb-12" id="hero-wrapper">
+  <a href={link} target="_blank" rel="noreferrer">
   <Image
     src={src}
     loading="eager"
@@ -68,6 +74,7 @@ const { src, title, year, description } = paintings[idx === -1 ? 4 : idx];
     <p class="hero-title">{title} <span class="hero-year">({year})</span></p>
     <p class="hero-desc">{description}</p>
   </div>
+  </a>
 </div>
 
 <style>
@@ -79,7 +86,7 @@ const { src, title, year, description } = paintings[idx === -1 ? 4 : idx];
   .hero-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.72);
+    background: rgba(18, 17, 19, 0.76);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -116,25 +123,12 @@ const { src, title, year, description } = paintings[idx === -1 ? 4 : idx];
 <script>
   const wrapper = document.getElementById("hero-wrapper");
   const overlay = document.getElementById("hero-overlay");
-  let timer: ReturnType<typeof setTimeout> | null = null;
-
-  function show() {
-    overlay?.classList.add("visible");
-  }
-
-  function hide() {
-    overlay?.classList.remove("visible");
-  }
 
   wrapper?.addEventListener("mouseenter", () => {
-    timer = setTimeout(show, 300);
+    overlay?.classList.add("visible");
   });
 
   wrapper?.addEventListener("mouseleave", () => {
-    if (timer) {
-      clearTimeout(timer);
-      timer = null;
-    }
-    hide();
+    overlay?.classList.remove("visible");
   });
 </script>
