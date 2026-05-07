@@ -1,0 +1,140 @@
+---
+import { Image } from "astro:assets";
+import pastoral from "../../assets/the-pastoral-state.jpg";
+import savage from "../../assets/the-savage-state.jpg";
+import consumation from "../../assets/the-consumation-of-empire.jpg";
+import desolation from "../../assets/desolation.jpg";
+import destruction from "../../assets/destruction.jpg";
+
+const paintings = [
+  {
+    src: savage,
+    title: "The Savage State",
+    year: "1836",
+    description:
+      "The first in Thomas Cole's Course of Empire series. Primitive hunters chase prey through untouched wilderness as a storm gathers. Nature is raw, violent, and indifferent to man.",
+  },
+  {
+    src: pastoral,
+    title: "The Pastoral or Arcadian State",
+    year: "1836",
+    description:
+      "The second in Thomas Cole's Course of Empire series. Civilization rises from the wilderness — shepherds graze flocks, a stone temple takes shape, and the land is tamed. Youth and promise hang in the air.",
+  },
+  {
+    src: consumation,
+    title: "The Consummation of Empire",
+    year: "1836",
+    description:
+      "The third and central panel of Thomas Cole's Course of Empire. Empire at its peak — marble columns, gilded processions, and the harbor choked with ships. Triumph so total it can only precede collapse.",
+  },
+  {
+    src: destruction,
+    title: "Destruction",
+    year: "1836",
+    description:
+      "The fourth panel of Thomas Cole's Course of Empire. The empire burns. Invaders pour through the gates, monuments topple into the sea, and the sky turns red with fire and ruin.",
+  },
+  {
+  src: desolation,
+  title: "Desolation",
+  year: "1836",
+  description:
+  "The fifth and final panel of Thomas Cole's Course of Empire. The city is gone. A lone column stands amid ruins reclaimed by vines. No human figures remain. Nature has outlasted everything.",
+  },
+];
+
+const estHour = parseInt(
+  new Date().toLocaleString("en-US", {
+    timeZone: "America/New_York",
+    hour: "numeric",
+    hour12: false,
+  }),
+);
+
+const boundaries = [8, 11, 14, 17, 19];
+const idx = boundaries.findLastIndex((b) => estHour >= b);
+const { src, title, year, description } = paintings[idx === -1 ? 4 : idx];
+---
+
+<div class="hero-wrapper mb-12" id="hero-wrapper">
+  <Image
+    src={src}
+    loading="eager"
+    alt={`${title} by Thomas Cole`}
+    class="aspect-video w-full object-cover"
+  />
+  <div class="hero-overlay" id="hero-overlay" aria-hidden="true">
+    <p class="hero-title">{title} <span class="hero-year">({year})</span></p>
+    <p class="hero-desc">{description}</p>
+  </div>
+</div>
+
+<style>
+  .hero-wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.72);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.5rem;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  .hero-overlay.visible {
+    opacity: 1;
+  }
+
+  .hero-title {
+    font-weight: 600;
+    color: #fff;
+    font-size: 1rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .hero-year {
+    font-weight: 400;
+    color: #aaa;
+  }
+
+  .hero-desc {
+    color: #ccc;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    max-width: 60ch;
+  }
+</style>
+
+<script>
+  const wrapper = document.getElementById("hero-wrapper");
+  const overlay = document.getElementById("hero-overlay");
+  let timer: ReturnType<typeof setTimeout> | null = null;
+
+  function show() {
+    overlay?.classList.add("visible");
+  }
+
+  function hide() {
+    overlay?.classList.remove("visible");
+  }
+
+  wrapper?.addEventListener("mouseenter", () => {
+    timer = setTimeout(show, 300);
+  });
+
+  wrapper?.addEventListener("mouseleave", () => {
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+    }
+    hide();
+  });
+</script>
