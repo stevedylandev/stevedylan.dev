@@ -1,10 +1,20 @@
 ---
+export const prerender = false;
+
 import { getCollection } from "astro:content";
 import PageLayout from "@/layouts/Base.astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
 import SocialList from "@/components/page/SocialList.astro";
 import { sortMDByDate } from "@/utils";
 import { Image } from "astro:assets";
+import pastoral from "../assets/the-pastoral-state.jpg";
+import savage from "../assets/the-savage-state.jpg";
+import consumation from "../assets/the-consumation-of-empire.jpg";
+import desolation from "../assets/desolation.jpg";
+import destruction from "../assets/destruction.jpg";
+
+const images = [pastoral, savage, consumation, desolation, destruction];
+const heroImage = images[Math.floor(Math.random() * images.length)];
 
 const MAX_POSTS = 10;
 const allPosts = await getCollection("post");
@@ -13,147 +23,153 @@ const allPostsByDate = sortMDByDate(visiblePosts).slice(0, MAX_POSTS);
 ---
 
 <PageLayout meta={{ title: "Steve Simkins" }}>
-	<section>
-		<h1 class="title pb-6">Hey there!</h1>
-		<p class="mb-4">
-			My name is Steve. I'm a DX Engineer with a passion for developer tooling that advances an open web. I'm currently working at <a
+  <section class="mb-12">
+    <Image src={heroImage} loading="eager" alt="thomas cole painting" class="aspect-video w-full object-cover" />
+  </section>
+  <section>
+    <h1 class="title pb-6">Hey there!</h1>
+    <p class="mb-4">
+      My name is Steve. I'm a DX Engineer with a passion for developer tooling
+      that advances an open web. I'm currently working at <a
         href="https://stablecore.com"
-				target="_blank"
-				rel="noopener noreferrer"
-				class="style-link">Stablecore</a>
-			 and I work on other <a
-        href="/projects"
-				class="style-link">projects</a
+        target="_blank"
+        rel="noopener noreferrer"
+        class="style-link">Stablecore</a
       >
-			in my spare time. See what I'm up to <a
-			  href="/now"
-				class="style-link"
-			>now</a>! I use this website to help catalog my various writings and interests.
-		</p>
-		<SocialList />
-		<p>Or anywhere with my handle <span class="text-accent">@stevedylandev</span></p>
-	</section>
-	<section aria-label="Blog post list" class="mt-16">
-		<h2 class="title mb-4 text-xl">Posts</h2>
-		<ul class="space-y-4 sm:space-y-2">
-			{
-				allPostsByDate.map((p) => (
-					<li class="flex flex-col gap-x-2 sm:flex-row">
-						<PostPreview post={p} />
-					</li>
-				))
-			}
-		</ul>
-	</section>
-	<section class="mt-16">
-		<h2 class="title mb-4 text-xl">Extras</h2>
-		<ul class="space-y-4 sm:space-y-2">
-			<li>
-				<a
-					href="https://sequoia.pub"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="style-link inline-block"
-					><Image
-						src="https://api.iconify.design/hugeicons:tree-04.svg?color=%23888888"
-						class="inline-block h-5 w-5"
-						height="100"
+      and I work on other <a href="/projects" class="style-link">projects</a>
+      in my spare time. See what I'm up to <a href="/now" class="style-link"
+        >now</a
+      >! I use this website to help catalog my various writings and interests.
+    </p>
+    <SocialList />
+    <p>
+      Or anywhere with my handle <span class="text-accent">@stevedylandev</span>
+    </p>
+  </section>
+  <section aria-label="Blog post list" class="mt-16">
+    <h2 class="title mb-4 text-xl">Posts</h2>
+    <ul class="space-y-4 sm:space-y-2">
+      {
+        allPostsByDate.map((p) => (
+          <li class="flex flex-col gap-x-2 sm:flex-row">
+            <PostPreview post={p} />
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+  <section class="mt-16">
+    <h2 class="title mb-4 text-xl">Extras</h2>
+    <ul class="space-y-4 sm:space-y-2">
+      <li>
+        <a
+          href="https://sequoia.pub"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="style-link inline-block"
+          ><Image
+            src="https://api.iconify.design/hugeicons:tree-04.svg?color=%23888888"
+            class="inline-block h-5 w-5"
+            height="100"
             loading="eager"
-						width="100"
-						alt="sequoia logo"
-					/> Sequoia
-				</a>:
-				<p class="inline-block sm:mt-2">Content publishing CLI for ATProto</p>
-			</li>
-			<li>
-				<a
-					href="https://bhvr.dev"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="style-link inline-block"
-					><Image
-						src="https://api.iconify.design/fluent-emoji-high-contrast:beaver.svg?color=%23888888"
-						class="inline-block h-4 w-4"
+            width="100"
+            alt="sequoia logo"
+          /> Sequoia
+        </a>:
+        <p class="inline-block sm:mt-2">Content publishing CLI for ATProto</p>
+      </li>
+      <li>
+        <a
+          href="https://bhvr.dev"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="style-link inline-block"
+          ><Image
+            src="https://api.iconify.design/fluent-emoji-high-contrast:beaver.svg?color=%23888888"
+            class="inline-block h-4 w-4"
             loading="eager"
-						height="100"
-						width="100"
-						alt="bhvr"
-					/> bhvr
-				</a>:
-				<p class="inline-block sm:mt-2">Modern framework for building web apps using Bun, Hono, Vite, and React</p>
-			</li>
-			<li>
-				<a
-					href="https://ethglobal.com/showcase/cosmic-cowboys-3q0co"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="style-link inline-block"
-					><Image
-						height="100"
-						width="100"
+            height="100"
+            width="100"
+            alt="bhvr"
+          /> bhvr
+        </a>:
+        <p class="inline-block sm:mt-2">
+          Modern framework for building web apps using Bun, Hono, Vite, and
+          React
+        </p>
+      </li>
+      <li>
+        <a
+          href="https://ethglobal.com/showcase/cosmic-cowboys-3q0co"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="style-link inline-block"
+          ><Image
+            height="100"
+            width="100"
             loading="lazy"
-						src="https://api.iconify.design/ph:cowboy-hat-fill.svg?color=%23888888"
-						class="inline-block h-4 w-4"
-						alt="cowboy logo"
-					/> Cosmic Cowboys
-				</a>:
-				<p class="inline-block sm:mt-2">EthGlobal 2023 hackathon winning project</p>
-			</li>
-			<li>
-				<a
-					href="https://steve.photo"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="style-link inline-block"
-					><Image
-						height="100"
-						width="100"
+            src="https://api.iconify.design/ph:cowboy-hat-fill.svg?color=%23888888"
+            class="inline-block h-4 w-4"
+            alt="cowboy logo"
+          /> Cosmic Cowboys
+        </a>:
+        <p class="inline-block sm:mt-2">
+          EthGlobal 2023 hackathon winning project
+        </p>
+      </li>
+      <li>
+        <a
+          href="https://steve.photo"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="style-link inline-block"
+          ><Image
+            height="100"
+            width="100"
             loading="lazy"
-						src="https://api.iconify.design/material-symbols:photo-camera.svg?color=%23888888"
-						class="inline-block h-4 w-4"
-						alt="camera icon"
-					/> Photos
-				</a>:
-				<p class="inline-block sm:mt-2">My personal photography portfolio</p>
-			</li>
-			<li>
-				<a
+            src="https://api.iconify.design/material-symbols:photo-camera.svg?color=%23888888"
+            class="inline-block h-4 w-4"
+            alt="camera icon"
+          /> Photos
+        </a>:
+        <p class="inline-block sm:mt-2">My personal photography portfolio</p>
+      </li>
+      <li>
+        <a
           href="https://stablecore.com"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="style-link inline-block"
-					><Image
-						height="100"
-						width="100"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="style-link inline-block"
+          ><Image
+            height="100"
+            width="100"
             loading="lazy"
-						src="https://files.stevedylan.dev/stablecore.png"
-						class="inline-block h-4 w-4"
-						alt="Stablecore Logo"
-					/> Stablecore
-				</a>:
-				<p class="inline-block sm:mt-2">
-					Where I'm currently working as a Senior Solutions Engineer
-				</p>
-			</li>
-			<li>
-				<a
-            href="https://dino.stevedylan.dev"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="style-link inline-block"
-					><Image
-						height="100"
-						width="100"
+            src="https://files.stevedylan.dev/stablecore.png"
+            class="inline-block h-4 w-4"
+            alt="Stablecore Logo"
+          /> Stablecore
+        </a>:
+        <p class="inline-block sm:mt-2">
+          Where I'm currently working as a Senior Solutions Engineer
+        </p>
+      </li>
+      <li>
+        <a
+          href="https://dino.stevedylan.dev"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="style-link inline-block"
+          ><Image
+            height="100"
+            width="100"
             loading="lazy"
             src="https://files.stevedylan.dev/dino-icon-2.png"
-						class="inline-block h-4 w-4"
-						alt="Dino Logo"
-					/> Dino
-				</a>:
-				<p class="inline-block sm:mt-2">
-          Just the dino
-				</p>
-			</li>
-		</ul>
-	</section>
+            class="inline-block h-4 w-4"
+            alt="Dino Logo"
+          /> Dino
+        </a>:
+        <p class="inline-block sm:mt-2">Just the dino</p>
+      </li>
+    </ul>
+  </section>
 </PageLayout>
