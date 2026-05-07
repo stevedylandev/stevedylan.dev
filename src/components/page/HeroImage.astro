@@ -67,6 +67,11 @@ const { src, title, year, description, link } = paintings[idx === -1 ? 4 : idx];
   <Image
     src={src}
     loading="eager"
+    fetchpriority="high"
+    decoding="async"
+    widths={[640, 960, 1280, 1920]}
+    sizes="(max-width: 768px) 100vw, 1280px"
+    formats={['avif', 'webp']}
     alt={`${title} by Thomas Cole`}
     class="aspect-video w-full object-cover"
   />

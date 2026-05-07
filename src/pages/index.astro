@@ -6,7 +6,6 @@ import PageLayout from "@/layouts/Base.astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
 import SocialList from "@/components/page/SocialList.astro";
 import { sortMDByDate } from "@/utils";
-import HeroImage from "@/components/page/HeroImage.astro";
 import { Image } from "astro:assets";
 
 const MAX_POSTS = 10;
@@ -16,7 +15,6 @@ const allPostsByDate = sortMDByDate(visiblePosts).slice(0, MAX_POSTS);
 ---
 
 <PageLayout meta={{ title: "Steve Simkins" }}>
-  <HeroImage />
   <section>
     <p class="mb-4">
       DX Engineer with a passion for developer tooling that advances an open
@@ -60,7 +58,7 @@ const allPostsByDate = sortMDByDate(visiblePosts).slice(0, MAX_POSTS);
             src="https://api.iconify.design/hugeicons:tree-04.svg?color=%23888888"
             class="inline-block h-5 w-5"
             height="100"
-            loading="lazy"
+            loading="eager"
             width="100"
             alt="sequoia logo"
           /> Sequoia
@@ -76,7 +74,7 @@ const allPostsByDate = sortMDByDate(visiblePosts).slice(0, MAX_POSTS);
           ><Image
             src="https://api.iconify.design/fluent-emoji-high-contrast:beaver.svg?color=%23888888"
             class="inline-block h-4 w-4"
-            loading="lazy"
+            loading="eager"
             height="100"
             width="100"
             alt="bhvr"
