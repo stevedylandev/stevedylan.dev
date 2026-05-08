@@ -33,20 +33,20 @@ export const paintings: Painting[] = [
 		link: "https://explorethomascole.org/project/the-savage-state/",
 		details: [
 			{
-				x: 0.32,
-				y: 0.62,
-				scale: 2.4,
+				x: 0.28,
+				y: 0.73,
+				scale: 2.7,
 				caption: "A hunter draws his bow. Skins, not stone — the only architecture is the chase.",
 			},
 			{
-				x: 0.78,
-				y: 0.32,
+				x: 0.95,
+				y: 0.40,
 				scale: 2.2,
 				caption: "Storm wreathes the peak. The mountain will outlast every empire to come.",
 			},
 			{
-				x: 0.5,
-				y: 0.85,
+				x: 1.50,
+				y: 0.50,
 				scale: 2.6,
 				caption: "Smoke from a clustered camp at the shore. The first faint claim on the land.",
 			},
@@ -63,9 +63,9 @@ export const paintings: Painting[] = [
 ,
 		details: [
 			{
-				x: 0.22,
-				y: 0.58,
-				scale: 2.4,
+				x: 0.15,
+				y: 0.90,
+				scale: 2.6,
 				caption: "An old man traces geometry in the dirt. Knowledge begins as scratched lines.",
 			},
 			{
@@ -75,7 +75,7 @@ export const paintings: Painting[] = [
 				caption: "A trilithon temple on the rise. Ritual housed in stone for the first time.",
 			},
 			{
-				x: 0.85,
+				x: 1.20,
 				y: 0.7,
 				scale: 2.5,
 				caption: "Shepherds and a circle of dancers. Labor and leisure still share a field.",
@@ -93,8 +93,8 @@ export const paintings: Painting[] = [
 ,
 		details: [
 			{
-				x: 0.5,
-				y: 0.62,
+				x: 0.3,
+				y: 0.70,
 				scale: 2.6,
 				caption: "The conqueror crosses the bridge in an elephant-drawn car. Power on parade.",
 			},

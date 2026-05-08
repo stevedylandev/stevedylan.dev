@@ -14,13 +14,15 @@ const meta = {
 	<style is:global>
 		body.empire-page {
 			padding: 0 !important;
+      margin: 0 !important;
 			max-width: none !important;
 		}
-		body.empire-page #main {
-			padding: 0;
+		body.empire-page #main-header,
+		body.empire-page footer {
+			display: none !important;
 		}
-		html.empire-html {
-			scroll-behavior: auto;
+		body.empire-page #main {
+			flex: none;
 		}
 	</style>
 	<script>
