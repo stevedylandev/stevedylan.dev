@@ -39,6 +39,7 @@ export default defineConfig({
 				{ find: "@/utils", replacement: path.resolve(root, "./src/utils/index.ts") },
 				{ find: "@/stores", replacement: path.resolve(root, "./src/stores") },
 				{ find: "@/data", replacement: path.resolve(root, "./src/data") },
+				{ find: "@/assets", replacement: path.resolve(root, "./src/assets") },
 			],
 			extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json", ".astro"],
 		},
