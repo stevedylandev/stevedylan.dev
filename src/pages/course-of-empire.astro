@@ -1,0 +1,30 @@
+---
+import PageLayout from "@/layouts/Base.astro";
+import EmpireScroll from "@/components/page/EmpireScroll.astro";
+
+const meta = {
+	title: "The Course of Empire",
+	description:
+		"A scroll-driven tour through Thomas Cole's five-painting cycle.",
+};
+---
+
+<PageLayout meta={meta}>
+	<EmpireScroll />
+	<style is:global>
+		body.empire-page {
+			padding: 0 !important;
+			max-width: none !important;
+		}
+		body.empire-page #main {
+			padding: 0;
+		}
+		html.empire-html {
+			scroll-behavior: auto;
+		}
+	</style>
+	<script>
+		document.body.classList.add("empire-page");
+		document.documentElement.classList.add("empire-html");
+	</script>
+</PageLayout>
