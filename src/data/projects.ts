@@ -1,5 +1,6 @@
 import type { ImageMetadata } from "astro";
 
+import bulletsImg from "@assets/projects/bullets.png";
 import andromedaImg from "@/assets/projects/andromeda.png";
 import scoutImg from "@/assets/projects/scout.png";
 import sequoiaImg from "@/assets/projects/sequoia.png";
@@ -31,6 +32,13 @@ export type ProjectItem = {
 };
 
 export const projects: ProjectItem[] = [
+  {
+    title: "Bullets",
+    description: "Originally built as a companion to Feeds, Bullets is a minimal RSS TUI that lets you browse feeds. Simply provide a URL, or several, and Bullets will render a list of posts that can be opened in the browser. There is no feed tracking, database, or even marking posts as read or unread. It follows the same minimal philosophy of Feeds where you get a list of posts and you can read them as you wish, or pass in a feed that you may only want to view every now and then.",
+    image: bulletsImg,
+    link: "https://github.com/stevedylandev/bullets",
+    tags: ["blogging", "rss", "tui"]
+  },
 	{
 		title: "Andromeda",
 		description:
