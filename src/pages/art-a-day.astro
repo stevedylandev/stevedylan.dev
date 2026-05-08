@@ -1,0 +1,183 @@
+---
+export const prerender = false;
+
+import PageLayout from "@/layouts/Base.astro";
+import { getFormattedDate } from "@/utils";
+import sanitizeHtml from "sanitize-html";
+
+type Artwork = {
+	id: number;
+	title: string;
+	artist_display: string | null;
+	artist_title: string | null;
+	date_display: string | null;
+	medium_display: string | null;
+	dimensions: string | null;
+	place_of_origin: string | null;
+	credit_line: string | null;
+	description: string | null;
+	short_description: string | null;
+	image_id: string | null;
+};
+
+const meta = {
+	title: "Art a Day",
+	description:
+		"A different painting every day from the Art Institute of Chicago.",
+};
+
+const SEARCH_URL = "https://api.artic.edu/api/v1/artworks/search";
+const FIELDS = [
+	"id",
+	"title",
+	"artist_display",
+	"artist_title",
+	"date_display",
+	"medium_display",
+	"dimensions",
+	"place_of_origin",
+	"credit_line",
+	"description",
+	"short_description",
+	"image_id",
+].join(",");
+
+const filterParams = {
+	query: {
+		bool: {
+			must: [
+				{ term: { is_public_domain: true } },
+				{ term: { "classification_title.keyword": "painting" } },
+				{ term: { "artwork_type_title.keyword": "Painting" } },
+				{ exists: { field: "image_id" } },
+			],
+		},
+	},
+};
+const encodedParams = encodeURIComponent(JSON.stringify(filterParams));
+
+const today = new Date();
+const dayIndex = Math.floor(today.getTime() / 86_400_000);
+
+let artwork: Artwork | null = null;
+let error: string | null = null;
+
+const aicHeaders = {
+	"AIC-User-Agent": "stevedylan.dev (stevedsimkins@gmail.com)",
+	"User-Agent": "stevedylan.dev (stevedsimkins@gmail.com)",
+	Accept: "application/json",
+};
+
+try {
+	const countRes = await fetch(
+		`${SEARCH_URL}?params=${encodedParams}&limit=1&fields=id`,
+		{ headers: aicHeaders },
+	);
+	if (!countRes.ok) throw new Error(`AIC count returned ${countRes.status}`);
+	const countJson = await countRes.json();
+	const total: number = countJson?.pagination?.total ?? 0;
+	if (total <= 0) throw new Error("no paintings found");
+	// AIC caps from + size at 10000; stay well under.
+	const safeTotal = Math.min(total, 9000);
+	const page = (dayIndex % safeTotal) + 1;
+
+	const pickRes = await fetch(
+		`${SEARCH_URL}?params=${encodedParams}&limit=1&page=${page}&fields=${FIELDS}`,
+		{ headers: aicHeaders },
+	);
+	if (!pickRes.ok) throw new Error(`AIC pick returned ${pickRes.status}`);
+	const pickJson = await pickRes.json();
+	artwork = pickJson?.data?.[0] ?? null;
+	if (!artwork) throw new Error("empty result");
+} catch (e) {
+	error = e instanceof Error ? e.message : "Failed to reach AIC API";
+}
+
+const imageUrl = artwork?.image_id
+	? `https://www.artic.edu/iiif/2/${artwork.image_id}/full/843,/0/default.jpg`
+	: null;
+const sourceUrl = artwork
+	? `https://www.artic.edu/artworks/${artwork.id}`
+	: null;
+const cleanDescription = artwork?.description
+	? sanitizeHtml(artwork.description, {
+			allowedTags: ["p", "em", "strong", "a", "br", "i", "b"],
+			allowedAttributes: { a: ["href", "title"] },
+		})
+	: null;
+
+Astro.response.headers.set(
+	"Cache-Control",
+	"public, max-age=3600, s-maxage=86400",
+);
+---
+
+<PageLayout meta={meta}>
+	<div class="flex min-h-screen flex-col items-start justify-start gap-6">
+		<div class="flex flex-col gap-1">
+			<h1 class="title">Art a Day</h1>
+			<p class="text-sm opacity-70">
+				One painting every day from the
+				<a class="style-link" href="https://www.artic.edu/" target="_blank" rel="noopener">Art Institute of Chicago</a>.
+				{getFormattedDate(today)}.
+			</p>
+		</div>
+		{error || !artwork ? (
+			<p class="text-red-400 text-sm">Couldn't load today's painting{error ? `: ${error}` : ""}.</p>
+		) : (
+			<article class="flex flex-col w-full gap-6">
+				{imageUrl && (
+					<img
+						src={imageUrl}
+						alt={artwork.title}
+						loading="eager"
+						class="w-full max-w-2xl h-auto"
+					/>
+				)}
+				<div class="flex flex-col gap-1">
+					<h2 class="text-xl italic text-accent-2">{artwork.title}</h2>
+					{artwork.artist_display && (
+						<p class="text-sm whitespace-pre-line">{artwork.artist_display}</p>
+					)}
+					{artwork.date_display && (
+						<p class="text-sm opacity-70">{artwork.date_display}</p>
+					)}
+				</div>
+				<dl class="grid grid-cols-1 sm:grid-cols-[max-content_1fr] gap-x-6 gap-y-2 text-sm">
+					{artwork.place_of_origin && (
+						<>
+							<dt class="opacity-50 uppercase tracking-widest text-xs">Origin</dt>
+							<dd>{artwork.place_of_origin}</dd>
+						</>
+					)}
+					{artwork.medium_display && (
+						<>
+							<dt class="opacity-50 uppercase tracking-widest text-xs">Medium</dt>
+							<dd>{artwork.medium_display}</dd>
+						</>
+					)}
+					{artwork.dimensions && (
+						<>
+							<dt class="opacity-50 uppercase tracking-widest text-xs">Dimensions</dt>
+							<dd>{artwork.dimensions}</dd>
+						</>
+					)}
+					{artwork.credit_line && (
+						<>
+							<dt class="opacity-50 uppercase tracking-widest text-xs">Credit</dt>
+							<dd>{artwork.credit_line}</dd>
+						</>
+					)}
+				</dl>
+				{cleanDescription && (
+					<div class="prose prose-cactus prose-sm max-w-none" set:html={cleanDescription} />
+				)}
+				{sourceUrl && (
+					<a class="style-link self-start" href={sourceUrl} target="_blank" rel="noopener">
+						View on artic.edu
+					</a>
+				)}
+			</article>
+		)}
+	</div>
+</PageLayout>
