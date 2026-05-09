@@ -58,7 +58,7 @@ export const MENU_LINKS = [
 		path: "/birds",
 	},
 	{
-		title: "Art Calendar",
+		title: "Art Cal",
 		path: "/art-calendar",
 	},
 	{
