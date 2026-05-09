@@ -58,6 +58,10 @@ export const MENU_LINKS = [
 		path: "/birds",
 	},
 	{
+		title: "Art Calendar",
+		path: "/art-calendar",
+	},
+	{
 		title: "Uses",
 		path: "/uses",
 	},
@@ -97,6 +101,11 @@ export const RSS_FEEDS: RssFeed[] = [
 		name: "Wine Log",
 		href: "https://cellar.stevedylan.dev/feed.xml",
 		description: "Wines I've tasted, logged in the cellar.",
+	},
+	{
+		name: "Art Calendar",
+		href: "https://easel.stevedylan.dev/feed.xml",
+		description: "A painting a day from the Art Institute of Chicago.",
 	},
 ];
 
