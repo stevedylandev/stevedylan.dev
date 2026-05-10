@@ -61,6 +61,7 @@ Here's a quick list of some of the primary software I use on a day to day basis.
 | [Gum](https://github.com/charmbracelet/gum) | Scripting utilities |
 | [Mango](https://github.com/mangowm/mango) | Wayland Compositor / Window manager (Arch) |
 | [Helium](https://helium.computer) | Web Browser |
+| [Mullvad](https://mullvad.net) | VPN |
 | [Macchina](https://github.com/Macchina-CLI/macchina) | System information frontend |
 | [Docker](https://www.docker.com/) | Managing running apps on my home server |
 | [Raycast](https://www.raycast.com/) | Launcher/clipboard manager/everything |
