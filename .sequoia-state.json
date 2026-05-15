@@ -1,9 +1,9 @@
 {
   "posts": {
     "src/content/post/spring-website-updates.mdx": {
-      "contentHash": "c809e02ebc46ba9875ab160bdcd24d24aa1d47efa20050ffe1c65e4b408e0e5c",
+      "contentHash": "4b01a2e0242b9871f6e24636fe5709b3d087cf8e0ed19a49a2a6a99ed234aff6",
       "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mkgvv37nsk2q",
-      "lastPublished": "2026-04-26T04:00:00.000Z",
+      "lastPublished": "2026-05-15T02:49:35.237Z",
       "slug": "spring-website-updates"
     },
     "src/content/post/building-personal-software-in-rust.mdx": {
@@ -103,9 +103,9 @@
       "slug": "turning-natspec-into-markdown-ui"
     },
     "src/content/post/resurrect-the-old-web.mdx": {
-      "contentHash": "ba93edb06ea0de5d26c1f22beb495eec4515b7394a02db8fca75907387ab2cb0",
+      "contentHash": "bf9d3913e7e19884675b125e96d9ead8fde5c14084b10252e5e6ac034b8c0d00",
       "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvuqbfav2v",
-      "lastPublished": "2025-09-23T04:00:00.000Z",
+      "lastPublished": "2026-05-15T02:49:36.334Z",
       "slug": "resurrect-the-old-web"
     },
     "src/content/post/when-ai-gives-the-ick.mdx": {
@@ -127,9 +127,9 @@
       "slug": "concerning-omarchy-and-distro-philosophy"
     },
     "src/content/post/introducing-alcove.mdx": {
-      "contentHash": "ccd10e32295e50bbe46f155e1ed401dc99d46161f999f0dc4f68aa7b1d2dcf33",
+      "contentHash": "27c4cca04508c69748c0e908db586f2fb411187ef5f2f22a0a7efd10c3252f77",
       "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvupi6mf2v",
-      "lastPublished": "2025-11-23T05:00:00.000Z",
+      "lastPublished": "2026-05-15T02:49:36.179Z",
       "slug": "introducing-alcove"
     },
     "src/content/post/how-gemini-gives-me-hope.mdx": {
@@ -139,21 +139,21 @@
       "slug": "how-gemini-gives-me-hope"
     },
     "src/content/post/2026-site-plans.mdx": {
-      "contentHash": "3c17e6a101e577bf8b906de5572085ac7040ee786586e0a5480dc04fc642d865",
+      "contentHash": "eab873c37ecc554a2e86edb1d1a7f8b1c59bd734079063ed85b7e0359eb64019",
       "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvup73lv2v",
-      "lastPublished": "2026-01-01T05:00:00.000Z",
+      "lastPublished": "2026-05-15T02:49:35.989Z",
       "slug": "2026-site-plans"
     },
     "src/content/post/using-atproto-for-posse.mdx": {
-      "contentHash": "64ff61860dec3459d4d0c44519eebd914764b1c616bccddcb948e22fc46b9a4c",
+      "contentHash": "bd866cc1c898e340ac492536e32ab1828d6f134ca8e4088ac8abd51d6b226e8a",
       "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvup2mzf2v",
-      "lastPublished": "2026-01-05T05:00:00.000Z",
+      "lastPublished": "2026-05-15T02:49:35.787Z",
       "slug": "using-atproto-for-posse"
     },
     "src/content/post/standard-site-the-publishing-gateway.mdx": {
-      "contentHash": "9816881b23c64dc4f4f46d9000af58e96f3d935f3860302a3346323c31ac26d8",
+      "contentHash": "728dba6e10b855e233f29fdd8450cb81209c469889c29eba4c36481bb74fa224",
       "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvuovxm52v",
-      "lastPublished": "2026-01-11T05:00:00.000Z",
+      "lastPublished": "2026-05-15T02:49:35.607Z",
       "slug": "standard-site-the-publishing-gateway"
     },
     "src/content/post/atproto-starter.mdx": {
@@ -163,16 +163,22 @@
       "slug": "atproto-starter"
     },
     "src/content/post/introducing-sequoia.mdx": {
-      "contentHash": "6d3b22f60cd9e1aba5734475bd8632747b588bd1fd84d3f9f82d7a102fce94cc",
+      "contentHash": "82e9846c8d729674e3089d35d1d7a0169a9691a67d19485c83a91af633aa77ce",
       "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvuohmmn2v",
-      "lastPublished": "2026-01-30T05:00:00.000Z",
+      "lastPublished": "2026-05-15T02:49:35.401Z",
       "slug": "introducing-sequoia"
     },
     "src/content/post/wisdom-from-a-clear-pen.mdx": {
-      "contentHash": "15a7d4cf260b8df5c39210ee0ccf92b378a74e35cb0a3f1d8d76ad1532376c75",
+      "contentHash": "f59c764f7110d22fc2dea4cac29de32adc9c886e523d2ababa5d3755d7a22b40",
       "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3ml5jocdgdc2q",
-      "lastPublished": "2026-05-06T01:16:07.317Z",
+      "lastPublished": "2026-05-15T02:49:35.066Z",
       "slug": "wisdom-from-a-clear-pen"
+    },
+    "src/content/post/feeds.mdx": {
+      "contentHash": "827ebf0b0eabe6cb7d4f302f232dca2d0a65ff5abbb08c17765c0a34dbe6e429",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mlud3oypqs2q",
+      "lastPublished": "2026-05-15T02:49:34.555Z",
+      "slug": "feeds"
     }
   }
 }
