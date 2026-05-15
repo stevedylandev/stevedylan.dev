@@ -34,7 +34,6 @@
 		"markdown-it": "^14.1.1",
 		"rehype-external-links": "^3.0.0",
 		"sanitize-html": "^2.17.3",
-		"sharp": "^0.33.5",
 		"shiki": "^4.0.2"
 	}
 }
