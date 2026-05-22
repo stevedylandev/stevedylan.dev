@@ -10,7 +10,7 @@ export async function createMarkdownRenderer(): Promise<MarkdownIt> {
 	let md: MarkdownIt;
 
 	md = new MarkdownIt({
-		html: false,
+		html: true,
 		linkify: true,
 		typographer: true,
 		highlight: (code, lang): string => {
