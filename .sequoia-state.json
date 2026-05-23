@@ -179,6 +179,12 @@
       "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mlud3oypqs2q",
       "lastPublished": "2026-05-15T02:49:34.555Z",
       "slug": "feeds"
+    },
+    "src/content/post/how-to-hate-ai.mdx": {
+      "contentHash": "797ad69f1c2ada30e0d4e4ea0621326ee91fb6af7f94651a91f5aa967a78e61f",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mmk4tz57tk2q",
+      "lastPublished": "2026-05-23T18:56:28.526Z",
+      "slug": "how-to-hate-ai"
     }
   }
 }
