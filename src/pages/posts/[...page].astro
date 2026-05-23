@@ -23,7 +23,7 @@ interface Props {
 const { page, uniqueTags } = Astro.props;
 
 const meta = {
-	title: "Blog",
+	title: "/blog",
 	description: "Posts by Steve",
 };
 
@@ -44,7 +44,7 @@ const paginationProps = {
 ---
 
 <PageLayout meta={meta}>
-  <h1 class="title mb-6">Blog</h1>
+  <h1 class="title mb-6">/blog</h1>
 	<div class="grid gap-y-16 sm:grid-cols-[3fr_1fr] sm:gap-x-8">
 		<section aria-label="Blog post list">
 			<ul class="space-y-8 text-left">

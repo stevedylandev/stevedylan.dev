@@ -4,14 +4,14 @@ import ProjectCard from "@/components/page/ProjectCard.astro";
 import { projects } from "@/data/projects";
 
 const meta = {
-	title: "Projects",
+	title: "/projects",
 	description: "What I've worked on over the years",
 };
 ---
 
 <PageLayout meta={meta}>
 	<div class="flex min-h-screen flex-col items-start justify-start gap-6 max-w-none">
-	<h1 class="title">Projects</h1>
+    <h1 class="title">/projects</h1>
 		{projects.map((project, index) => <ProjectCard content={project} index={index} />)}
 	</div>
 </PageLayout>

@@ -3,13 +3,13 @@ import PageLayout from "@/layouts/Base.astro";
 import { RSS_FEEDS } from "@/data/constants";
 
 const meta = {
-	title: "Feeds",
+	title: "/feeds",
 	description: "RSS feeds available on this site",
 };
 ---
 <PageLayout meta={meta}>
   <div class="space-y-6">
-    <h1 class="title">Feeds</h1>
+    <h1 class="title">/feeds</h1>
     <p>RSS feeds available on this site and some of my other apps. Drop any of these into your reader of choice.</p>
     <ul class="list-none pl-0 grid grid-cols-1 sm:grid-cols-2 gap-4">
       {RSS_FEEDS.map((feed) => {

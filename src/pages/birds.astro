@@ -3,7 +3,7 @@ import PageLayout from "@/layouts/Base.astro";
 import { birds } from "@/data/birds";
 
 const meta = {
-	title: "Birds",
+	title: "/birds",
 	description: "My life list — every species I've logged on Merlin Bird ID",
 };
 ---
@@ -11,7 +11,7 @@ const meta = {
 <PageLayout meta={meta}>
 	<div class="flex min-h-screen flex-col items-start justify-start gap-6">
 		<div>
-			<h1 class="title">Birds</h1>
+      <h1 class="title">/birds</h1>
 			<p class="mt-2 text-sm text-zinc-400">{birds.length} species observed</p>
 		</div>
 		<div class="flex w-full flex-col sm:grid sm:grid-cols-2">

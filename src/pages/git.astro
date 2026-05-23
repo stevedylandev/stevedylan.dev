@@ -6,7 +6,7 @@ import {
 } from "../../scripts/shiki-setup.mjs";
 
 const meta = {
-	title: "Git",
+	title: "/git",
 	description: "Access the open source repos I'm working on",
 };
 
@@ -20,7 +20,7 @@ const codeHtml = highlighter.codeToHtml("ssh git.stevedylan.dev", {
 
 <PageLayout meta={meta}>
 	<div class="space-y-6">
-		<h1 class="title">Git</h1>
+    <h1 class="title">/git</h1>
 		<p>Access my open source repos either through <a href="https://github.com/stevedylandev" target="_blank" rel="noreferrer" class="style-link">GitHub</a> or over SSH:</p>
 		<div set:html={codeHtml} />
 	</div>

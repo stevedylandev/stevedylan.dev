@@ -6,71 +6,71 @@ export const POSTS_API = "https://posts.stevedylan.dev/api";
 
 export const MENU_LINKS = [
 	{
-		title: "Home",
+		title: "/home",
 		path: "/",
 	},
 	{
-		title: "About",
+		title: "/about",
 		path: "/about",
 	},
 	{
-		title: "Blog",
+		title: "/blog",
 		path: "/posts",
 	},
 	{
-		title: "Projects",
+		title: "/projects",
 		path: "/projects",
 	},
 	{
-		title: "CV",
+		title: "/cv",
 		path: "/cv",
 	},
 	{
-		title: "Now",
+		title: "/now",
 		path: "/now",
 	},
 	{
-		title: "Feeds",
+		title: "/feeds",
 		path: "/feeds",
 	},
 	{
-		title: "Blogroll",
+		title: "/blogroll",
 		path: "/blogroll",
 	},
 	{
-		title: "Library",
+		title: "/library",
 		path: "/library",
 	},
 	{
-		title: "Bookmarks",
+		title: "/bookmarks",
 		path: "/bookmarks",
 	},
 	{
-		title: "Git",
+		title: "/git",
 		path: "/git",
 	},
 	{
-		title: "Cellar",
+		title: "/cellar",
 		path: "/cellar",
 	},
 	{
-		title: "Birds",
+		title: "/birds",
 		path: "/birds",
 	},
 	{
-		title: "Art Cal",
+		title: "/art-cal",
 		path: "/art-calendar",
 	},
 	{
-		title: "Uses",
+		title: "/uses",
 		path: "/uses",
 	},
 	{
-		title: "Photos",
+		title: "/photos",
 		path: "https://steve.photo",
 	},
 	{
-		title: "Links",
+		title: "/links",
 		path: "/links",
 	},
 ];

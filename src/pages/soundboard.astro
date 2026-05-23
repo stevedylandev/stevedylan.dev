@@ -2,7 +2,7 @@
 import PageLayout from "@/layouts/Base.astro";
 
 const meta = {
-	title: "Soundboard",
+	title: "/soundboard",
 	description: "Click buttons. Hear sounds.",
 };
 
@@ -18,7 +18,7 @@ const sounds = [
 
 <PageLayout meta={meta}>
   <div class="space-y-6">
-    <h1 class="title mb-6">Soundboard</h1>
+    <h1 class="title mb-6">/soundboard</h1>
     <div class="grid grid-cols-2 gap-4 sm:grid-cols-3">
       {
         sounds.map((sound) => (

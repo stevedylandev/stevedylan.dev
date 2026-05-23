@@ -1,4 +1,4 @@
-# Uses
+# /uses
 
 A non-comprehensive list of things I'm currently using.
 

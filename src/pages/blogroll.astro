@@ -4,7 +4,7 @@ export const prerender = false;
 import PageLayout from "@/layouts/Base.astro";
 
 const meta = {
-	title: "Blogroll",
+	title: "/blogroll",
 	description: "A collection of RSS feeds I'm subscribed to",
 };
 
@@ -20,7 +20,7 @@ const sortedFeeds = data.subscriptions.sort((a, b) =>
 
 <PageLayout meta={meta}>
   <div class="space-y-6">
-    <h1 class="title">Blogroll</h1>
+    <h1 class="title">/blogroll</h1>
     <p>
       Help build a blog network with me! Check out some of the people I follow
       below, and if you end up following them too, create a <a

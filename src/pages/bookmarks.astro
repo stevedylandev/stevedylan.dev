@@ -15,7 +15,7 @@ type Link = {
 };
 
 const meta = {
-	title: "Bookmarks",
+	title: "/bookmarks",
 	description: "Links I've saved and want to read",
 };
 
@@ -36,7 +36,7 @@ try {
 
 <PageLayout meta={meta}>
 	<div class="flex min-h-screen flex-col items-start justify-start gap-6">
-		<h1 class="title">Bookmarks</h1>
+    <h1 class="title">/bookmarks</h1>
 		{error ? (
 			<p class="text-red-400 text-sm">Could not load bookmarks: {error}</p>
 		) : categories.length === 0 ? (

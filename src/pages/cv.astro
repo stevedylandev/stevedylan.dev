@@ -2,7 +2,7 @@
 import PageLayout from "@/layouts/Base.astro";
 
 const meta = {
-	title: "CV",
+	title: "/cv",
 	description: "History of work",
 };
 
@@ -49,7 +49,7 @@ const experience = [
 
 <PageLayout meta={meta}>
 	<div class="space-y-6">
-		<h1 class="title">CV</h1>
+    <h1 class="title">/cv</h1>
 		<div class="relative space-y-10">
 			<span class="absolute left-[4px] top-3 bottom-0 w-px bg-gradient-to-b from-accent to-transparent" aria-hidden="true"></span>
 			{experience.map((job, i) => (

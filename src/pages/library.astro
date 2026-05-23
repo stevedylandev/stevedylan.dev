@@ -14,7 +14,7 @@ type Book = {
 };
 
 const meta = {
-	title: "Library",
+	title: "/library",
 	description: "Books I'm reading, have read, and want to read",
 };
 
@@ -46,7 +46,7 @@ const sections: { label: string; items: Book[] }[] = [
 
 <PageLayout meta={meta}>
 	<div class="flex min-h-screen flex-col items-start justify-start gap-6">
-		<h1 class="title">Library</h1>
+    <h1 class="title">/library</h1>
 		{error ? (
 			<p class="text-red-400 text-sm">Could not load books: {error}</p>
 		) : books.length === 0 ? (
