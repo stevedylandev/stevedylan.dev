@@ -1,0 +1,17 @@
+---
+import PageLayout from "@/layouts/Base.astro";
+import { Content } from "../content/pages/ai.mdx";
+
+const meta = {
+  title: "/ai",
+	description: "My personal philosophy and use of AI",
+};
+---
+
+<PageLayout meta={meta}>
+  <article class="flex-grow break-words">
+    <div class="prose prose-sm prose-cactus prose-headings:font-semibold max-w-none">
+      <Content />
+    </div>
+  </article>
+</PageLayout>
