@@ -35,7 +35,7 @@ const meta = {
 			<p class="text-red-400 text-sm">Could not load wine: {fetchError}</p>
 		) : wine && (
 			<>
-				<h1 class="text-2xl font-bold" style="letter-spacing:-0.5px">{wine.name}</h1>
+				<h1 class="title" style="letter-spacing:-0.5px">{wine.name}</h1>
 
 				<div class="grid grid-cols-2 gap-6 items-center wine-detail-top">
 					{wine.has_image && (

@@ -75,13 +75,13 @@ const meta = {
 	<article>
 		{isError ? (
 			<>
-				<h1 class="text-2xl font-bold mb-4">{title}</h1>
+				<h1 class="title mb-4">{title}</h1>
 				<p class="text-zinc-400 mb-8">{errorMessage}</p>
 				<a class="style-link" href="/now">&larr; Back to Now</a>
 			</>
 		) : (
 			<>
-				{title && <h1 class="text-2xl font-bold mb-2">{title}</h1>}
+				{title && <h1 class="title mb-2">{title}</h1>}
 				<time class="text-sm text-zinc-400">{publishedAt}</time>
 				<div class="prose prose-invert max-w-none my-4">
 					<Fragment set:html={contentHTML} />

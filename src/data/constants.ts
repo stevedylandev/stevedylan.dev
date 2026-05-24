@@ -65,6 +65,10 @@ export const MENU_LINKS = [
 		title: "/uses",
 		path: "/uses",
 	},
+  {
+    title: "/ai",
+    path: "/ai"
+  },
 	{
 		title: "/photos",
 		path: "https://steve.photo",
