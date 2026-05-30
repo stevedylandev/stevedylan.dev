@@ -1,4 +1,5 @@
 import { defineConfig } from "astro/config";
+import { unified } from "@astrojs/markdown-remark";
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeShikiFromHighlighter from "@shikijs/rehype/core";
 import cloudflare from "@astrojs/cloudflare";
@@ -19,12 +20,17 @@ export default defineConfig({
 	site: "https://stevedylan.dev",
 	outDir: "dist",
 	compressHTML: true,
+	image: {
+    domains: ["kagifeedback.org", "https://api.iconify.design", "https://files.stevedylan.dev"],
+	},
 	markdown: {
 		syntaxHighlight: false,
-		rehypePlugins: [
-			[(opts) => rehypeShikiFromHighlighter(highlighter, opts), { theme: THEME_NAME, defaultLanguage: "text", fallbackLanguage: "text", addLanguageClass: true }],
-			[rehypeExternalLinks, { target: "_blank", rel: ["noopener", "noreferrer"] }],
-		],
+		processor: unified({
+			rehypePlugins: [
+				[(opts) => rehypeShikiFromHighlighter(highlighter, opts), { theme: THEME_NAME, defaultLanguage: "text", fallbackLanguage: "text", addLanguageClass: true }],
+				[rehypeExternalLinks, { target: "_blank", rel: ["noopener", "noreferrer"] }],
+			],
+		}),
 	},
 	prefetch: true,
 	integrations: [mdx(), sitemap()],
@@ -60,7 +66,24 @@ export default defineConfig({
 				"crypto",
 				"tty",
 				"worker_threads",
+				"satteri",
+				"@astrojs/markdown-satteri",
+				"@napi-rs/wasm-runtime",
+				"sharp",
 			],
+		},
+		build: {
+			rollupOptions: {
+				external: [
+					"satteri",
+					"@astrojs/markdown-satteri",
+					"@napi-rs/wasm-runtime",
+					"sharp",
+				],
+			},
+		},
+		optimizeDeps: {
+			exclude: ["sharp"],
 		},
 	},
 	output: "static",
