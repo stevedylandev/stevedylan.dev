@@ -16,7 +16,7 @@ const { book } = Astro.props as { book: Book };
 		{book.cover_url ? (
 			<img
 				src={book.cover_url}
-				alt=""
+				alt={`Cover of ${book.title} by ${book.authors}`}
 				width="56"
 				height="80"
 				style="width:56px;height:80px;object-fit:cover;"

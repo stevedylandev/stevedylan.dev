@@ -42,7 +42,7 @@ const meta = {
 						<div class="w-full">
 							<img
 								src={`${CELLAR_API_URL}/wines/${wine.short_id}/image`}
-								alt={wine.name}
+								alt={`Bottle photo of ${wine.name}`}
 								class="w-full object-cover rounded wine-image"
 								loading="eager"
 							/>
@@ -52,14 +52,14 @@ const meta = {
 						<div class="flex flex-col items-center gap-4 p-3">
 							<img
 								src={`${CELLAR_API_URL}/api/wines/${wine.short_id}/pentagon.svg`}
-								alt="Taste profile"
+								alt={`Pentagon chart of taste profile for ${wine.name}`}
 								width="250"
 								height="250"
 								loading="eager"
 							/>
 							<img
 								src={`${CELLAR_API_URL}/api/wines/${wine.short_id}/bars.svg`}
-								alt="Appearance and nose"
+								alt={`Bar chart of appearance and nose for ${wine.name}`}
 								width="250"
 								loading="eager"
 							/>

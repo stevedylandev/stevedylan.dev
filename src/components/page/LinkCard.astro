@@ -23,7 +23,7 @@ const domain = new URL(link.url).hostname.replace(/^www\./, "");
 		{link.favicon_url && (
 			<img
 				src={link.favicon_url}
-				alt=""
+				alt={`Favicon for ${domain}`}
 				width="16"
 				height="16"
 				loading="lazy"
