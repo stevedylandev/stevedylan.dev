@@ -1,5 +1,5 @@
 import rss from "@astrojs/rss";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import { experimental_AstroContainer as AstroContainer } from "astro/container";
 import { loadRenderers } from "astro:container";
 import { getContainerRenderer as getMDXRenderer } from "@astrojs/mdx";
@@ -15,14 +15,14 @@ export async function GET() {
 
 	const items = await Promise.all(
 		visiblePosts.map(async (post) => {
-			const { Content } = await post.render();
+			const { Content } = await render(post);
 			const content = await container.renderToString(Content);
 
 			return {
 				title: post.data.title,
 				description: post.data.description,
 				pubDate: post.data.publishDate,
-				link: `/posts/${post.slug}`,
+				link: `/posts/${post.id}`,
 				content: sanitizeHtml(content, {
 					allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
 				}),

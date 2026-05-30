@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { render } from "astro:content";
 import { getImage } from "astro:assets";
 
 import BaseLayout from "./Base.astro";
@@ -28,7 +29,7 @@ if (!ogImage) {
 	socialImage = optimized.src;
 }
 const articleDate = publishDate.toISOString();
-const { headings } = await post.render();
+const { headings } = await render(post);
 ---
 
 <script>
