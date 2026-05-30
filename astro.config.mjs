@@ -21,7 +21,7 @@ export default defineConfig({
 	outDir: "dist",
 	compressHTML: true,
 	image: {
-    domains: ["kagifeedback.org", "https://api.iconify.design", "https://files.stevedylan.dev"],
+    domains: ["kagifeedback.org", "api.iconify.design", "files.stevedylan.dev"],
 	},
 	markdown: {
 		syntaxHighlight: false,
