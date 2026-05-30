@@ -9,7 +9,7 @@
 		"build": "astro build",
 		"preview": "astro preview",
 		"format": "biome format --write src package.json",
-		"deploy": "bun run build && wrangler pages deploy dist",
+		"deploy": "bun run build && wrangler deploy -c dist/server/wrangler.json",
 		"parse:birds": "bun run scripts/parse-birds.ts"
 	},
 	"devDependencies": {
@@ -30,7 +30,7 @@
 		"wrangler": "4.95.0"
 	},
 	"dependencies": {
-		"@astrojs/cloudflare": "12.6.12",
+		"@astrojs/cloudflare": "13.6.0",
 		"@astrojs/rss": "4.0.18",
 		"@astrojs/ts-plugin": "1.10.9",
 		"astro": "6.4.2",

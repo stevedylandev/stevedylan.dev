@@ -69,6 +69,7 @@ export default defineConfig({
 				"satteri",
 				"@astrojs/markdown-satteri",
 				"@napi-rs/wasm-runtime",
+				"sharp",
 			],
 		},
 		build: {
@@ -77,8 +78,12 @@ export default defineConfig({
 					"satteri",
 					"@astrojs/markdown-satteri",
 					"@napi-rs/wasm-runtime",
+					"sharp",
 				],
 			},
+		},
+		optimizeDeps: {
+			exclude: ["sharp"],
 		},
 	},
 	output: "static",
