@@ -109,9 +109,9 @@
       "slug": "resurrect-the-old-web"
     },
     "src/content/post/when-ai-gives-the-ick.mdx": {
-      "contentHash": "b30b5712a9b5783844f5ae7f2a7a3aa21f8e61185f6545fba96e463ead042816",
+      "contentHash": "6c8cec72f93d9cc10c98c8741fdd7a1b5c8a40f79f2ac5821f6a0e636267ec7c",
       "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mdzvuq2x752v",
-      "lastPublished": "2025-10-03T04:00:00.000Z",
+      "lastPublished": "2026-06-01T12:28:34.949Z",
       "slug": "when-ai-gives-the-ick"
     },
     "src/content/post/programming-bowls.mdx": {
@@ -185,6 +185,12 @@
       "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mmk4tz57tk2q",
       "lastPublished": "2026-05-23T18:56:28.526Z",
       "slug": "how-to-hate-ai"
+    },
+    "src/content/post/api-calls-in-ios-shortcuts.mdx": {
+      "contentHash": "27c1dd88f40d25f3b717389708b44691e4cf777dfd6c5eec958a9538c961b102",
+      "atUri": "at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.document/3mna3eogq3c2y",
+      "lastPublished": "2026-06-01T12:28:34.548Z",
+      "slug": "api-calls-in-ios-shortcuts"
     }
   }
 }
