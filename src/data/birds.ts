@@ -16,7 +16,7 @@ export const birds: BirdEntry[] = [
 		"date": "2025-06-01",
 		"location": "Home",
 		"state": "US-TN",
-		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/4661023/medium.jpg",
+		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/97752362/medium.jpg",
 		"summary": null,
 		"wikiUrl": "http://en.wikipedia.org/wiki/American_crow"
 	},
@@ -76,7 +76,7 @@ export const birds: BirdEntry[] = [
 		"date": "2025-11-24",
 		"location": "Grandview",
 		"state": "US-VA",
-		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/14689662/medium.jpg",
+		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/176419188/medium.jpg",
 		"summary": null,
 		"wikiUrl": "http://en.wikipedia.org/wiki/Black_vulture"
 	},
@@ -106,7 +106,7 @@ export const birds: BirdEntry[] = [
 		"date": "2025-06-01",
 		"location": "Home",
 		"state": "US-TN",
-		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/186561540/medium.jpeg",
+		"photo": "https://static.inaturalist.org/photos/76155158/medium.jpg",
 		"summary": null,
 		"wikiUrl": "https://en.wikipedia.org/wiki/Brown_thrasher"
 	},
@@ -116,7 +116,7 @@ export const birds: BirdEntry[] = [
 		"date": "2025-06-15",
 		"location": "Home",
 		"state": "US-TN",
-		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/471179764/medium.jpg",
+		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/656878277/medium.jpg",
 		"summary": null,
 		"wikiUrl": "http://en.wikipedia.org/wiki/Brown-headed_cowbird"
 	},
@@ -216,7 +216,7 @@ export const birds: BirdEntry[] = [
 		"date": "2025-11-24",
 		"location": "Grandview",
 		"state": "US-VA",
-		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/182713821/medium.jpg",
+		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/541600012/medium.jpg",
 		"summary": null,
 		"wikiUrl": "https://en.wikipedia.org/wiki/Double-crested_cormorant"
 	},
@@ -236,7 +236,7 @@ export const birds: BirdEntry[] = [
 		"date": "2025-04-14",
 		"location": "Home",
 		"state": "US-TN",
-		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/356151567/medium.jpeg",
+		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/477069179/medium.jpg",
 		"summary": null,
 		"wikiUrl": "http://en.wikipedia.org/wiki/Eastern_bluebird"
 	},
@@ -249,6 +249,16 @@ export const birds: BirdEntry[] = [
 		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/45584021/medium.jpg",
 		"summary": null,
 		"wikiUrl": "http://en.wikipedia.org/wiki/Eastern_towhee"
+	},
+	{
+		"commonName": "Eastern Wood-Pewee",
+		"scientificName": "Contopus virens",
+		"date": "2026-05-26",
+		"location": "Home",
+		"state": "US-TN",
+		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/67966814/medium.jpg",
+		"summary": null,
+		"wikiUrl": "http://en.wikipedia.org/wiki/Eastern_wood_pewee"
 	},
 	{
 		"commonName": "European Starling",
@@ -269,6 +279,16 @@ export const birds: BirdEntry[] = [
 		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/196664043/medium.jpg",
 		"summary": null,
 		"wikiUrl": "http://en.wikipedia.org/wiki/Gray_catbird"
+	},
+	{
+		"commonName": "Great Crested Flycatcher",
+		"scientificName": "Myiarchus crinitus",
+		"date": "2026-05-10",
+		"location": "Home",
+		"state": "US-TN",
+		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/202717991/medium.jpeg",
+		"summary": null,
+		"wikiUrl": "http://en.wikipedia.org/wiki/Great_crested_flycatcher"
 	},
 	{
 		"commonName": "Hairy Woodpecker",
