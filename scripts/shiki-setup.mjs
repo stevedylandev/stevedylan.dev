@@ -40,10 +40,15 @@ export const LANGS = [
 export const THEME = darkmatter;
 export const THEME_NAME = "Darkmatter";
 
+let _highlighter;
+
 export function createDarkmatterHighlighter() {
-	return createHighlighterCoreSync({
-		themes: [darkmatter],
-		langs: LANGS,
-		engine: createJavaScriptRegexEngine(),
-	});
+	if (!_highlighter) {
+		_highlighter = createHighlighterCoreSync({
+			themes: [darkmatter],
+			langs: LANGS,
+			engine: createJavaScriptRegexEngine(),
+		});
+	}
+	return _highlighter;
 }
