@@ -116,8 +116,8 @@ My current ink of choice is Nagasawa Kobe in Museum Grey. It's absolutely lovely
 
 ### Notebook
 
-![journal](../../assets/edc-images/journal.jpg)
+![field notes](../../assets/edc-images/field-notes.jpg)
 
-I've been a Field Notes user for over a decade, and why I like them and the collecting factor, I started to really enjoy MD paper. Then I discovered the Traveler’s Journal system and I was hooked. I currently have a passport size with a single dot grid insert, but I've already gone through two of the basic blank inserts which are nice. Inside I have the Kraft pocket for keeping random notes or stickers. 
+I've been a Field Notes user for over a decade, and after a brief journey using a Travler's Notebook (pun intended), I'm back on Field Notes. The thin, lightweight nature of these notebooks is ideal for carrying wherever I go. I'm particularly fond of the dot grid paper if I can get it, and I love collecting all the different seasonal designs that come out each year. I recently found a great way to add a folder pocket which you can check out [here](https://stevedylan.dev/now/field-notes-pocket).
 
 
