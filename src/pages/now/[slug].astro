@@ -1,5 +1,6 @@
 ---
 import PageLayout from "@/layouts/Base.astro";
+import Weather from "@/components/now/Weather.astro";
 import { POSTS_API } from "@/data/constants";
 import { createMarkdownRenderer } from "@/utils";
 
@@ -27,6 +28,7 @@ interface PostDetail {
 	content: string;
 	created_at: string;
 	updated_at: string;
+	weather: string | null;
 }
 
 let title: string | null = "Post";
@@ -34,6 +36,7 @@ let description = "A post";
 let contentHTML = "";
 let publishedAt = "";
 let errorMessage = "";
+let weatherRaw = "";
 let isError = false;
 
 try {
@@ -56,6 +59,7 @@ try {
 			? new Date(post.published_date).toLocaleDateString()
 			: "";
 		contentHTML = md.render(post.content || "");
+		weatherRaw = post.weather || "";
 	}
 } catch (err) {
 	console.error("Error fetching post:", err);
@@ -82,7 +86,10 @@ const meta = {
 		) : (
 			<>
 				{title && <h1 class="title mb-2">{title}</h1>}
-				<time class="text-sm text-zinc-400">{publishedAt}</time>
+				<div class="flex text-sm text-zinc-400 items-center gap-x-3 gap-y-1 flex-wrap">
+					<time>{publishedAt}</time>
+					{weatherRaw && <Weather leadingSeparator weather={weatherRaw} />}
+				</div>
 				<div class="prose prose-invert max-w-none my-4">
 					<Fragment set:html={contentHTML} />
 				</div>

@@ -3,19 +3,49 @@ export const prerender = false;
 
 import PageLayout from "@/layouts/Base.astro";
 import NowUpdates from "@/components/now/NowUpdates.astro";
+import Weather from "@/components/now/Weather.astro";
 
 const meta = {
 	title: "/now",
 	description: "What I'm up to recently",
 };
+
+const STATION = "MRX";
+const GRID_X = "23";
+const GRID_Y = "5";
+const LOCATION = "Lookout Mountain, TN";
+
+const forecastRequest = await fetch(
+	`https://api.weather.gov/gridpoints/${STATION}/${GRID_X},${GRID_Y}/forecast/hourly`,
+	{
+		method: "GET",
+		headers: {
+			accept: "application/geo+json",
+			"User-Agent": "(stevedylan.dev, contact@stevedylan.dev)",
+		},
+	},
+);
+const forecast = await forecastRequest.json();
+const { shortForecast, temperature } = forecast.properties.periods[0];
+const weather = `${shortForecast},${temperature},${LOCATION}`;
 ---
+
 <PageLayout meta={meta}>
   <div class="space-y-6">
     <h1 class="title">/now</h1>
+    <div class="flex text-sm text-zinc-400 items-center gap-x-3 gap-y-1 flex-wrap">
+      <Weather weather={weather} />
+    </div>
     <p>What I'm up to recently</p>
     <ul class="list-disc pl-4 space-y-4">
       <li>Working as Senior Solutions Engineer at Stablecore</li>
-      <li>Building personal software with <a class="style-link" target="_blank" rel="noreferrer" href="https://andromeda.build">Andromeda</a></li>
+      <li>
+        Building personal software with <a
+          class="style-link"
+          target="_blank"
+          rel="noreferrer"
+          href="https://andromeda.build">Andromeda</a>
+      </li>
       <li>Updating this site with fun stuff</li>
       <li>Learning how to build HTTP from TCP in Go</li>
       <li>Exploring Chinese loose leaf tea</li>
@@ -23,31 +53,39 @@ const meta = {
       <li>Reading Dubliners</li>
     </ul>
     <p class="text-zinc-400">Last updated: May 9th, 2026</p>
-  <div class="flex flex-row justify-between items-center w-full pt-12 pb-6">
-    <h2 class="title">Updates</h2>
-    <div class="flex gap-2 items-center">
-    <a
-				class="inline-block p-2 sm:hover:text-link"
-        href="https://posts.stevedylan.dev/feed.xml"
-				target="_blank"
-				rel="noopener noreferrer"
-			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					class="h-6 w-6"
-					viewBox="0 0 24 24"
-					stroke-width="1.5"
-					stroke="currentColor"
-					fill="none"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-				>
-				<g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></g>
-				</svg>
-				<span class="sr-only">RSS</span>
-  			</a>
+    <div class="flex flex-row justify-between items-center w-full pt-12 pb-6">
+      <h2 class="title">Updates</h2>
+      <div class="flex gap-2 items-center">
+        <a
+          class="inline-block p-2 sm:hover:text-link"
+          href="https://posts.stevedylan.dev/feed.xml"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <g
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              ><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"
+              ></path><circle cx="5" cy="19" r="1"></circle></g
+            >
+          </svg>
+          <span class="sr-only">RSS</span>
+        </a>
+      </div>
     </div>
-  </div>
-  <NowUpdates />
+    <NowUpdates />
   </div>
 </PageLayout>
