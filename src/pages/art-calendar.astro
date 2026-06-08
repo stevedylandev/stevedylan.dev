@@ -5,25 +5,25 @@ import PageLayout from "@/layouts/Base.astro";
 import { getFormattedDate } from "@/utils";
 
 type Artwork = {
-  date: string;
-  artwork_id: number;
-  title: string;
-  artist_display: string | null;
-  date_display: string | null;
-  medium_display: string | null;
-  dimensions: string | null;
-  place_of_origin: string | null;
-  credit_line: string | null;
-  short_description: string | null;
-  image_id: string | null;
-  image_url: string | null;
-  source_url: string | null;
+	date: string;
+	artwork_id: number;
+	title: string;
+	artist_display: string | null;
+	date_display: string | null;
+	medium_display: string | null;
+	dimensions: string | null;
+	place_of_origin: string | null;
+	credit_line: string | null;
+	short_description: string | null;
+	image_id: string | null;
+	image_url: string | null;
+	source_url: string | null;
 };
 
 const meta = {
-  title: "/art-calendar",
-  description:
-    "A different painting every day from the Art Institute of Chicago.",
+	title: "/art-calendar",
+	description:
+		"A different painting every day from the Art Institute of Chicago.",
 };
 
 const FEED_URL = "https://easel.stevedylan.dev/feed.xml";
@@ -33,18 +33,18 @@ let artwork: Artwork | null = null;
 let error: string | null = null;
 
 try {
-  const res = await fetch("https://easel.stevedylan.dev/api/today", {
-    headers: { Accept: "application/json" },
-  });
-  if (!res.ok) throw new Error(`easel returned ${res.status}`);
-  artwork = (await res.json()) as Artwork;
+	const res = await fetch("https://easel.stevedylan.dev/api/today", {
+		headers: { Accept: "application/json" },
+	});
+	if (!res.ok) throw new Error(`easel returned ${res.status}`);
+	artwork = (await res.json()) as Artwork;
 } catch (e) {
-  error = e instanceof Error ? e.message : "Failed to reach easel API";
+	error = e instanceof Error ? e.message : "Failed to reach easel API";
 }
 
 Astro.response.headers.set(
-  "Cache-Control",
-  "public, max-age=3600, s-maxage=86400",
+	"Cache-Control",
+	"public, max-age=3600, s-maxage=86400",
 );
 ---
 
