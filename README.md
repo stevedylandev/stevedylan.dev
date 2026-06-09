@@ -1,6 +1,6 @@
 # stevedylan.dev
 
-![cover](./preview.png)
+![cover](./preview.jpg)
 
 </br>
 
