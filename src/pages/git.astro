@@ -77,9 +77,9 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
 						rel="noopener noreferrer"
 						class="flex items-center justify-between gap-4 border-b border-[#333] py-3 no-underline transition-opacity hover:opacity-70"
 					>
-						<div class="flex flex-col gap-0.5">
-							<span class="text-base">{repo.name}</span>
-							<span class="text-xs opacity-50">{repo.clone_ssh}</span>
+						<div class="flex min-w-0 flex-col gap-0.5">
+							<span class="truncate text-base">{repo.name}</span>
+							<span class="truncate text-xs opacity-50">{repo.clone_ssh}</span>
 						</div>
 						<span class="flex-shrink-0 text-xs opacity-50">
 							{dateFormatter.format(new Date(repo.last_commit))}
