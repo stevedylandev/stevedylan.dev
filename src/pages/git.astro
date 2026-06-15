@@ -1,4 +1,6 @@
 ---
+export const prerender = false;
+
 import PageLayout from "@/layouts/Base.astro";
 import {
 	createDarkmatterHighlighter,
@@ -16,12 +18,75 @@ const codeHtml = highlighter.codeToHtml("ssh git.stevedylan.dev", {
 	lang: "bash",
 	theme: THEME_NAME,
 });
+
+// Fetch repos from my self hosted git site
+let repos: any[] = [];
+let error: string | null = null;
+try {
+	const res = await fetch("https://git.stevedylan.dev/api/repos");
+	if (res.ok) {
+		const data = await res.json();
+		repos = (data.repos ?? []).sort(
+			(a: any, b: any) =>
+				new Date(b.last_commit).getTime() - new Date(a.last_commit).getTime(),
+		);
+	} else {
+		error = `API returned ${res.status}`;
+	}
+} catch (e) {
+	error = e instanceof Error ? e.message : "Failed to reach git API";
+}
+
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+	year: "numeric",
+	month: "short",
+	day: "numeric",
+});
 ---
 
 <PageLayout meta={meta}>
-	<div class="space-y-6">
-    <h1 class="title">/git</h1>
-		<p>Access my open source repos either through <a href="https://github.com/stevedylandev" target="_blank" rel="noreferrer" class="style-link">GitHub</a> or over SSH:</p>
-		<div set:html={codeHtml} />
+	<div class="flex min-h-screen flex-col items-start justify-start gap-6">
+		<h1 class="title">/git</h1>
+		<p>
+			You can browse my open source repos on <a
+				href="https://git.stevedylan.dev"
+				target="_blank"
+				rel="noreferrer"
+				class="style-link">git.stevedylan.dev</a
+			>. Browse them on the web, or visit over SSH:
+		</p>
+		<div class="w-full" set:html={codeHtml} />
+		<p>
+			You can also checkout my <a
+				href="https://github.com/stevedylandev"
+				target="_blank"
+				rel="noreferrer"
+				class="style-link">GitHub</a
+			> for other work and contributions.
+		</p>
+		{error ? (
+			<p class="text-red-400 text-sm">Could not load repos: {error}</p>
+		) : repos.length === 0 ? (
+			<p class="text-zinc-400 text-sm">no repos yet</p>
+		) : (
+			<div class="flex w-full flex-col">
+				{repos.map((repo: any) => (
+					<a
+						href={repo.url}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="flex items-center justify-between gap-4 border-b border-[#333] py-3 no-underline transition-opacity hover:opacity-70"
+					>
+						<div class="flex flex-col gap-0.5">
+							<span class="text-base">{repo.name}</span>
+							<span class="text-xs opacity-50">{repo.clone_ssh}</span>
+						</div>
+						<span class="flex-shrink-0 text-xs opacity-50">
+							{dateFormatter.format(new Date(repo.last_commit))}
+						</span>
+					</a>
+				))}
+			</div>
+		)}
 	</div>
 </PageLayout>
