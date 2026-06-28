@@ -50,12 +50,12 @@ const sections: { label: string; items: Book[] }[] = [
 		{error ? (
 			<p class="text-red-400 text-sm">Could not load books: {error}</p>
 		) : books.length === 0 ? (
-			<p class="text-zinc-400 text-sm">no books yet</p>
+			<p class="text-zinc-300 text-sm">no books yet</p>
 		) : (
 			<div class="flex flex-col w-full gap-8">
 				{sections.filter((s) => s.items.length > 0).map((section) => (
 					<div class="flex flex-col w-full">
-						<h2 class="text-sm font-semibold uppercase tracking-widest opacity-50 mb-2">{section.label}</h2>
+						<h2 class="text-sm font-semibold uppercase tracking-widest opacity-70 mb-2">{section.label}</h2>
 						{section.items.map((book) => (
 							<BookCard book={book} />
 						))}

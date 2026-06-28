@@ -10,7 +10,7 @@ const uniqueId = crypto.randomUUID();
 ---
 
 <div class="diagram-container" data-diagram-id={uniqueId}>
-	<div class="diagram-preview">
+	<div class="diagram-preview" role="button" tabindex="0" aria-label={`Expand diagram: ${alt}`}>
 		<img src={src} alt={alt} loading="lazy" draggable="false" />
 		<span class="diagram-hint">
 			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -23,14 +23,14 @@ const uniqueId = crypto.randomUUID();
 	</div>
 	{caption && <p class="diagram-caption">{caption}</p>}
 
-	<div class="diagram-overlay" data-diagram-overlay={uniqueId}>
+	<div class="diagram-overlay" data-diagram-overlay={uniqueId} role="dialog" aria-modal="true" aria-label={`Diagram: ${alt}`}>
 		<div class="diagram-controls">
-			<button data-action="zoom-in" title="Zoom in">+</button>
-			<button data-action="zoom-out" title="Zoom out">&minus;</button>
-      <button data-action="reset" title="Reset view">
+			<button type="button" data-action="zoom-in" title="Zoom in" aria-label="Zoom in">+</button>
+			<button type="button" data-action="zoom-out" title="Zoom out" aria-label="Zoom out">&minus;</button>
+      <button type="button" data-action="reset" title="Reset view" aria-label="Reset view">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 256 256"><path fill="currentColor" d="M222 128a94 94 0 0 1-92.74 94H128a93.43 93.43 0 0 1-64.5-25.65a6 6 0 1 1 8.24-8.72A82 82 0 1 0 70 70l-.19.19L39.44 98H72a6 6 0 0 1 0 12H24a6 6 0 0 1-6-6V56a6 6 0 0 1 12 0v34.34L61.63 61.4A94 94 0 0 1 222 128"/></svg>
       </button>
-			<button data-action="close" title="Close">&times;</button>
+			<button type="button" data-action="close" title="Close" aria-label="Close">&times;</button>
 		</div>
 		<div class="diagram-viewport">
 			<img src={src} alt={alt} draggable="false" />
@@ -205,15 +205,19 @@ const uniqueId = crypto.randomUUID();
 			applyTransform();
 		}
 
+		const closeBtn = overlay.querySelector<HTMLButtonElement>('[data-action="close"]')!;
+
 		function open() {
 			overlay.classList.add('active');
 			document.body.style.overflow = 'hidden';
+			closeBtn.focus();
 		}
 
 		function close() {
 			overlay.classList.remove('active');
 			document.body.style.overflow = '';
 			setTimeout(() => reset(), 300);
+			preview.focus();
 		}
 
 		function zoomAt(x: number, y: number, delta: number) {
@@ -236,6 +240,12 @@ const uniqueId = crypto.randomUUID();
 
 		// Open
 		preview.addEventListener('click', open);
+		preview.addEventListener('keydown', (e) => {
+			if (e.key === 'Enter' || e.key === ' ') {
+				e.preventDefault();
+				open();
+			}
+		});
 
 		// Close button
 		overlay.querySelector('[data-action="close"]')!.addEventListener('click', close);

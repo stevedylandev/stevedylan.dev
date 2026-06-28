@@ -40,12 +40,12 @@ try {
 		{error ? (
 			<p class="text-red-400 text-sm">Could not load bookmarks: {error}</p>
 		) : categories.length === 0 ? (
-			<p class="text-zinc-400 text-sm">no bookmarks yet</p>
+			<p class="text-zinc-300 text-sm">no bookmarks yet</p>
 		) : (
 			<div class="flex flex-col w-full gap-8">
 				{categories.map(([name, links]) => (
 					<div class="flex flex-col w-full">
-						<h2 class="text-sm font-semibold uppercase tracking-widest opacity-50 mb-2">{name}</h2>
+						<h2 class="text-sm font-semibold uppercase tracking-widest opacity-70 mb-2">{name}</h2>
 						{links.map((link) => (
 							<LinkCard link={link} />
 						))}
