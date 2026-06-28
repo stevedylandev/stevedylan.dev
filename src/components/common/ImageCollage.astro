@@ -13,16 +13,28 @@ const { images, alts } = Astro.props;
 <div class="image-collage">
 	<div class="collage-grid">
 		{images.map((img, index) => (
-			<div class="collage-item" data-index={index}>
+			<button
+				type="button"
+				class="collage-item"
+				data-index={index}
+				aria-label={`Expand image: ${alts[index]}`}
+			>
 				{typeof img === "string" ? (
 					<img src={img} alt={alts[index]} loading="lazy" />
 				) : (
 					<Image src={img} alt={alts[index]} loading="lazy" />
 				)}
-			</div>
+			</button>
 		))}
 	</div>
-	<div class="collage-overlay" id="collage-overlay">
+	<div
+		class="collage-overlay"
+		id="collage-overlay"
+		role="dialog"
+		aria-modal="true"
+		aria-label="Expanded image"
+		tabindex="-1"
+	>
 		<img src="" alt="Expanded image preview" id="expanded-image" />
 	</div>
 </div>
@@ -46,6 +58,12 @@ const { images, alts } = Astro.props;
 		cursor: pointer;
 		aspect-ratio: 1;
 		transition: transform 0.2s ease;
+		padding: 0;
+		border: 0;
+		background: none;
+		font: inherit;
+		color: inherit;
+		width: 100%;
 	}
 
 	.collage-item:hover {
@@ -111,6 +129,19 @@ const { images, alts } = Astro.props;
 		const collageItems = document.querySelectorAll('.collage-item');
 		const overlay = document.getElementById('collage-overlay');
 		const expandedImage = document.getElementById('expanded-image') as HTMLImageElement;
+		let lastFocused: HTMLElement | null = null;
+
+		const closeOverlay = () => {
+			if (!overlay) return;
+			overlay.classList.remove('active');
+			setTimeout(() => {
+				if (expandedImage) {
+					expandedImage.src = '';
+				}
+			}, 300);
+			lastFocused?.focus();
+			lastFocused = null;
+		};
 
 		collageItems.forEach((item) => {
 			item.addEventListener('click', () => {
@@ -118,20 +149,21 @@ const { images, alts } = Astro.props;
 
 				const img = item.querySelector('img') as HTMLImageElement;
 				if (img && overlay && expandedImage) {
+					lastFocused = item as HTMLElement;
 					expandedImage.src = img.src;
 					expandedImage.alt = img.alt;
 					overlay.classList.add('active');
+					overlay.focus();
 				}
 			});
 		});
 
-		overlay?.addEventListener('click', () => {
-			overlay.classList.remove('active');
-			setTimeout(() => {
-				if (expandedImage) {
-					expandedImage.src = '';
-				}
-			}, 300);
+		overlay?.addEventListener('click', closeOverlay);
+
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape' && overlay?.classList.contains('active')) {
+				closeOverlay();
+			}
 		});
 	});
 </script>

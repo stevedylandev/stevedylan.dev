@@ -28,6 +28,12 @@ const {
 		<BaseHead title={title} description={description} ogImage={ogImage} articleDate={articleDate} atUri={atUri} />
 	</head>
 	<body>
+		<a
+			href="#main"
+			class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-textColor focus:px-3 focus:py-2 focus:text-bgColor"
+		>
+			Skip to content
+		</a>
 		<Header />
 		<main id="main" class="flex-1">
 			<slot />

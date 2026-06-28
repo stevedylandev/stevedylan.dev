@@ -67,7 +67,7 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
 		{error ? (
 			<p class="text-red-400 text-sm">Could not load repos: {error}</p>
 		) : repos.length === 0 ? (
-			<p class="text-zinc-400 text-sm">no repos yet</p>
+			<p class="text-zinc-300 text-sm">no repos yet</p>
 		) : (
 			<div class="flex w-full flex-col">
 				{repos.map((repo: any) => (
@@ -79,9 +79,9 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
 					>
 						<div class="flex min-w-0 flex-col gap-0.5">
 							<span class="truncate text-base">{repo.name}</span>
-							<span class="truncate text-xs opacity-50">{repo.clone_ssh}</span>
+							<span class="truncate text-xs opacity-70">{repo.clone_ssh}</span>
 						</div>
-						<span class="flex-shrink-0 text-xs opacity-50">
+						<span class="flex-shrink-0 text-xs opacity-70">
 							{dateFormatter.format(new Date(repo.last_commit))}
 						</span>
 					</a>

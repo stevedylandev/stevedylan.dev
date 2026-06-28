@@ -80,13 +80,13 @@ const meta = {
 		{isError ? (
 			<>
 				<h1 class="title mb-4">{title}</h1>
-				<p class="text-zinc-400 mb-8">{errorMessage}</p>
+				<p class="text-zinc-300 mb-8">{errorMessage}</p>
 				<a class="style-link" href="/now">&larr; Back to Now</a>
 			</>
 		) : (
 			<>
 				{title && <h1 class="title mb-2">{title}</h1>}
-				<div class="flex text-sm text-zinc-400 items-center gap-x-3 gap-y-1 flex-wrap">
+				<div class="flex text-sm text-zinc-300 items-center gap-x-3 gap-y-1 flex-wrap">
 					<time>{publishedAt}</time>
 					{weatherRaw && <Weather leadingSeparator weather={weatherRaw} />}
 				</div>
@@ -98,12 +98,12 @@ const meta = {
           <div class="flex gap-6">
             <button
               id="share-btn"
-              class="text-sm text-zinc-500 hover:text-zinc-700 transition-colors"
+              class="text-sm text-zinc-300 hover:text-zinc-100 transition-colors"
             >
               Share
             </button>
               <a 
-                class="text-sm text-zinc-500 hover:text-zinc-700 transition-colors"
+                class="text-sm text-zinc-300 hover:text-zinc-100 transition-colors"
                 href={ `mailto:contact@stevedylan.dev?subject=${'Re: ' + title}` }
                 >
                 Reply via Email
