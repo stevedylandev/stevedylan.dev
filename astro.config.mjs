@@ -76,7 +76,8 @@ export default defineConfig({
 			],
 		},
 		build: {
-			rollupOptions: {
+			rolldownOptions: {
+				platform: "neutral",
 				external: [
 					"satteri",
 					"@astrojs/markdown-satteri",
