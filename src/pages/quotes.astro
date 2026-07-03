@@ -1,0 +1,27 @@
+---
+export const prerender = false;
+
+import PageLayout from "@/layouts/Base.astro";
+
+const meta = {
+	title: "/quotes",
+	description: "A quote for today",
+};
+
+const res = await fetch("https://quotes.stevedylan.dev/api/quotes/today");
+const quote = await res.json();
+---
+
+<PageLayout meta={meta}>
+	<div class="flex min-h-screen flex-col items-start justify-start gap-6">
+		<h1 class="title">/quotes</h1>
+		<figure class="flex max-w-2xl flex-col gap-4">
+			<blockquote class="text-sm leading-relaxed">
+				“{quote.text}”
+			</blockquote>
+			<figcaption class="text-sm opacity-70">
+				— {quote.author}{quote.source && (<span class="italic">, {quote.source}</span>)}
+			</figcaption>
+		</figure>
+	</div>
+</PageLayout>

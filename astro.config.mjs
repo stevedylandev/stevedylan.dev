@@ -35,6 +35,9 @@ export default defineConfig({
 	prefetch: true,
 	integrations: [mdx(), sitemap()],
 	vite: {
+    server: {
+      allowedHosts: ["benson"]
+    },
 		plugins: [tailwindcss()],
 		resolve: {
 			alias: [
