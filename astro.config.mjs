@@ -91,6 +91,7 @@ export default defineConfig({
 	},
 	output: "static",
 	adapter: cloudflare({
-    imageService: "compile"
+    imageService: "compile",
+    prerenderEnvironment: "node"
   }),
 });
