@@ -16,7 +16,7 @@ export const birds: BirdEntry[] = [
 		"date": "2025-06-01",
 		"location": "Home",
 		"state": "US-TN",
-		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/4661023/medium.jpg",
+		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/24115/medium.jpg",
 		"summary": null,
 		"wikiUrl": "http://en.wikipedia.org/wiki/American_crow"
 	},
@@ -39,6 +39,16 @@ export const birds: BirdEntry[] = [
 		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/34859026/medium.jpg",
 		"summary": null,
 		"wikiUrl": "http://en.wikipedia.org/wiki/American_robin"
+	},
+	{
+		"commonName": "Anna's Hummingbird",
+		"scientificName": "Calypte anna",
+		"date": "2026-07-08",
+		"location": "Morris St",
+		"state": "US-OR",
+		"photo": "https://static.inaturalist.org/photos/358438292/medium.jpg",
+		"summary": null,
+		"wikiUrl": "http://en.wikipedia.org/wiki/Anna's_hummingbird"
 	},
 	{
 		"commonName": "Bald Eagle",
@@ -71,6 +81,16 @@ export const birds: BirdEntry[] = [
 		"wikiUrl": "http://en.wikipedia.org/wiki/Belted_kingfisher"
 	},
 	{
+		"commonName": "Bewick's Wren",
+		"scientificName": "Thryomanes bewickii",
+		"date": "2026-06-29",
+		"location": "Portland 1",
+		"state": "US-OR",
+		"photo": "https://static.inaturalist.org/photos/170009691/medium.jpg",
+		"summary": null,
+		"wikiUrl": "http://en.wikipedia.org/wiki/Bewick's_wren"
+	},
+	{
 		"commonName": "Black Vulture",
 		"scientificName": "Coragyps atratus",
 		"date": "2025-11-24",
@@ -79,6 +99,16 @@ export const birds: BirdEntry[] = [
 		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/176419188/medium.jpg",
 		"summary": null,
 		"wikiUrl": "http://en.wikipedia.org/wiki/Black_vulture"
+	},
+	{
+		"commonName": "Black-capped Chickadee",
+		"scientificName": "Poecile atricapillus",
+		"date": "2026-07-04",
+		"location": "Portland 1",
+		"state": "US-OR",
+		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/178279576/medium.jpg",
+		"summary": null,
+		"wikiUrl": "http://en.wikipedia.org/wiki/Black-capped_chickadee"
 	},
 	{
 		"commonName": "Black-headed Grosbeak",
@@ -161,6 +191,16 @@ export const birds: BirdEntry[] = [
 		"wikiUrl": "http://en.wikipedia.org/wiki/California_scrub_jay"
 	},
 	{
+		"commonName": "Canada Jay",
+		"scientificName": "Perisoreus canadensis",
+		"date": "2026-07-16",
+		"location": "Crater Lake",
+		"state": "US-OR",
+		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/444966796/medium.jpg",
+		"summary": null,
+		"wikiUrl": "https://en.wikipedia.org/wiki/Canada_jay"
+	},
+	{
 		"commonName": "Carolina Chickadee",
 		"scientificName": "Poecile carolinensis",
 		"date": "2026-04-25",
@@ -221,14 +261,24 @@ export const birds: BirdEntry[] = [
 		"wikiUrl": "http://en.wikipedia.org/wiki/Chipping_sparrow"
 	},
 	{
+		"commonName": "Clark's Nutcracker",
+		"scientificName": "Nucifraga columbiana",
+		"date": "2026-07-09",
+		"location": "Timberline Lodge",
+		"state": "US-OR",
+		"photo": "https://static.inaturalist.org/photos/350111806/medium.jpg",
+		"summary": null,
+		"wikiUrl": "http://en.wikipedia.org/wiki/Clark's_nutcracker"
+	},
+	{
 		"commonName": "Common Loon",
 		"scientificName": "Gavia immer",
 		"date": "2025-11-24",
 		"location": "Grandview",
 		"state": "US-VA",
-		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/2960972/medium.jpg",
+		"photo": "https://static.inaturalist.org/photos/304321551/medium.jpg",
 		"summary": null,
-		"wikiUrl": "http://en.wikipedia.org/wiki/Common_loon"
+		"wikiUrl": "https://en.wikipedia.org/wiki/Common_loon"
 	},
 	{
 		"commonName": "Cooper's Hawk",
@@ -243,9 +293,9 @@ export const birds: BirdEntry[] = [
 	{
 		"commonName": "Dark-eyed Junco",
 		"scientificName": "Junco hyemalis",
-		"date": "2019-02-17",
-		"location": "Rittman",
-		"state": "US-OH",
+		"date": "2026-06-26",
+		"location": "Portland 1",
+		"state": "US-OR",
 		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/111714701/medium.jpeg",
 		"summary": null,
 		"wikiUrl": "http://en.wikipedia.org/wiki/Dark-eyed_junco"
@@ -371,6 +421,16 @@ export const birds: BirdEntry[] = [
 		"wikiUrl": "http://en.wikipedia.org/wiki/Indigo_bunting"
 	},
 	{
+		"commonName": "Mountain Chickadee",
+		"scientificName": "Poecile gambeli",
+		"date": "2026-07-16",
+		"location": "Crater Lake",
+		"state": "US-OR",
+		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/264443940/medium.jpg",
+		"summary": null,
+		"wikiUrl": "http://en.wikipedia.org/wiki/Mountain_chickadee"
+	},
+	{
 		"commonName": "Mourning Dove",
 		"scientificName": "Zenaida macroura",
 		"date": "2019-02-17",
@@ -399,6 +459,26 @@ export const birds: BirdEntry[] = [
 		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/142697277/medium.jpg",
 		"summary": null,
 		"wikiUrl": "http://en.wikipedia.org/wiki/Northern_mockingbird"
+	},
+	{
+		"commonName": "Osprey",
+		"scientificName": "Pandion haliaetus",
+		"date": "2026-07-18",
+		"location": "Suttle Lake",
+		"state": "US-OR",
+		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/6903515/medium.jpg",
+		"summary": null,
+		"wikiUrl": "http://en.wikipedia.org/wiki/Osprey"
+	},
+	{
+		"commonName": "Pacific Wren",
+		"scientificName": "Troglodytes pacificus",
+		"date": "2026-07-01",
+		"location": "MacLeay Trail",
+		"state": "US-OR",
+		"photo": "https://static.inaturalist.org/photos/4519499/medium.jpg",
+		"summary": null,
+		"wikiUrl": "http://en.wikipedia.org/wiki/Pacific_wren"
 	},
 	{
 		"commonName": "Palm Warbler",
@@ -451,6 +531,16 @@ export const birds: BirdEntry[] = [
 		"wikiUrl": "http://en.wikipedia.org/wiki/Red-headed_woodpecker"
 	},
 	{
+		"commonName": "Ring-necked Duck",
+		"scientificName": "Aythya collaris",
+		"date": "2026-07-09",
+		"location": "Trillium Lake",
+		"state": "US-OR",
+		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/483225152/medium.jpg",
+		"summary": null,
+		"wikiUrl": "https://en.wikipedia.org/wiki/Ring-necked_duck"
+	},
+	{
 		"commonName": "Rose-breasted Grosbeak",
 		"scientificName": "Pheucticus ludovicianus",
 		"date": "2026-04-25",
@@ -459,6 +549,16 @@ export const birds: BirdEntry[] = [
 		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/203617764/medium.jpg",
 		"summary": null,
 		"wikiUrl": "http://en.wikipedia.org/wiki/Rose-breasted_grosbeak"
+	},
+	{
+		"commonName": "Rufous Hummingbird",
+		"scientificName": "Selasphorus rufus",
+		"date": "2026-06-26",
+		"location": "Portland 1",
+		"state": "US-OR",
+		"photo": "https://static.inaturalist.org/photos/69310980/medium.jpg",
+		"summary": null,
+		"wikiUrl": "https://en.wikipedia.org/wiki/Rufous_hummingbird"
 	},
 	{
 		"commonName": "Song Sparrow",
@@ -531,6 +631,26 @@ export const birds: BirdEntry[] = [
 		"wikiUrl": "http://en.wikipedia.org/wiki/Violet-green_swallow"
 	},
 	{
+		"commonName": "Western Flycatcher",
+		"scientificName": "Empidonax difficilis",
+		"date": "2026-07-18",
+		"location": "Suttle Lake",
+		"state": "US-OR",
+		"photo": "https://static.inaturalist.org/photos/586237/medium.jpg",
+		"summary": null,
+		"wikiUrl": "https://en.wikipedia.org/wiki/Western_flycatcher"
+	},
+	{
+		"commonName": "Western Tanager",
+		"scientificName": "Piranga ludoviciana",
+		"date": "2026-07-01",
+		"location": "MacLeay Trail",
+		"state": "US-OR",
+		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/289912656/medium.jpg",
+		"summary": null,
+		"wikiUrl": "http://en.wikipedia.org/wiki/Western_tanager"
+	},
+	{
 		"commonName": "White-breasted Nuthatch",
 		"scientificName": "Sitta carolinensis",
 		"date": "2019-02-17",
@@ -549,6 +669,16 @@ export const birds: BirdEntry[] = [
 		"photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/23268661/medium.jpg",
 		"summary": null,
 		"wikiUrl": "https://en.wikipedia.org/wiki/White-throated_sparrow"
+	},
+	{
+		"commonName": "Wilson's Warbler",
+		"scientificName": "Cardellina pusilla",
+		"date": "2026-06-28",
+		"location": "Portland 1",
+		"state": "US-OR",
+		"photo": "https://static.inaturalist.org/photos/164653214/medium.jpeg",
+		"summary": null,
+		"wikiUrl": "http://en.wikipedia.org/wiki/Wilson's_warbler"
 	},
 	{
 		"commonName": "Yellow-bellied Sapsucker",
