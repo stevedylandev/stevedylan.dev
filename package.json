@@ -27,6 +27,7 @@
 		"satteri": "0.6.3",
 		"tailwindcss": "4.3.0",
 		"typescript": "6.0.3",
+		"vite": "8.1.5",
 		"wrangler": "4.95.0"
 	},
 	"dependencies": {
