@@ -10,7 +10,8 @@
 		"preview": "astro preview",
 		"format": "biome format --write src package.json",
 		"deploy": "bun run build && wrangler deploy -c dist/server/wrangler.json",
-		"parse:birds": "bun run scripts/parse-birds.ts"
+		"parse:birds": "bun run scripts/parse-birds.ts",
+		"send:webmentions": "bun run scripts/send-webmentions.ts"
 	},
 	"devDependencies": {
 		"@astrojs/markdown-satteri": "0.3.3",

@@ -1,7 +1,9 @@
 /// <reference path="../.astro/types.d.ts" />
-// <reference path="../.astro/types.d.ts" />
 
-// type Runtime = import("@astrojs/cloudflare").Runtime<ENV>;
-// declare namespace App {
-// 	interface Locals extends Runtime {}
-// }
+// Typed bindings for `import { env } from "cloudflare:workers"`
+declare namespace Cloudflare {
+	interface Env {
+		SESSION: KVNamespace;
+		WEBMENTIONS: KVNamespace;
+	}
+}

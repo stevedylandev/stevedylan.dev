@@ -1,8 +1,16 @@
 {
-  "name": "stevedylandev",
-  "compatibility_date": "2024-09-23",
-  "compatibility_flags": ["nodejs_compat"],
-  "kv_namespaces": [
-    { "binding": "SESSION" }
-  ]
+	"name": "stevedylandev",
+	"compatibility_date": "2024-09-23",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"kv_namespaces": [
+		{
+			"binding": "SESSION"
+		},
+		{
+			"binding": "WEBMENTIONS",
+			"id": "f2418ef9b3f84441b25472c784145848"
+		}
+	]
 }

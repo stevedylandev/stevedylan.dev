@@ -20,6 +20,11 @@ export default defineConfig({
 	site: "https://stevedylan.dev",
 	outDir: "dist",
 	compressHTML: true,
+	// Webmention endpoint must accept cross-origin form POSTs; Astro's default
+	// CSRF check (checkOrigin) would reject them with a 403.
+	security: {
+		checkOrigin: false,
+	},
 	image: {
     domains: ["kagifeedback.org", "api.iconify.design", "files.stevedylan.dev"],
 	},

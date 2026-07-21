@@ -5,6 +5,7 @@ import { getImage } from "astro:assets";
 
 import BaseLayout from "./Base.astro";
 import BlogHero from "@/components/blog/Hero.astro";
+import Webmentions from "@/components/blog/Webmentions.astro";
 
 interface Props {
 	post: CollectionEntry<"post">;
@@ -80,6 +81,7 @@ const { headings } = await render(post);
 			>
 				<slot />
 			</div>
+			<Webmentions />
 		</article>
 	</div>
 	<button
