@@ -12,12 +12,16 @@
 
 import { Glob } from "bun";
 import { join } from "node:path";
+import MarkdownIt from "markdown-it";
 
 const SITE = "https://stevedylan.dev";
 const SITE_HOST = "stevedylan.dev";
 const POSTS_GLOB = "dist/client/posts/*/index.html";
+const NOW_API = "https://posts.stevedylan.dev/api/posts";
 const STATE_PATH = join(import.meta.dir, ".webmention-sent.json");
 const DRY = process.argv.includes("--dry");
+
+const md = new MarkdownIt({ html: true, linkify: true });
 
 type SentState = Record<string, string>; // "source|target" -> ISO timestamp
 
@@ -125,17 +129,58 @@ async function sendWebmention(
 	return res.ok;
 }
 
+interface Source {
+	url: string;
+	targets: string[];
+}
+
+// Blog posts: scan the built HTML article body.
+async function gatherBlogSources(): Promise<Source[]> {
+	const sources: Source[] = [];
+	for await (const path of new Glob(POSTS_GLOB).scan(".")) {
+		const html = await Bun.file(path).text();
+		sources.push({
+			url: sourceUrlFor(path),
+			targets: extractTargets(extractArticle(html)),
+		});
+	}
+	return sources;
+}
+
+// /now posts: fetch markdown from the posts API and render to HTML.
+async function gatherNowSources(): Promise<Source[]> {
+	let res: Response;
+	try {
+		res = await fetch(NOW_API);
+	} catch {
+		console.warn("could not reach now posts API; skipping /now");
+		return [];
+	}
+	if (!res.ok) {
+		console.warn(`now posts API returned ${res.status}; skipping /now`);
+		return [];
+	}
+	const data = (await res.json()) as {
+		posts?: { slug: string; content?: string }[];
+	};
+	return (data.posts ?? []).map((post) => ({
+		url: `${SITE}/now/${post.slug}`,
+		targets: extractTargets(md.render(post.content ?? "")),
+	}));
+}
+
 async function main() {
 	const state = await loadState();
 	let sent = 0;
 	let skipped = 0;
 	let noEndpoint = 0;
 
-	for await (const path of new Glob(POSTS_GLOB).scan(".")) {
-		const source = sourceUrlFor(path);
-		const html = await Bun.file(path).text();
-		const targets = extractTargets(extractArticle(html));
+	const sources = [
+		...(await gatherBlogSources()),
+		...(await gatherNowSources()),
+	];
 
+	for (const { url: source, targets } of sources) {
 		for (const target of targets) {
 			const key = `${source}|${target}`;
 			if (state[key]) {
