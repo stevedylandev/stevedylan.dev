@@ -13,20 +13,29 @@ const meta = {
     <h1 class="title mb-6">/links</h1>
     <ul class="flex flex-col items-start gap-x-4 sm:flex-initial">
       {
-        SOCIAL_ITEMS.map((link) => (
+        SOCIAL_ITEMS.map((link) => {
+          const rel = [
+            link.external && "noopener",
+            link.external && "noreferrer",
+            link.me && "me",
+          ]
+            .filter(Boolean)
+            .join(" ");
+          return (
           <li>
             <a
               class="flex items-center gap-4 p-2 sm:hover:text-link"
               href={link.href}
               target={link.external ? "_blank" : undefined}
-              rel={link.external ? "noopener noreferrer" : undefined}
+              rel={rel || undefined}
             >
               <Fragment set:html={link.icon} />
               {link.name}
               <span class="sr-only">{link.name}</span>
             </a>
           </li>
-        ))
+          );
+        })
       }
     </ul>
   </div>

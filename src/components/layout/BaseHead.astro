@@ -63,6 +63,9 @@ const socialImageURL = new URL(ogImage ? ogImage : "/og.png", Astro.url).href;
 <link rel="alternate" type="application/rss+xml" title={siteConfig.title} href={new URL("rss.xml", Astro.site)}
  />
 
+<!-- Webmention endpoint -->
+<link rel="webmention" href={new URL("api/webmention", Astro.site)} />
+
 <!-- Standard.site document verification -->
 {atUri && <link rel="site.standard.document" href={atUri} />}
 <link rel="site.standard.publication" href="at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.publication/3mbykzswhqc2x" />

@@ -118,6 +118,8 @@ export type SocialItem = {
 	name: string;
 	href: string;
 	external?: boolean;
+	// rel="me" for IndieWeb identity verification on profile links
+	me?: boolean;
 	icon: string;
 };
 
@@ -134,6 +136,7 @@ export const SOCIAL_ITEMS: SocialItem[] = [
 		key: "email",
 		name: "Email",
 		href: "mailto:contact@stevedylan.dev",
+		me: true,
 		icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 256 256"><path fill="currentColor" d="M224 48H32a8 8 0 0 0-8 8v136a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a8 8 0 0 0-8-8m-96 85.15L52.57 64h150.86ZM98.71 128L40 181.81V74.19Zm11.84 10.85l12 11.05a8 8 0 0 0 10.82 0l12-11.05l58 53.15H52.57ZM157.29 128L216 74.18v107.64Z"/></svg>`,
 	},
 	{
@@ -162,6 +165,7 @@ export const SOCIAL_ITEMS: SocialItem[] = [
 		name: "ATProto",
 		href: `https://pdsls.dev/at://${OWNER_DID}`,
 		external: true,
+		me: true,
 		icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 256 256"><path fill="currentColor" d="M128 24a104 104 0 0 0 0 208c21.51 0 44.1-6.48 60.43-17.33a8 8 0 0 0-8.86-13.33C166 210.38 146.21 216 128 216a88 88 0 1 1 88-88c0 26.45-10.88 32-20 32s-20-5.55-20-32V88a8 8 0 0 0-16 0v4.26a48 48 0 1 0 5.93 65.1c6 12 16.35 18.64 30.07 18.64c22.54 0 36-17.94 36-48A104.11 104.11 0 0 0 128 24m0 136a32 32 0 1 1 32-32a32 32 0 0 1-32 32"/></svg>`,
 	},
 	{
@@ -169,6 +173,7 @@ export const SOCIAL_ITEMS: SocialItem[] = [
 		name: "GitHub",
 		href: "https://github.com/stevedylandev",
 		external: true,
+		me: true,
 		icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 256 256"><path fill="currentColor" d="M208.31 75.68A59.78 59.78 0 0 0 202.93 28a8 8 0 0 0-6.93-4a59.75 59.75 0 0 0-48 24h-24a59.75 59.75 0 0 0-48-24a8 8 0 0 0-6.93 4a59.78 59.78 0 0 0-5.38 47.68A58.14 58.14 0 0 0 56 104v8a56.06 56.06 0 0 0 48.44 55.47A39.8 39.8 0 0 0 96 192v8H72a24 24 0 0 1-24-24a40 40 0 0 0-40-40a8 8 0 0 0 0 16a24 24 0 0 1 24 24a40 40 0 0 0 40 40h24v16a8 8 0 0 0 16 0v-40a24 24 0 0 1 48 0v40a8 8 0 0 0 16 0v-40a39.8 39.8 0 0 0-8.44-24.53A56.06 56.06 0 0 0 216 112v-8a58.14 58.14 0 0 0-7.69-28.32M200 112a40 40 0 0 1-40 40h-48a40 40 0 0 1-40-40v-8a41.74 41.74 0 0 1 6.9-22.48a8 8 0 0 0 1.1-7.69a43.8 43.8 0 0 1 .79-33.58a43.88 43.88 0 0 1 32.32 20.06a8 8 0 0 0 6.71 3.69h32.35a8 8 0 0 0 6.74-3.69a43.87 43.87 0 0 1 32.32-20.06a43.8 43.8 0 0 1 .77 33.58a8.09 8.09 0 0 0 1 7.65a41.7 41.7 0 0 1 7 22.52Z"/></svg>`,
 	},
 	{
@@ -176,6 +181,7 @@ export const SOCIAL_ITEMS: SocialItem[] = [
 		name: "LinkedIn",
 		href: "https://www.linkedin.com/in/steve-simkins/",
 		external: true,
+		me: true,
 		icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 256 256"><path fill="currentColor" d="M216 24H40a16 16 0 0 0-16 16v176a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V40a16 16 0 0 0-16-16m0 192H40V40h176zM96 112v64a8 8 0 0 1-16 0v-64a8 8 0 0 1 16 0m88 28v36a8 8 0 0 1-16 0v-36a20 20 0 0 0-40 0v36a8 8 0 0 1-16 0v-64a8 8 0 0 1 15.79-1.78A36 36 0 0 1 184 140m-84-56a12 12 0 1 1-12-12a12 12 0 0 1 12 12"/></svg>`,
 	},
 	// {
@@ -196,6 +202,7 @@ export const SOCIAL_ITEMS: SocialItem[] = [
 		key: "photos",
 		name: "Photos",
 		href: "https://steve.photo",
+		me: true,
 		icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 256 256"><path fill="currentColor" d="M216 40H40a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16m0 16v102.75l-26.07-26.06a16 16 0 0 0-22.63 0l-20 20l-44-44a16 16 0 0 0-22.62 0L40 149.37V56ZM40 172l52-52l80 80H40Zm176 28h-21.37l-36-36l20-20L216 181.38zm-72-100a12 12 0 1 1 12 12a12 12 0 0 1-12-12"/></svg>`,
 	},
 ];
