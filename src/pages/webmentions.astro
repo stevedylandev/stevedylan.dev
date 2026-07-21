@@ -1,0 +1,104 @@
+---
+export const prerender = false;
+
+import { env } from "cloudflare:workers";
+import PageLayout from "@/layouts/Base.astro";
+
+const meta = {
+	title: "/webmentions",
+	description: "Webmentions received across my site",
+};
+
+interface Mention {
+	source: string;
+	target: string;
+	verifiedAt: string;
+}
+
+const kv = env.WEBMENTIONS;
+const list = await kv.list({ prefix: "mention:" });
+
+const mentions: Mention[] = [];
+for (const entry of list.keys) {
+	const value = await kv.get(entry.name);
+	if (value) mentions.push(JSON.parse(value) as Mention);
+}
+
+// Group by the page that was mentioned, newest mention first within each group.
+const byTarget = new Map<string, Mention[]>();
+for (const m of mentions) {
+	const group = byTarget.get(m.target) ?? [];
+	group.push(m);
+	byTarget.set(m.target, group);
+}
+const groups = [...byTarget.entries()]
+	.map(([target, items]) => ({
+		target,
+		items: items.sort(
+			(a, b) =>
+				new Date(b.verifiedAt).getTime() - new Date(a.verifiedAt).getTime(),
+		),
+	}))
+	.sort((a, b) => b.items.length - a.items.length);
+
+const hostOf = (url: string) => {
+	try {
+		return new URL(url).host;
+	} catch {
+		return url;
+	}
+};
+const pathOf = (url: string) => {
+	try {
+		return new URL(url).pathname;
+	} catch {
+		return url;
+	}
+};
+---
+
+<PageLayout meta={meta}>
+  <div class="space-y-6">
+    <h1 class="title mb-6">/webmentions</h1>
+    <p class="text-zinc-300">
+      Pages and posts around the web that have linked here.
+    </p>
+    {
+      groups.length === 0 ? (
+        <p class="text-zinc-400">No webmentions yet.</p>
+      ) : (
+        <div class="space-y-8">
+          {groups.map((group) => (
+            <section>
+              <h2 class="font-semibold">
+                <a class="style-link" href={group.target}>
+                  {pathOf(group.target)}
+                </a>
+                <span class="ml-2 text-sm text-zinc-500">
+                  {group.items.length}
+                </span>
+              </h2>
+              <ul class="mt-3 space-y-2 text-sm">
+                {group.items.map((m) => (
+                  <li class="flex items-center gap-2">
+                    <a
+                      class="underline hover:text-link"
+                      href={m.source}
+                      target="_blank"
+                      rel="nofollow ugc noopener noreferrer"
+                    >
+                      {hostOf(m.source)}
+                    </a>
+                    <span class="text-zinc-500">
+                      {new Date(m.verifiedAt).toLocaleDateString()}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</PageLayout>
