@@ -1,33 +1,27 @@
 import type { APIRoute } from "astro";
 import { env } from "cloudflare:workers";
+import {
+	type Mention,
+	mentionKey,
+	readMentions,
+} from "@/utils";
 
 export const prerender = false;
 
 const ALLOWED_HOST = "stevedylan.dev";
 
-interface StoredMention {
-	source: string;
-	target: string;
-	verifiedAt: string;
-}
-
-function isValidHttpUrl(value: string): URL | null {
+function parseHttpUrl(value: string): URL | null {
 	try {
 		const url = new URL(value);
-		if (url.protocol !== "http:" && url.protocol !== "https:") return null;
-		return url;
+		return url.protocol === "http:" || url.protocol === "https:" ? url : null;
 	} catch {
 		return null;
 	}
 }
 
-// KV key groups mentions by target so they can be listed for a given page.
-function mentionKey(target: string, source: string): string {
-	return `mention:${encodeURIComponent(target)}:${encodeURIComponent(source)}`;
-}
-
-// Fetch the source and confirm it actually links to the target, per the
-// Webmention spec (https://www.w3.org/TR/webmention/#request-verification).
+// Fetch the source and confirm it links to the target, per the Webmention spec
+// (https://www.w3.org/TR/webmention/#request-verification). If it no longer
+// mentions the target, remove any prior record.
 async function verifyAndStore(
 	kv: KVNamespace,
 	source: string,
@@ -39,83 +33,56 @@ async function verifyAndStore(
 			headers: { "user-agent": "stevedylan.dev-webmention/1.0" },
 			redirect: "follow",
 		});
-		if (!res.ok) {
-			await kv.delete(key);
-			return;
-		}
-		const body = await res.text();
-		if (body.includes(target)) {
-			const mention: StoredMention = {
+		if (res.ok && (await res.text()).includes(target)) {
+			const mention: Mention = {
 				source,
 				target,
 				verifiedAt: new Date().toISOString(),
 			};
 			await kv.put(key, JSON.stringify(mention));
-		} else {
-			// Source no longer mentions the target — remove any prior record.
-			await kv.delete(key);
+			return;
 		}
 	} catch {
-		await kv.delete(key);
+		// fall through to delete
 	}
+	await kv.delete(key);
 }
 
 export const POST: APIRoute = async ({ request }) => {
 	const contentType = request.headers.get("content-type") ?? "";
 	if (!contentType.includes("application/x-www-form-urlencoded")) {
-		return new Response("Content-Type must be application/x-www-form-urlencoded", {
-			status: 400,
-		});
+		return new Response(
+			"Content-Type must be application/x-www-form-urlencoded",
+			{
+				status: 400,
+			},
+		);
 	}
 
 	const form = await request.formData();
-	const source = form.get("source");
-	const target = form.get("target");
+	const source = parseHttpUrl(String(form.get("source") ?? ""));
+	const target = parseHttpUrl(String(form.get("target") ?? ""));
 
-	if (typeof source !== "string" || typeof target !== "string") {
-		return new Response("Missing source or target", { status: 400 });
-	}
-
-	const sourceUrl = isValidHttpUrl(source);
-	const targetUrl = isValidHttpUrl(target);
-	if (!sourceUrl || !targetUrl) {
+	if (!source || !target) {
 		return new Response("source and target must be valid http(s) URLs", {
 			status: 400,
 		});
 	}
-
-	if (sourceUrl.href === targetUrl.href) {
+	if (source.href === target.href) {
 		return new Response("source and target must differ", { status: 400 });
 	}
-
-	if (targetUrl.host !== ALLOWED_HOST) {
+	if (target.host !== ALLOWED_HOST) {
 		return new Response(`target must be on ${ALLOWED_HOST}`, { status: 400 });
 	}
 
-	const kv = env.WEBMENTIONS;
-
-	// Verify the source links back, then store, before responding.
-	await verifyAndStore(kv, sourceUrl.href, targetUrl.href);
-
+	await verifyAndStore(env.WEBMENTIONS, source.href, target.href);
 	return new Response("Webmention accepted", { status: 201 });
 };
 
-// Read endpoint: list verified mentions for a given ?target= page.
+// List verified mentions, optionally scoped to a ?target= page.
 export const GET: APIRoute = async ({ url }) => {
-	const target = url.searchParams.get("target");
-	const kv = env.WEBMENTIONS;
-
-	const prefix = target
-		? `mention:${encodeURIComponent(target)}:`
-		: "mention:";
-	const list = await kv.list({ prefix });
-
-	const mentions: StoredMention[] = [];
-	for (const entry of list.keys) {
-		const value = await kv.get(entry.name);
-		if (value) mentions.push(JSON.parse(value) as StoredMention);
-	}
-
+	const target = url.searchParams.get("target") ?? undefined;
+	const mentions = await readMentions(env.WEBMENTIONS, target);
 	return new Response(JSON.stringify({ mentions }), {
 		status: 200,
 		headers: { "content-type": "application/json" },

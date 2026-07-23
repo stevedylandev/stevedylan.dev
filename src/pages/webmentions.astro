@@ -3,33 +3,20 @@ export const prerender = false;
 
 import { env } from "cloudflare:workers";
 import PageLayout from "@/layouts/Base.astro";
+import { type Mention, readMentions, hostOf, pathOf } from "@/utils";
 
 const meta = {
 	title: "/webmentions",
 	description: "Webmentions received across my site",
 };
 
-interface Mention {
-	source: string;
-	target: string;
-	verifiedAt: string;
-}
+const mentions = await readMentions(env.WEBMENTIONS);
 
-const kv = env.WEBMENTIONS;
-const list = await kv.list({ prefix: "mention:" });
-
-const mentions: Mention[] = [];
-for (const entry of list.keys) {
-	const value = await kv.get(entry.name);
-	if (value) mentions.push(JSON.parse(value) as Mention);
-}
-
-// Group by the page that was mentioned, newest mention first within each group.
+// Group by the page that was mentioned, newest mention first within each group,
+// and list the most-mentioned pages first.
 const byTarget = new Map<string, Mention[]>();
 for (const m of mentions) {
-	const group = byTarget.get(m.target) ?? [];
-	group.push(m);
-	byTarget.set(m.target, group);
+	byTarget.set(m.target, [...(byTarget.get(m.target) ?? []), m]);
 }
 const groups = [...byTarget.entries()]
 	.map(([target, items]) => ({
@@ -40,21 +27,6 @@ const groups = [...byTarget.entries()]
 		),
 	}))
 	.sort((a, b) => b.items.length - a.items.length);
-
-const hostOf = (url: string) => {
-	try {
-		return new URL(url).host;
-	} catch {
-		return url;
-	}
-};
-const pathOf = (url: string) => {
-	try {
-		return new URL(url).pathname;
-	} catch {
-		return url;
-	}
-};
 ---
 
 <PageLayout meta={meta}>

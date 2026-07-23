@@ -1,7 +1,4 @@
 ---
-// Renders verified webmentions for the current page.
-// Blog posts are statically prerendered, so mentions are fetched client-side
-// from the SSR endpoint at /api/webmention?target=<canonical url>.
 ---
 
 <section
@@ -15,11 +12,7 @@
 </section>
 
 <script>
-	interface Mention {
-		source: string;
-		target: string;
-		verifiedAt: string;
-	}
+	import { type Mention, hostOf } from "@/utils";
 
 	async function loadWebmentions() {
 		const section = document.getElementById("webmentions");
@@ -43,11 +36,7 @@
 				a.rel = "nofollow ugc noopener noreferrer";
 				a.target = "_blank";
 				a.className = "underline hover:text-link";
-				try {
-					a.textContent = new URL(m.source).host;
-				} catch {
-					a.textContent = m.source;
-				}
+				a.textContent = hostOf(m.source);
 				const when = document.createElement("span");
 				when.className = "ml-2 text-zinc-500";
 				when.textContent = new Date(m.verifiedAt).toLocaleDateString();
