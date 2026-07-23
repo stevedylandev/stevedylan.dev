@@ -3,7 +3,7 @@ export const prerender = false;
 
 import { env } from "cloudflare:workers";
 import PageLayout from "@/layouts/Base.astro";
-import { type Mention, readMentions, hostOf, pathOf } from "@/utils";
+import { type Mention, readMentions } from "@/utils";
 
 const meta = {
 	title: "/webmentions",
@@ -44,7 +44,7 @@ const groups = [...byTarget.entries()]
             <section>
               <h2 class="font-semibold">
                 <a class="style-link" href={group.target}>
-                  {pathOf(group.target)}
+                  {new URL(group.target).pathname}
                 </a>
                 <span class="ml-2 text-sm text-zinc-500">
                   {group.items.length}
@@ -59,7 +59,7 @@ const groups = [...byTarget.entries()]
                       target="_blank"
                       rel="nofollow ugc noopener noreferrer"
                     >
-                      {hostOf(m.source)}
+                      {new URL(m.source).host}
                     </a>
                     <span class="text-zinc-500">
                       {new Date(m.verifiedAt).toLocaleDateString()}

@@ -23,19 +23,3 @@ export async function readMentions(
 		.filter((v): v is string => v !== null)
 		.map((v) => JSON.parse(v) as Mention);
 }
-
-export function hostOf(url: string): string {
-	try {
-		return new URL(url).host;
-	} catch {
-		return url;
-	}
-}
-
-export function pathOf(url: string): string {
-	try {
-		return new URL(url).pathname;
-	} catch {
-		return url;
-	}
-}

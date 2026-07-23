@@ -12,7 +12,7 @@
 </section>
 
 <script>
-	import { type Mention, hostOf } from "@/utils";
+	import { type Mention } from "@/utils";
 
 	async function loadWebmentions() {
 		const section = document.getElementById("webmentions");
@@ -36,7 +36,7 @@
 				a.rel = "nofollow ugc noopener noreferrer";
 				a.target = "_blank";
 				a.className = "underline hover:text-link";
-				a.textContent = hostOf(m.source);
+				a.textContent = new URL(m.source).host;
 				const when = document.createElement("span");
 				when.className = "ml-2 text-zinc-500";
 				when.textContent = new Date(m.verifiedAt).toLocaleDateString();
