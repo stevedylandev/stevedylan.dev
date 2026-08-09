@@ -4,6 +4,7 @@ import bulletsImg from "@/assets/projects/bullets.png";
 import andromedaImg from "@/assets/projects/andromeda.png";
 import scoutImg from "@/assets/projects/scout.png";
 import sequoiaImg from "@/assets/projects/sequoia.png";
+import cielagoImg from "@/assets/blog-images/cielago-demo.jpg";
 import alcoveImg from "@/assets/projects/alcove.jpg";
 import sippImg from "@/assets/projects/sipp.png";
 import parcelsImg from "@/assets/projects/parcels.png";
@@ -32,6 +33,14 @@ export type ProjectItem = {
 };
 
 export const projects: ProjectItem[] = [
+	{
+		title: "Cielago",
+		description:
+			"I got tired of Postman not working so I built my own for the terminal, complete with OpenAPI importing and OAuth 2.0 support. It's one of my favorite new tools that boosts my productivity at work.",
+		image: cielagoImg,
+		link: "https://github.com/stevedylandev/cielago",
+		tags: ["programming", "developer tools", "tui"],
+	},
 	{
 		title: "Bullets",
 		description:
