@@ -10,10 +10,10 @@ const meta = {
 	description: "What I'm up to recently",
 };
 
-const STATION = "PQR";
-const GRID_X = "115";
-const GRID_Y = "103";
-const LOCATION = "Portland, OR";
+const STATION = "MRX";
+const GRID_X = "23";
+const GRID_Y = "5";
+const LOCATION = "Lookout Mountain, TN";
 
 const forecastRequest = await fetch(
 	`https://api.weather.gov/gridpoints/${STATION}/${GRID_X},${GRID_Y}/forecast/hourly`,
@@ -47,11 +47,12 @@ const weather = `${shortForecast},${temperature},${LOCATION}`;
           href="https://andromeda.build">Andromeda</a>
       </li>
       <li>Updating this site with fun stuff</li>
-      <li>Spending some time in Oregon</li>
+      <li>Playing with watch movements</li>
+      <li>Tinkering with Alpine Linux</li>
       <li>Watching birds</li>
       <li>Reading Dune Messiah</li>
     </ul>
-    <p class="text-zinc-300">Last updated: Aug 5th, 2026</p>
+    <p class="text-zinc-300">Last updated: Aug 22th, 2026</p>
     <div class="flex flex-row justify-between items-center w-full pt-12 pb-6">
       <h2 class="title">Updates</h2>
       <div class="flex gap-2 items-center">
