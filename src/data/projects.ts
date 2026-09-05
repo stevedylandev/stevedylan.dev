@@ -7,7 +7,6 @@ import sequoiaImg from "@/assets/projects/sequoia.png";
 import cielagoImg from "@/assets/blog-images/cielago-demo.jpg";
 import alcoveImg from "@/assets/projects/alcove.jpg";
 import sippImg from "@/assets/projects/sipp.png";
-import parcelsImg from "@/assets/projects/parcels.png";
 import feedsImg from "@/assets/projects/feeds.png";
 import docsSurfImg from "@/assets/projects/docs-surf.png";
 import blogFeedsImg from "@/assets/projects/blogfeeds.png";
@@ -90,14 +89,6 @@ export const projects: ProjectItem[] = [
 		tags: ["developer tools", "productivity", "self hosting"],
 	},
 	{
-		title: "Parcels",
-		description:
-			"A minimal package tracking app written in Rust, designed to be self hosted for personal use.",
-		image: parcelsImg,
-		link: "https://andromeda.build/apps/parcels",
-		tags: ["productivity", "self hosting"],
-	},
-	{
 		title: "Feeds",
 		description:
 			"A minimal take on an RSS reader, Feeds lets you pull from multiple sources of feeds including URL query params, OPML files, and FreshRSS. Instead of rendering the post, Feeds simply gives you a feed link so you can view the content in its original context. Feeds is also designed to be simple and easy to self host for your own use cases.",
@@ -126,15 +117,15 @@ export const projects: ProjectItem[] = [
 		description:
 			"Over the years I’ve noticed how so many decentralized applications on EVM chains have slowly built up heavy dependency trees. With some of the supplychain hacks occurring on NPM, I decided it would be a good idea to build atomic web components that achieve all the basic functionality needed to build dApps. The result was norns, which is a library + CLI for simple EVM UI components. Much like shadcn/ui you can import the raw code to your framework or vanilla HTML file and they won’t ever break since they have zero dependencies or base framework; just JavaScript.",
 		image: nornsImg,
-		link: "https://norns.so",
+		link: "https://github.com/stevedylandev/norns",
 		tags: ["blockchain", "developer tools", "web frameworks"],
 	},
 	{
 		title: "Orbiter",
 		description:
-			"In a world full of complicated CI/CD pipelines there’s a desire for a simpler solution for hosting static websites. Orbiter is a service that does just that, letting people upload and create a static site in 30 seconds. It’s currently being built by Steve along side Justin Hunter and feautes an open platform approach using IPFS and blockchain.",
+			"In a world full of complicated CI/CD pipelines there’s a desire for a simpler solution for hosting static websites. Orbiter was a service that did just that, letting people upload and create a static site in 30 seconds.",
 		image: orbiterImg,
-		link: "https://orbiter.host",
+		link: "https://github.com/orbiterhost",
 		tags: ["ipfs", "blockchain", "developer tools"],
 	},
 	{
@@ -166,7 +157,7 @@ export const projects: ProjectItem[] = [
 		description:
 			"IPCM (InterPlanetary CID Mapping) is a blockchain approach to solving the problem of dynamic IPFS data. Instead of using a slower solution like IPNS to point to new content, IPCM is a smart contract that is used as the source of truth for a piece of dynamic content. It features a simple state that can only be updated by the owner of the contract but read by anyone, as well as a public version history through Solidity events.",
 		image: ipcmImg,
-		link: "https://ipcm.dev",
+		link: "https://github.com/PinataCloud/ipcm",
 		tags: ["blockchain", "ipfs", "developer tools"],
 	},
 	{
@@ -190,7 +181,7 @@ export const projects: ProjectItem[] = [
 		description:
 			"I was tired of poor code sharing experiences like Pastebin that were littered with ads, and I really loved the experience of Ray.so for images. This led to the creation of Snippets.so, an open sourced and extensible code sharing solution that’s minimal and clean.",
 		image: snippetsImg,
-		link: "https://snippets.so",
+		link: "https://github.com/stevedylandev/snippets",
 		tags: ["developer tools", "ipfs", "productivity"],
 	},
 	{
