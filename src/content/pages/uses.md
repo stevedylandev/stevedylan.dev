@@ -12,7 +12,9 @@ Primary computer is a M4 Macbook Pro, and as much as I would love to go Linux fu
 
 ![beelink ser8](../../assets/edc-images/beelink-ser8.jpg)
 
-I also have a small Beelink SER8 (aka "Benson") that acts like my Linux desktop / home server, and it's an absolute champ. 1TB SSD, 32GB Ram, and since it's running Arch with zero desktop manager by default, the energy and CPU footprint is razor thin. Opening up `btop` makes you wonder if it's doing anything at all, but in reality it's running over 12 different apps over the web through Cloudflare tunnels. If at any point I need to use it as a desktop I just start up `mango` as my compositor and even then the memory and CPU footprint is minimal. I just love this thing.
+I also have a small Beelink SER8 (aka "Benson") that acts like my Linux desktop / home server, and it's an absolute champ. 1TB SSD, 32GB Ram, and since it's running Alpine Linux with XFCE, the energy and CPU footprint is razor thin. Opening up `btop` makes you wonder if it's doing anything at all, but in reality it's running over 12 different apps over the web through Cloudflare tunnels. Ricing my setup and slowly optimizing it has been so much fun, and it honestly make it a great general computing machine. I love jumping on this thing late at night, browsing the web, and tinkering with little tools.
+
+![alpine linux](../../assets/edc-images/alpine-linux.png)
 
 ### Logitech MX Master 3S
 
@@ -57,7 +59,7 @@ Here's a quick list of some of the primary software I use on a day to day basis.
 | [btop](https://github.com/aristocratos/btop) | Resource monitor |
 | [Lazygit](https://github.com/jesseduffield/lazygit) | Git TUI |
 | [Gum](https://github.com/charmbracelet/gum) | Scripting utilities |
-| [Mango](https://github.com/mangowm/mango) | Wayland Compositor / Window manager (Arch) |
+| [XFCE](https://xfce.org) | Linux Desktop |
 | [Helium](https://helium.computer) | Web Browser |
 | [Tailscale + Mullvad](https://tailscale.com) | VPN |
 | [Macchina](https://github.com/Macchina-CLI/macchina) | System information frontend |
@@ -86,13 +88,13 @@ My wallet is from Saddleback Leather Company, and their marketing punchline “t
 
 ### Watches
 
-![vaer](../../assets/edc-images/vaer.jpg)
+![murph]()
 
-I have a few watches on rotation ever since my Hamilton Khaki Field Mechanical stopped running (I have plans to fix it myself pending my next hobby adventure). The Vaer S5 Tactical Field in 40mm has been a solid and reliable watch, and it’s hard to beat the classic NATO strap. 
+The Hamilton Khaki Field Murph, most well known for it's origins in the movie Interstellar. I've always wanted this watch but could never justify spending the money on it. However, for over a year I worked on a SaaS called [Orbiter](https://github.com/orbiterhost) which unfortunately didn't have enough traction to remain viable. When we closed it down and refunded customers, we still have some funds left over and I decided to pick this up. It felt appropriate to celebrate what we accomplished, and not to mention the space connection between the two. I absolutely love wearing this watch.
 
-![casio ae1200](../../assets/edc-images/casio-royale.jpg)
+![gshock]()
 
-I’ve also been getting into Casio watches for the reliability and low cost. The AE1200 aka Casio Royale is probably going to be the one that sticks the most. I often have to travel for work into different time zones and I love the world time feature on this watch. 
+I picked this G-Shock 5600 up for $60 and it's an absolute tank, and perfect for when I need a beater. Whether its doing lawn work, giving the kids a bath, or just walking around the house, this thing just keeps going. Unlike most other G-Shock models, this one echos the original G-Shock and runs a bit smaller and thinner on the wrist, and I don't think I would have bought it otherwise.
 
 ### Knife
 
