@@ -88,11 +88,11 @@ My wallet is from Saddleback Leather Company, and their marketing punchline “t
 
 ### Watches
 
-![murph]()
+![murph](../../assets/edc-images/murph.jpg)
 
 The Hamilton Khaki Field Murph, most well known for it's origins in the movie Interstellar. I've always wanted this watch but could never justify spending the money on it. However, for over a year I worked on a SaaS called [Orbiter](https://github.com/orbiterhost) which unfortunately didn't have enough traction to remain viable. When we closed it down and refunded customers, we still have some funds left over and I decided to pick this up. It felt appropriate to celebrate what we accomplished, and not to mention the space connection between the two. I absolutely love wearing this watch.
 
-![gshock]()
+![gshock](../../assets/edc-images/gshock.jpg)
 
 I picked this G-Shock 5600 up for $60 and it's an absolute tank, and perfect for when I need a beater. Whether its doing lawn work, giving the kids a bath, or just walking around the house, this thing just keeps going. Unlike most other G-Shock models, this one echos the original G-Shock and runs a bit smaller and thinner on the wrist, and I don't think I would have bought it otherwise.
 
