@@ -15,6 +15,16 @@ const highlighter = createDarkmatterHighlighter();
 const root = path.dirname(fileURLToPath(import.meta.url));
 const emptyShikiTheme = path.resolve(root, "./scripts/empty-shiki-theme.mjs");
 
+// The Cloudflare adapter's dev server runs on workerd, which ships glibc-only
+// binaries and so can't start on musl/Alpine — it dies during dynamic linking
+// ("Error relocating ...: fcntl64: symbol not found"), and Astro reports only
+// "Dev server process exited before becoming ready." Drop the adapter in dev so
+// Vite serves the SSR routes instead. Trade-off: routes reading Cloudflare
+// bindings via `cloudflare:workers` (/webmentions, /api/webmention) 500 locally.
+// Set ASTRO_CF_ADAPTER=1 to force the real runtime, e.g. inside a glibc container.
+const skipAdapter =
+	process.argv.includes("dev") && process.env.ASTRO_CF_ADAPTER !== "1";
+
 // https://astro.build/config
 export default defineConfig({
 	site: "https://stevedylan.dev",
@@ -96,8 +106,10 @@ export default defineConfig({
 		},
 	},
 	output: "static",
-	adapter: cloudflare({
-    imageService: "compile",
-    prerenderEnvironment: "node"
-  }),
+	adapter: skipAdapter
+		? undefined
+		: cloudflare({
+				imageService: "compile",
+				prerenderEnvironment: "node",
+			}),
 });
