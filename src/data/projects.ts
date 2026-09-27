@@ -22,6 +22,7 @@ import snippetsImg from "@/assets/projects/snippets.jpg";
 import pinataSdkImg from "@/assets/projects/pinata-sdk.jpg";
 import cosmicCowboysImg from "@/assets/projects/cosmic-cowboys.png";
 import ipfsCliImg from "@/assets/projects/ipfs-cli.webp";
+import darkmatterThemeImg from "@/assets/projects/darkmatter-theme.png";
 
 export type ProjectItem = {
 	title: string;
@@ -32,6 +33,13 @@ export type ProjectItem = {
 };
 
 export const projects: ProjectItem[] = [
+  {
+    title: "Darkmatter Theme",
+    description: "After personally curating this theme for a few years and multiple people asking about it when seeing screenshots, I decided it was time to formalize it. Darkmatter theme is a predecessor to Dark Metal Bathory, and it always reminds me of the blackness of space with the occasional warmth from the stars. This website contains the palette, ports, and links to the GitHub org where it will spread in the future.",
+    image: darkmatterThemeImg,
+    link: "https://darkmattertheme.com",
+    tags: ["programming", "developer tools"]
+  },
 	{
 		title: "Cielago",
 		description:
