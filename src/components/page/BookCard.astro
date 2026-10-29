@@ -11,7 +11,7 @@ type Book = {
 const { book } = Astro.props as { book: Book };
 ---
 
-<article class="flex items-start gap-4 py-3 border-b border-[#333]">
+<a href={`https://library.stevedylan.dev/book/${book.id}`} target="_blank" rel="noreferrer" class="flex items-start gap-4 py-3 border-b border-[#333]">
 	<div class="flex-shrink-0 w-14 h-20">
 		{book.cover_url ? (
 			<img
@@ -33,4 +33,4 @@ const { book } = Astro.props as { book: Book };
 			<span class="text-xs opacity-70 mt-1">{book.notes}</span>
 		)}
 	</div>
-</article>
+</a>
