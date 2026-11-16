@@ -66,6 +66,9 @@ const socialImageURL = new URL(ogImage ? ogImage : "/og.png", Astro.url).href;
 <!-- Webmention endpoint -->
 <link rel="webmention" href={new URL("api/webmention", Astro.site)} />
 
+<!-- Opt out of AI indexing -->
+<meta name="robots" content="noai, noimageai">
+
 <!-- Standard.site document verification -->
 {atUri && <link rel="site.standard.document" href={atUri} />}
 <link rel="site.standard.publication" href="at://did:plc:ia2zdnhjaokf5lazhxrmj6eu/site.standard.publication/3mbykzswhqc2x" />
