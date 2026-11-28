@@ -1,6 +1,9 @@
 ---
 const year = new Date().getFullYear();
 import Image from "astro/components/Image.astro";
+import kagiBadge from "@/assets/kagi-badge.png"
+import powrssBadge from "@/assets/powrss-badge.png"
+import linuxBadge from "@/assets/linux-badge.gif"
 ---
 
 <footer
@@ -25,14 +28,25 @@ import Image from "astro/components/Image.astro";
 			el.style.transform = `rotate(${deg}deg)`;
 		});
 	</script>
-  <a
-    href="https://blog.kagi.com/small-web-updates"
-    target="_blank"
-    rel="noreferrer"
-    aria-label="Kagi Small Web — read updates on the Kagi blog"
-  >
-    <Image inferSize={true} src="https://kagifeedback.org/assets/files/2025-11-27/1764250950-635837-80x15-2.png" alt="" />
-  </a>
+  <div class="flex gap-2 mt-2 items-center">
+    <a
+      href="https://blog.kagi.com/small-web-updates"
+      target="_blank"
+      rel="noreferrer"
+      aria-label="Kagi Small Web — read updates on the Kagi blog"
+    >
+      <Image src={kagiBadge} alt="Kagi small web badge" />
+    </a>
+    <a
+        href="https://powrss.com"
+      target="_blank"
+      rel="noreferrer"
+      aria-label="PowRSS - Discover blogs and websites from independent writers"
+    >
+      <Image src={powrssBadge} alt="PowRSS web badge" />
+    </a>
+    <Image src={linuxBadge} alt="made with linux web badge" />
+  </div>
   <a
       href="/gargantua"
     style="display: none;"
