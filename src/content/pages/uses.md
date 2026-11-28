@@ -2,17 +2,11 @@ A non-comprehensive list of things I'm currently using.
 
 ## Hardware/Gear
 
-### M4 Macbook Pro
-
-![macbook pro](../../assets/edc-images/macbook-pro.jpg)
-
-Primary computer is a M4 Macbook Pro, and as much as I would love to go Linux full time, it's hard to justify getting rid of this thing. The performance and battery are just too good to pass up now, but I've been keeping my eye on Framework and their new Pro series.
-
 ### Beelink SER8
 
 ![beelink ser8](../../assets/edc-images/beelink-ser8.jpg)
 
-I also have a small Beelink SER8 (aka "Benson") that acts like my Linux desktop / home server, and it's an absolute champ. 1TB SSD, 32GB Ram, and since it's running Alpine Linux with XFCE, the energy and CPU footprint is razor thin. Opening up `btop` makes you wonder if it's doing anything at all, but in reality it's running over 12 different apps over the web through Cloudflare tunnels. Ricing my setup and slowly optimizing it has been so much fun, and it honestly make it a great general computing machine. I love jumping on this thing late at night, browsing the web, and tinkering with little tools.
+My Beelink SER8 (aka "Benson") that acts like my Linux desktop / home server, and it's an absolute champ. 1TB SSD, 32GB Ram, and since it's running Alpine Linux with XFCE, the energy and CPU footprint is razor thin. Opening up `btop` makes you wonder if it's doing anything at all, but in reality it's running over 12 different apps over the web through Cloudflare tunnels. Ricing my setup and slowly optimizing it has been so much fun, and it honestly make it a great general computing machine.
 
 ![alpine linux](../../assets/edc-images/alpine-linux.png)
 
@@ -47,7 +41,7 @@ Here's a quick list of some of the primary software I use on a day to day basis.
 | Application | Description |
 |---|---|
 | [Wezterm](https://wezterm.org/index.html) | Terminal Emulator |
-| [Nushell](https://www.nushell.sh/) | Default shell (I know, I'm weird) |
+| zsh | Default shell (if it ain't broke) |
 | [Berkeley Mono](https://usgraphics.com/products/berkeley-mono) | Primary font choice |
 | [Commitmono](https://commitmono.com/) | Secondary font choice (used in projects) |
 | [Starship](https://starship.rs/) | Shell prompt |
@@ -60,12 +54,10 @@ Here's a quick list of some of the primary software I use on a day to day basis.
 | [Lazygit](https://github.com/jesseduffield/lazygit) | Git TUI |
 | [Gum](https://github.com/charmbracelet/gum) | Scripting utilities |
 | [XFCE](https://xfce.org) | Linux Desktop |
-| [Helium](https://helium.computer) | Web Browser |
+| [LibreWolf](https://librewolf.net/) | Web Browser |
 | [Tailscale + Mullvad](https://tailscale.com) | VPN |
-| [Macchina](https://github.com/Macchina-CLI/macchina) | System information frontend |
+| [Gobble](https://github.com/stevedylandev/gobble) | System fetch |
 | [Docker](https://www.docker.com/) | Managing running apps on my home server |
-| [Raycast](https://www.raycast.com/) | Launcher/clipboard manager/everything |
-| [CleanShot X](https://cleanshot.com/) | Screenshot multitool |
 | [Jotts](https://andromeda.build/apps/jotts) | Minimal markdown notepad |
 | [Feeds](https://andromeda.build/apps/feeds) | RSS aggregator and reader |
 | [Posts](https://andromeda.build/apps/posts) | Micro blogging |
@@ -75,6 +67,7 @@ Here's a quick list of some of the primary software I use on a day to day basis.
 | [Sipp](https://andromeda.build/apps/sipp) | Code snippets |
 | [Shrink](https://andromeda.build/apps/shrink) | Image resizing |
 | [OG](https://andromeda.build/apps/og) | Opengraph Preview |
+| [Kepler](https://andromeda.build/apps/kepler) | Git web view |
 
 ## EDC
 
